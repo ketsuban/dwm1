@@ -1,0 +1,256 @@
+ROM0
+    "Bank 0"
+ROMX $01
+    "Bank 1"
+ROMX $02
+    "Bank 2"
+ROMX $03
+    "Bank 3"
+ROMX $04
+    "Bank 4"
+ROMX $05
+    "Bank 5"
+ROMX $06
+    "Bank 6"
+ROMX $07
+    "Bank 7"
+ROMX $08
+    "Bank 8"
+ROMX $09
+    "Bank 9"
+ROMX $0A
+    "Bank 10"
+ROMX $0B
+    "Bank 11"
+ROMX $0C
+    "Bank 12"
+ROMX $0D
+    "Bank 13"
+ROMX $0E
+    "Bank 14"
+ROMX $0F
+    "Bank 15"
+ROMX $10
+    "Bank 16"
+ROMX $11
+    "Bank 17"
+ROMX $12
+    "Bank 18"
+ROMX $13
+    "Bank 19"
+ROMX $14
+    "Bank 20"
+ROMX $15
+    "Bank 21"
+ROMX $16
+    "Bank 22"
+ROMX $17
+    "Bank 23"
+ROMX $18
+    "Bank 24"
+ROMX $19
+    "Bank 25"
+ROMX $1A
+    "Bank 26"
+ROMX $1B
+    "Bank 27"
+ROMX $1C
+    "Bank 28"
+ROMX $1D
+    "Bank 29"
+ROMX $1E
+    "Bank 30"
+ROMX $1F
+    "Bank 31"
+ROMX $20
+    "Bank 32"
+ROMX $21
+    "Bank 33"
+ROMX $22
+    "Bank 34"
+ROMX $23
+    "Bank 35"
+ROMX $24
+    "Bank 36"
+ROMX $25
+    "Bank 37"
+ROMX $26
+    "Bank 38"
+ROMX $27
+    "Bank 39"
+ROMX $28
+    "Bank 40"
+ROMX $29
+    "Bank 41"
+ROMX $2A
+    "Bank 42"
+ROMX $2B
+    "Bank 43"
+ROMX $2C
+    "Bank 44"
+ROMX $2D
+    "Bank 45"
+ROMX $2E
+    "Bank 46"
+ROMX $2F
+    "Bank 47"
+ROMX $30
+    "Bank 48"
+ROMX $31
+    "Bank 49"
+ROMX $32
+    "Bank 50"
+ROMX $33
+    "Bank 51"
+ROMX $34
+    "Bank 52"
+ROMX $35
+    "Bank 53"
+ROMX $36
+    "Bank 54"
+ROMX $37
+    "Bank 55"
+ROMX $38
+    "Bank 56"
+ROMX $39
+    "Bank 57"
+ROMX $3A
+    "Bank 58"
+ROMX $3B
+    "Bank 59"
+ROMX $3C
+    "Bank 60"
+ROMX $3D
+    "Bank 61"
+ROMX $3E
+    "Bank 62"
+ROMX $3F
+    "Bank 63"
+ROMX $40
+    "Bank 64"
+ROMX $41
+    "Bank 65"
+ROMX $42
+    "Bank 66"
+ROMX $43
+    "Bank 67"
+ROMX $44
+    "Bank 68"
+ROMX $45
+    "Bank 69"
+ROMX $46
+    "Bank 70"
+ROMX $47
+    "Bank 71"
+ROMX $48
+    "Bank 72"
+ROMX $49
+    "Bank 73"
+ROMX $4A
+    "Bank 74"
+ROMX $4B
+    "Bank 75"
+ROMX $4C
+    "Bank 76"
+ROMX $4D
+    "Bank 77"
+ROMX $4E
+    "Bank 78"
+ROMX $4F
+    "Bank 79"
+ROMX $50
+    "Bank 80"
+ROMX $51
+    "Bank 81"
+ROMX $52
+    "Bank 82"
+ROMX $53
+    "Bank 83"
+ROMX $54
+    "Bank 84"
+ROMX $55
+    "Bank 85"
+ROMX $56
+    "Bank 86"
+ROMX $57
+    "Bank 87"
+ROMX $58
+    "Bank 88"
+ROMX $59
+    "Bank 89"
+ROMX $5A
+    "Bank 90"
+ROMX $5B
+    "Bank 91"
+ROMX $5C
+    "Bank 92"
+ROMX $5D
+    "Bank 93"
+ROMX $5E
+    "Bank 94"
+ROMX $5F
+    "Bank 95"
+ROMX $60
+    "Bank 96"
+ROMX $61
+    "Bank 97"
+ROMX $62
+    "Bank 98"
+ROMX $63
+    "Bank 99"
+ROMX $64
+    "Bank 100"
+ROMX $65
+    "Bank 101"
+ROMX $66
+    "Bank 102"
+ROMX $67
+    "Bank 103"
+ROMX $68
+    "Bank 104"
+ROMX $69
+    "Bank 105"
+ROMX $6A
+    "Bank 106"
+ROMX $6B
+    "Bank 107"
+ROMX $6C
+    "Bank 108"
+ROMX $6D
+    "Bank 109"
+ROMX $6E
+    "Bank 110"
+ROMX $6F
+    "Bank 111"
+ROMX $70
+    "Bank 112"
+ROMX $71
+    "Bank 113"
+ROMX $72
+    "Bank 114"
+ROMX $73
+    "Bank 115"
+ROMX $74
+    "Bank 116"
+ROMX $75
+    "Bank 117"
+ROMX $76
+    "Bank 118"
+ROMX $77
+    "Bank 119"
+ROMX $78
+    "Bank 120"
+ROMX $79
+    "Bank 121"
+ROMX $7A
+    "Bank 122"
+ROMX $7B
+    "Bank 123"
+ROMX $7C
+    "Bank 124"
+ROMX $7D
+    "Bank 125"
+ROMX $7E
+    "Bank 126"
+ROMX $7F
+    "Bank 127"
