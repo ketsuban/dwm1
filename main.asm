@@ -12,7 +12,9 @@ section "Bank 2", ROMX
 incbin "baserom.gbc", $8000, $4000
 
 section "Bank 3", ROMX
-incbin "baserom.gbc", $C000, $4000
+incbin "baserom.gbc", $C000, $461
+include "data/species_info.asm"
+incbin "baserom.gbc", $E980, $1680
 
 section "Bank 4", ROMX
 incbin "baserom.gbc", $10000, $4000
