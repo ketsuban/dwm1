@@ -93,10 +93,10 @@ def MONSTER_FIREWEED      equ $5B
 def MONSTER_FLORAMAN      equ $5C
 def MONSTER_WINGTREE      equ $5D
 def MONSTER_CACTIBALL     equ $5E
-def MONSTER_GULPPE        equ $5F
+def MONSTER_GULPPLE       equ $5F
 def MONSTER_TOADSTOOL     equ $60
 def MONSTER_AMBERWEED     equ $61
-def MONSTER_STUBSTUCK     equ $62
+def MONSTER_STUBSUCK      equ $62
 def MONSTER_ONIONO        equ $63
 def MONSTER_DANCEVEGI     equ $64
 def MONSTER_TREEBOY       equ $65
