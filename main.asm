@@ -205,7 +205,9 @@ section "Bank 64", ROMX
 incbin "baserom.gbc", $100000, $4000
 
 section "Bank 65", ROMX
-incbin "baserom.gbc", $104000, $4000
+incbin "baserom.gbc", $104000, $1B1F
+include "data/monster_name_table.asm"
+incbin "baserom.gbc", $10628E, $1D72
 
 section "Bank 66", ROMX
 incbin "baserom.gbc", $108000, $4000

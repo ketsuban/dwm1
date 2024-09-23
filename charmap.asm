@@ -100,8 +100,6 @@ charmap "○",            $8F
 
 charmap "[",            $96
 charmap "]",            $97
-charmap "?",            $98
-charmap "!",            $99
 
 charmap "•",            $9B
 charmap "-",            $9C
@@ -136,4 +134,5 @@ charmap "ᴇ",            $D4
 charmap "ʀʀ",           $D5
 charmap "ʏ",            $D6
 
+charmap "@",            $F0 ; end of string
 charmap "<PLAYER>",     $F6
