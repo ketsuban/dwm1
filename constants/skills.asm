@@ -56,7 +56,7 @@ def SKILL_CURSEOFF      equ $36
 def SKILL_STEPGUARD     equ $37
 def SKILL_MAPMAGIC      equ $38
 def SKILL_CHANCE        equ $39
-def SKILL_UNUSED_3A     equ $3A
+; $3A is unused
 def SKILL_TWINSLASH     equ $3B
 def SKILL_RAMMING       equ $3C
 def SKILL_BESERKER      equ $3D
@@ -139,7 +139,7 @@ def SKILL_GUARDIAN      equ $89
 def SKILL_TAILWIND      equ $8A
 def SKILL_STORMWIND     equ $8B
 def SKILL_DODGE         equ $8C
-def SKILL_UNUSED_8D     equ $8D
+; $8D is unused
 def SKILL_STRONGD       equ $8E
 def SKILL_SUCKALL       equ $8F
 def SKILL_BLADED        equ $90
@@ -149,9 +149,11 @@ def SKILL_MEDITATE      equ $93
 def SKILL_HUSTLE        equ $94
 def SKILL_LIFESONG      equ $95
 def SKILL_LIFEDANCE     equ $96
+; $97 through $D4 are unused
 def SKILL_BEDRAGON      equ $D5
 def SKILL_SMASHLIME     equ $D6
 def SKILL_DRAKSLASH     equ $D7
 def SKILL_BRANCHING     equ $D8
 def SKILL_GIGASLASH     equ $D9
+; $DA through $FE are unused
 def SKILL_NONE          equ $FF
