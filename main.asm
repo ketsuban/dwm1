@@ -62,7 +62,8 @@ section "Bank 18", ROMX
 incbin "baserom.gbc", $48000, $4000
 
 section "Bank 19", ROMX
-incbin "baserom.gbc", $4C000, $2706
+incbin "baserom.gbc", $4C000, $1E6
+include "data/experience_table.asm"
 include "data/level_up_stat_gains.asm"
 incbin "baserom.gbc", $4F366, $C9A
 
