@@ -249,7 +249,8 @@ section "Bank 78", ROMX
 incbin "baserom.gbc", $138000, $4000
 
 section "Bank 79", ROMX
-incbin "baserom.gbc", $13C000, $4000
+include "bank79.asm"
+incbin "baserom.gbc", $13D010, $2FF0
 
 section "Bank 80", ROMX
 incbin "baserom.gbc", $140000, $4000
