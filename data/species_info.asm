@@ -11,7 +11,7 @@
 ; L: INT growth curve
 ; M: resistances
 ; N: unused (?)
-; P: difficulty of recruiting from the wild (?)
+; P: unknown
 
 gSpeciesInfo::
     ;                    A   B  C  D  E                                                      F   G   H   J   K   L  M                                                    N  P

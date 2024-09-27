@@ -68,7 +68,9 @@ include "data/level_up_stat_gains.asm"
 incbin "baserom.gbc", $4F366, $C9A
 
 section "Bank 20", ROMX
-incbin "baserom.gbc", $50000, $4000
+incbin "baserom.gbc", $50000, $C1D
+include "data/monster_instance_info.asm"
+incbin "baserom.gbc", $53BAC, $454
 
 section "Bank 21", ROMX
 incbin "baserom.gbc", $54000, $4000

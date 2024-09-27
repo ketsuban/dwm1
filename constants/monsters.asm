@@ -19,7 +19,7 @@ def MONSTER_METABBLE      equ $11
 def MONSTER_METALKING     equ $12
 def MONSTER_GOLDSLIME     equ $13
 def MONSTER_DRAGONKID     equ $14
-def MONSTER_TOTRAGON      equ $15
+def MONSTER_TORTRAGON     equ $15
 def MONSTER_PTERANOD      equ $16
 def MONSTER_GASGON        equ $17
 def MONSTER_FAIRYDRAK     equ $18
