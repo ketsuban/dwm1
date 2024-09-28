@@ -1,502 +1,504 @@
-; A: experience
-; B: wildness (determines recruitment chance)
-; C: level
-; D: max HP
-; E: max MP
-; F: ATK
-; G: DEF
-; H: AGI
-; I: INT
-; J: personality
-; K: skills
-; L: sex ($FF defaults to the gender ratio defined in the species info table)
+macro dinstance
+    db \1                           ; species
+    dw \2                           ; experience
+    db \3                           ; wildness
+    db \4                           ; level
+    dw \5                           ; max HP
+    dw \6                           ; max MP
+    dw \7                           ; ATK
+    dw \8                           ; DEF
+    dw \9                           ; AGI
+    dw \<10>                        ; INT
+    db \<11>, \<12>, \<13>, \<14>   ; personality
+    db \<15>, \<16>, \<17>          ; skills
+    db \<18>                        ; sex
+endm
 
 gMonsterInstanceInfo::
-    ;                      A         B  C    D         E         F         G         H         I         J                   K                                                  L
-    db $00,                $00, $00, 0, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_SLIME,      $00, $00, 0, $01, $1E, $00, $00, $00, $0A, $00, $06, $00, $05, $00, $01, $00, $64, $C8, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_SLIME,      $03, $00, 2, $01, $08, $00, $00, $00, $08, $00, $05, $00, $07, $00, $01, $00, $C8, $32, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_ANTEATER,   $09, $00, 1, $01, $0C, $00, $00, $00, $13, $00, $04, $00, $04, $00, $03, $00, $96, $00, $32, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_DRACKY,     $04, $00, 1, $01, $08, $00, $14, $00, $0C, $00, $04, $00, $0C, $00, $0E, $00, $C8, $00, $00, $C8, SKILL_ANTIDOTE,  SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_STUBSUCK,   $09, $00, 2, $02, $14, $00, $06, $00, $17, $00, $08, $00, $0C, $00, $0A, $00, $64, $32, $C8, $C8, SKILL_SLEEP,     SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_GOHOPPER,   $0A, $00, 2, $02, $18, $00, $02, $00, $12, $00, $06, $00, $0A, $00, $08, $00, $64, $32, $00, $C8, SKILL_CHARGEUP,  SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_GREMLIN,    $0A, $00, 2, $02, $1A, $00, $09, $00, $0E, $00, $09, $00, $09, $00, $1C, $00, $32, $96, $C8, $C8, SKILL_FIREBAL,   SKILL_HEAL,      SKILL_NONE,      $FF
-    db MONSTER_SPOOKY,     $12, $00, 3, $03, $25, $00, $03, $00, $19, $00, $09, $00, $1F, $00, $0D, $00, $C8, $64, $C8, $C8, SKILL_LUSHLICKS, SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_GOOPI,      $10, $00, 3, $05, $29, $00, $03, $00, $1C, $00, $08, $00, $08, $00, $06, $00, $96, $32, $96, $C8, SKILL_LEGSWEEP,  SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_ARMYANT,    $0C, $00, 2, $03, $18, $00, $03, $00, $1D, $00, $09, $00, $0B, $00, $0D, $00, $FA, $32, $00, $C8, SKILL_NAPATTACK, SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_HEALER,     $00, $00, 0, $06, $28, $00, $07, $00, $14, $00, $0C, $00, $0C, $00, $1C, $00, $64, $FA, $64, $C8, SKILL_HEAL,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_HEALER,     $00, $00, 0, $06, $1E, $00, $12, $00, $10, $00, $0A, $00, $20, $00, $1C, $00, $64, $FA, $C8, $C8, SKILL_HEAL,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_MINIDRAK,   $20, $00, 3, $04, $2D, $00, $05, $00, $20, $00, $0A, $00, $12, $00, $06, $00, $96, $64, $96, $96, SKILL_SANDSTORM, SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_PICKY,      $19, $00, 2, $04, $20, $00, $06, $00, $1E, $00, $0C, $00, $1A, $00, $0C, $00, $C8, $64, $96, $96, SKILL_SAP,       SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_PILLOWRAT,  $1B, $00, 3, $04, $1D, $00, $0C, $00, $1A, $00, $0C, $00, $1E, $00, $0D, $00, $64, $32, $64, $96, SKILL_SIDESTEP,  SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_HORK,       $2D, $00, 3, $05, $33, $00, $06, $00, $23, $00, $0A, $00, $0A, $00, $0A, $00, $96, $32, $32, $96, SKILL_POISONGAS, SKILL_LUSHLICKS, SKILL_NONE,      $FF
-    db MONSTER_DRAGONKID,  $37, $00, 3, $06, $20, $00, $07, $00, $20, $00, $14, $00, $23, $00, $0B, $00, $96, $64, $64, $96, SKILL_SLEEPAIR,  SKILL_DODGE,     SKILL_NONE,      $FF
-    db MONSTER_EVILSEED,   $32, $00, 2, $07, $2B, $00, $05, $00, $1D, $00, $19, $00, $0F, $00, $1C, $00, $C8, $00, $FA, $96, SKILL_CLEANCUT,  SKILL_PARALYZE,  SKILL_NONE,      $FF
-    db MONSTER_CATAPILA,   $40, $00, 3, $08, $26, $00, $10, $00, $2C, $00, $1D, $00, $0C, $00, $0A, $00, $C8, $32, $64, $96, SKILL_UPPER,     SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_FAIRYRAT,   $37, $00, 2, $06, $30, $00, $12, $00, $20, $00, $0E, $00, $28, $00, $1E, $00, $64, $32, $C8, $96, SKILL_SLOW,      SKILL_SMASHLIME, SKILL_NONE,      $FF
-    db MONSTER_BIGROOST,   $43, $00, 2, $08, $30, $00, $12, $00, $1C, $00, $10, $00, $2A, $00, $09, $00, $C8, $96, $96, $96, SKILL_SANDSTORM, SKILL_DODGE,     SKILL_NONE,      $FF
-    db MONSTER_DEMONITE,   $41, $00, 2, $07, $29, $00, $03, $00, $22, $00, $0E, $00, $28, $00, $13, $00, $64, $64, $FA, $96, SKILL_BLAZEMORE, SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_BONESLAVE,  $43, $00, 3, $07, $35, $00, $14, $00, $35, $00, $0F, $00, $18, $00, $2D, $00, $32, $00, $00, $96, SKILL_BOLTSLASH, SKILL_BIRDBLOW,  SKILL_NONE,      $FF
-    db MONSTER_SABREMAN,   $40, $00, 2, $07, $2D, $00, $14, $00, $3C, $00, $18, $00, $1A, $00, $2A, $00, $FA, $00, $64, $96, SKILL_ROBMAGIC,  SKILL_DEVILCUT,  SKILL_NONE,      $FF
-    db MONSTER_SPOTSLIME,  $48, $00, 2, $08, $30, $00, $0B, $00, $27, $00, $0E, $00, $32, $00, $0B, $00, $64, $64, $64, $96, SKILL_CALLHELP,  SKILL_LUSHLICKS, SKILL_NONE,      $FF
-    db MONSTER_CRESTPENT,  $49, $00, 2, $08, $3E, $00, $08, $00, $20, $00, $21, $00, $0F, $00, $09, $00, $C8, $64, $32, $96, SKILL_STOPSPELL, SKILL_POISONHIT, SKILL_NONE,      $FF
-    db MONSTER_BEANMAN,    $5A, $00, 2, $08, $3D, $00, $0B, $00, $28, $00, $22, $00, $1E, $00, $0A, $00, $FA, $00, $C8, $96, SKILL_ROBMAGIC,  SKILL_TWINHITS,  SKILL_NONE,      $FF
-    db MONSTER_1EYECLOWN,  $51, $00, 2, $09, $36, $00, $0E, $00, $2A, $00, $14, $00, $26, $00, $1E, $00, $C8, $00, $FA, $96, SKILL_BLAZEMORE, SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_COILBIRD,   $4E, $00, 3, $09, $42, $00, $1E, $00, $22, $00, $16, $00, $34, $00, $11, $00, $64, $C8, $64, $96, SKILL_NUMBOFF,   SKILL_DECHAOS,   SKILL_NONE,      $FF
-    db MONSTER_METALY,     $25, $0D, 6, $0A, $06, $00, $78, $00, $16, $00, $2C, $01, $82, $00, $20, $00, $64, $64, $64, $96, SKILL_BLAZE,     $DB,             SKILL_NONE,      $FF
-    db MONSTER_DRAGON,     $00, $00, 0, $06, $5A, $00, $3C, $00, $28, $00, $19, $00, $0F, $00, $0A, $00, $FA, $32, $00, $96, SKILL_FIRESLASH, SKILL_FIREAIR,   SKILL_NONE,      $FF
-    db MONSTER_GOLEM,      $00, $00, 0, $07, $64, $00, $14, $00, $2D, $00, $14, $00, $14, $00, $46, $00, $96, $96, $96, $96, SKILL_CHARGEUP,  SKILL_PSYCHEUP,  SKILL_STRONGD,   $FF
-    db MONSTER_ALMIRAJ,    $82, $00, 3, $0A, $39, $00, $2E, $00, $30, $00, $19, $00, $32, $00, $0F, $00, $96, $32, $64, $64, SKILL_SLEEP,     SKILL_BESERKER,  SKILL_CHARGEUP,  $FF
-    db MONSTER_BULLBIRD,   $90, $00, 3, $0C, $48, $00, $11, $00, $40, $00, $15, $00, $39, $00, $0A, $00, $C8, $32, $C8, $64, SKILL_RAMMING,   SKILL_CHARGEUP,  SKILL_BRANCHING, $FF
-    db MONSTER_FLORAMAN,   $79, $00, 3, $0C, $44, $00, $50, $00, $1E, $00, $1A, $00, $27, $00, $41, $00, $64, $96, $FA, $64, SKILL_FIREBANE,  SKILL_ANTIDOTE,  SKILL_CURSEOFF,  $FF
-    db MONSTER_GIANTWORM,  $7E, $00, 3, $0C, $3E, $00, $14, $00, $3B, $00, $18, $00, $2D, $00, $28, $00, $FA, $00, $C8, $64, SKILL_BEASTCUT,  SKILL_ODDDANCE,  SKILL_NONE,      $FF
-    db MONSTER_SKULRIDER,  $AF, $00, 3, $0B, $50, $00, $14, $00, $3F, $00, $2D, $00, $2A, $00, $13, $00, $96, $00, $64, $64, SKILL_FIRESLASH, SKILL_RAINSLASH, SKILL_LEGSWEEP,  $FF
-    db MONSTER_GIANTSLUG,  $84, $00, 2, $0C, $3C, $00, $12, $00, $33, $00, $19, $00, $2B, $00, $15, $00, $64, $C8, $C8, $64, SKILL_LUSHLICKS, SKILL_DODGE,     SKILL_NONE,      $FF
-    db MONSTER_MUDDOLL,    $90, $00, 3, $0C, $4F, $00, $2C, $00, $38, $00, $1C, $00, $16, $00, $2C, $00, $96, $64, $C8, $64, SKILL_ODDDANCE,  SKILL_SIDESTEP,  SKILL_NONE,      $FF
-    db MONSTER_TREESLIME,  $97, $00, 3, $0C, $56, $00, $16, $00, $2C, $00, $1C, $00, $45, $00, $2E, $00, $64, $32, $C8, $64, SKILL_SAP,       SKILL_PARALYZE,  SKILL_SLEEPAIR,  $FF
-    db MONSTER_POISONGON,  $96, $00, 3, $0C, $41, $00, $2B, $00, $3B, $00, $32, $00, $1A, $00, $17, $00, $96, $64, $64, $64, SKILL_POISONHIT, SKILL_POISONGAS, SKILL_NONE,      $FF
-    db MONSTER_CATFLY,     $92, $00, 2, $0D, $43, $00, $2E, $00, $38, $00, $1A, $00, $43, $00, $31, $00, $96, $32, $96, $64, SKILL_STOPSPELL, SKILL_SLOW,      SKILL_NONE,      $FF
-    db MONSTER_WINGTREE,   $A0, $00, 3, $0D, $45, $00, $3C, $00, $43, $00, $1E, $00, $34, $00, $28, $00, $C8, $64, $C8, $64, SKILL_FAREWELL,  SKILL_ZOMBIECUT, SKILL_NONE,      $FF
-    db MONSTER_EYEDER,     $9C, $00, 3, $10, $36, $00, $0F, $00, $46, $00, $5A, $00, $55, $00, $32, $00, $32, $96, $C8, $64, SKILL_FIREBAL,   SKILL_HEAL,      SKILL_NONE,      $FF
-    db MONSTER_PUTREPUP,   $91, $00, 3, $0E, $54, $00, $34, $00, $4C, $00, $23, $00, $1E, $00, $1A, $00, $C8, $00, $C8, $64, SKILL_SAP,       SKILL_SLOW,      SKILL_NONE,      $FF
-    db MONSTER_DRAKSLIME,  $99, $00, 3, $0E, $4B, $00, $1A, $00, $3A, $00, $20, $00, $60, $00, $34, $00, $96, $64, $C8, $64, SKILL_SUCKAIR,   SKILL_BLAZEAIR,  SKILL_NONE,      $FF
-    db MONSTER_FAIRYDRAK,  $A8, $00, 3, $0E, $42, $00, $33, $00, $35, $00, $21, $00, $33, $00, $1B, $00, $96, $64, $96, $64, SKILL_SURROUND,  SKILL_SLEEPAIR,  SKILL_NONE,      $FF
-    db MONSTER_SKULLROO,   $AA, $00, 3, $0F, $5F, $00, $18, $00, $4F, $00, $1F, $00, $39, $00, $37, $00, $32, $32, $32, $64, SKILL_CHARGEUP,  SKILL_PANIDANCE, SKILL_NONE,      $FF
-    db MONSTER_BUTTERFLY,  $B0, $00, 2, $0F, $44, $00, $39, $00, $3B, $00, $24, $00, $4E, $00, $1C, $00, $C8, $00, $96, $64, SKILL_SURROUND,  SKILL_CURSE,     SKILL_NONE,      $FF
-    db MONSTER_MADRAVEN,   $BE, $00, 3, $11, $49, $00, $37, $00, $43, $00, $31, $00, $50, $00, $55, $00, $C8, $32, $96, $64, SKILL_HIGHJUMP,  SKILL_TAILWIND,  SKILL_NONE,      $FF
-    db MONSTER_MADCAT,     $00, $00, 0, $0C, $C8, $00, $1E, $00, $3F, $00, $23, $00, $3F, $00, $23, $00, $FA, $00, $C8, $64, SKILL_VACUSLASH, SKILL_SQUALLHIT, SKILL_LEGSWEEP,  $FF
-    db MONSTER_MADCAT,     $00, $00, 0, $0C, $50, $00, $1E, $00, $3F, $00, $32, $00, $3F, $00, $23, $00, $FA, $FA, $C8, $64, SKILL_VACUSLASH, SKILL_SQUALLHIT, SKILL_LEGSWEEP,  $FF
-    db MONSTER_FACETREE,   $00, $00, 0, $0C, $90, $01, $64, $00, $3C, $00, $1E, $00, $26, $00, $37, $00, $C8, $32, $C8, $64, SKILL_STOPSPELL, SKILL_CURSE,     SKILL_ODDDANCE,  $FF
-    db MONSTER_FACETREE,   $00, $00, 0, $0C, $64, $00, $64, $00, $2D, $00, $32, $00, $26, $00, $37, $00, $64, $96, $C8, $64, SKILL_STOPSPELL, SKILL_CURSE,     SKILL_ODDDANCE,  $FF
-    db MONSTER_MADKNIGHT,  $00, $00, 0, $0C, $2C, $01, $3C, $00, $4D, $00, $3C, $00, $28, $00, $32, $00, $FA, $00, $C8, $64, SKILL_MASSACRE,  SKILL_BEASTCUT,  SKILL_NONE,      $FF
-    db MONSTER_MADKNIGHT,  $00, $00, 0, $0C, $55, $00, $3C, $00, $4D, $00, $4B, $00, $28, $00, $32, $00, $FA, $00, $C8, $32, SKILL_MASSACRE,  SKILL_BEASTCUT,  SKILL_NONE,      $FF
-    db MONSTER_MUDRON,     $1C, $01, 3, $10, $4E, $00, $28, $00, $3A, $00, $2E, $00, $22, $00, $46, $00, $32, $C8, $FA, $32, SKILL_BEAT,      SKILL_HEAL,      SKILL_NONE,      $FF
-    db MONSTER_FACER,      $1A, $01, 3, $10, $40, $00, $71, $00, $31, $00, $22, $00, $5F, $00, $6E, $00, $96, $32, $64, $32, SKILL_INFERMORE, SKILL_LIFESONG,  SKILL_NONE,      $FF
-    db MONSTER_SNAILY,     $22, $01, 2, $10, $43, $00, $1E, $00, $41, $00, $73, $00, $6E, $00, $3C, $00, $FA, $FA, $32, $32, SKILL_ICEBOLT,   SKILL_CALLHELP,  SKILL_NONE,      $FF
-    db MONSTER_SACCER,     $F6, $00, 3, $11, $5F, $00, $3D, $00, $58, $00, $81, $00, $23, $00, $3E, $00, $96, $32, $96, $32, SKILL_UPPER,     SKILL_PSYCHEUP,  SKILL_NONE,      $FF
-    db MONSTER_MADPECKER,  $42, $01, 3, $16, $44, $00, $20, $00, $7E, $00, $46, $00, $7A, $00, $3D, $00, $FA, $00, $96, $32, SKILL_INFERMORE, SKILL_SAP,       SKILL_NONE,      $FF
-    db MONSTER_GULPPLE,    $20, $01, 3, $11, $60, $00, $52, $00, $4B, $00, $64, $00, $42, $00, $4A, $00, $C8, $64, $96, $32, SKILL_INFERMORE, SKILL_NAPATTACK, SKILL_NONE,      $FF
-    db MONSTER_EYEBALL,    $40, $01, 3, $12, $62, $00, $43, $00, $4C, $00, $48, $00, $45, $00, $44, $00, $C8, $32, $FA, $32, SKILL_MAGICBACK, SKILL_WARCRY,    SKILL_NONE,      $FF
-    db MONSTER_MUMMY,      $56, $01, 3, $12, $82, $00, $44, $00, $4D, $00, $37, $00, $2A, $00, $26, $00, $C8, $32, $96, $32, SKILL_EVILSLASH, SKILL_CALLHELP,  SKILL_PARALYZE,  $FF
-    db MONSTER_BABBLE,     $38, $01, 3, $12, $52, $00, $23, $00, $50, $00, $2C, $00, $78, $00, $3C, $00, $96, $64, $96, $32, SKILL_SURROUND,  SKILL_POISONHIT, SKILL_NONE,      $FF
-    db MONSTER_PTERANOD,   $96, $01, 3, $13, $8C, $00, $28, $00, $67, $00, $46, $00, $7B, $00, $50, $00, $C8, $64, $96, $32, SKILL_FIREBAL,   SKILL_WINDBEAST, SKILL_TAILWIND,  $FF
-    db MONSTER_TONGUELLA,  $64, $01, 3, $13, $6C, $00, $3E, $00, $5A, $00, $3D, $00, $2D, $00, $28, $00, $FA, $32, $C8, $32, SKILL_NAPATTACK, SKILL_LUSHLICKS, SKILL_NONE,      $FF
-    db MONSTER_FLORAJAY,   $03, $01, 3, $13, $4B, $00, $56, $00, $41, $00, $2A, $00, $8E, $00, $78, $00, $C8, $96, $96, $32, SKILL_SPEEDUP,   SKILL_BEASTCUT,  SKILL_LIFESONG,  $FF
-    db MONSTER_MADPLANT,   $76, $01, 3, $14, $74, $00, $8C, $00, $48, $00, $32, $00, $87, $00, $5B, $00, $FA, $64, $FA, $32, SKILL_SAP,       SKILL_SLOW,      SKILL_NUMBOFF,   $FF
-    db MONSTER_ARMORPEDE,  $C2, $01, 4, $18, $7D, $00, $25, $00, $77, $00, $7F, $00, $32, $00, $44, $00, $FA, $32, $C8, $32, SKILL_UPPER,     SKILL_TWINHITS,  SKILL_TWINSLASH, $FF
-    db MONSTER_MEDUSAEYE,  $31, $01, 4, $12, $52, $00, $44, $00, $42, $00, $60, $00, $58, $00, $40, $00, $64, $32, $64, $32, SKILL_SURROUND,  SKILL_SAP,       SKILL_BRANCHING, $FF
-    db MONSTER_MADCANDLE,  $0A, $02, 3, $15, $5F, $00, $26, $00, $64, $00, $87, $00, $5B, $00, $43, $00, $C8, $64, $96, $32, SKILL_BLAZEMORE, SKILL_PSYCHEUP,  SKILL_NONE,      $FF
-    db MONSTER_WINGSLIME,  $66, $01, 4, $15, $4C, $00, $44, $00, $42, $00, $2C, $00, $96, $00, $44, $00, $64, $32, $64, $32, SKILL_SQUALLHIT, SKILL_WINDBEAST, SKILL_TAILWIND,  $FF
-    db MONSTER_MADGOPHER,  $9A, $01, 3, $15, $6A, $00, $44, $00, $61, $00, $2D, $00, $36, $00, $30, $00, $FA, $96, $C8, $32, SKILL_CHARGEUP,  SKILL_BIRDBLOW,  SKILL_ZOMBIECUT, $FF
-    db MONSTER_FANGSLIME,  $00, $00, 0, $14, $90, $01, $28, $00, $57, $00, $32, $00, $50, $00, $41, $00, $C8, $64, $96, $00, SKILL_CHARGEUP,  SKILL_CALLHELP,  SKILL_WARCRY,    $FF
-    db MONSTER_FANGSLIME,  $00, $00, 0, $14, $46, $00, $28, $00, $55, $00, $34, $00, $5A, $00, $41, $00, $C8, $C8, $C8, $32, SKILL_CHARGEUP,  SKILL_CALLHELP,  SKILL_WARCRY,    $FF
-    db MONSTER_BIGEYE,     $DC, $05, 7, $14, $F4, $01, $28, $00, $50, $00, $28, $00, $3E, $00, $50, $00, $96, $96, $96, $32, SKILL_SNOWSTORM, SKILL_HEAL,      SKILL_ICEAIR,    $FF
-    db MONSTER_BIGEYE,     $00, $00, 0, $14, $50, $00, $39, $00, $50, $00, $30, $00, $3E, $00, $50, $00, $96, $C8, $64, $32, SKILL_SNOWSTORM, SKILL_HEAL,      SKILL_ICEAIR,    $FF
-    db MONSTER_GIGANTES,   $A4, $06, 6, $0E, $58, $02, $0A, $00, $82, $00, $1E, $00, $44, $00, $0F, $00, $FA, $FA, $FA, $32, SKILL_EVILSLASH, SKILL_CHARGEUP,  SKILL_ZOMBIECUT, $FF
-    db MONSTER_GIGANTES,   $00, $00, 0, $0E, $96, $00, $0A, $00, $82, $00, $2E, $00, $30, $00, $0F, $00, $FA, $FA, $FA, $32, SKILL_EVILSLASH, SKILL_CHARGEUP,  SKILL_ZOMBIECUT, $FF
-    db MONSTER_SLABBIT,    $DB, $01, 3, $16, $82, $00, $28, $00, $5B, $00, $3C, $00, $A2, $00, $69, $00, $96, $64, $96, $00, SKILL_SIDESTEP,  SKILL_BIGTRIP,   SKILL_NONE,      $FF
-    db MONSTER_GASGON,     $FE, $01, 4, $16, $8D, $00, $6F, $00, $71, $00, $3B, $00, $1E, $00, $49, $00, $C8, $FA, $64, $00, SKILL_FAREWELL,  SKILL_BESERKER,  SKILL_NONE,      $FF
-    db MONSTER_WINDBEAST,  $E0, $01, 3, $16, $6E, $00, $84, $00, $4E, $00, $51, $00, $82, $00, $69, $00, $C8, $96, $C8, $00, SKILL_INFERMORE, SKILL_ICEBOLT,   SKILL_VACUSLASH, $FF
-    db MONSTER_STUBBIRD,   $4C, $02, 4, $17, $5B, $00, $54, $00, $AA, $00, $8C, $00, $5A, $00, $52, $00, $FA, $32, $C8, $00, SKILL_TWINHITS,  SKILL_RAINSLASH, SKILL_DRAKSLASH, $FF
-    db MONSTER_ONIONO,     $F4, $01, 3, $17, $64, $00, $6E, $00, $5F, $00, $32, $00, $7E, $00, $8F, $00, $96, $64, $C8, $00, SKILL_ROBMAGIC,  SKILL_CHARGEUP,  SKILL_SLEEPAIR,  $FF
-    db MONSTER_GOPHECADA,  $EA, $01, 3, $17, $AC, $00, $37, $00, $5F, $00, $70, $00, $36, $00, $2B, $00, $00, $00, $00, $00, SKILL_BEAT,      SKILL_MAGICBACK, SKILL_CALLHELP,  $FF
-    db MONSTER_PIXY,       $06, $02, 3, $18, $5A, $00, $2E, $00, $66, $00, $44, $00, $50, $00, $3E, $00, $64, $64, $96, $00, SKILL_SPEEDUP,   SKILL_TWINHITS,  SKILL_ANTIDOTE,  $FF
-    db MONSTER_DEADNITE,   $76, $02, 4, $18, $79, $00, $57, $00, $8C, $00, $63, $00, $69, $00, $5C, $00, $FA, $C8, $C8, $00, SKILL_HEAL,      SKILL_DECHAOS,   SKILL_CURSEOFF,  $FF
-    db MONSTER_SPIKYBOY,   $30, $02, 3, $18, $5D, $00, $2E, $00, $64, $00, $5D, $00, $32, $00, $3F, $00, $96, $32, $96, $00, SKILL_SACRIFICE, SKILL_HIGHJUMP,  SKILL_SMASHLIME, $FF
-    db MONSTER_SLIMENITE,  $49, $02, 4, $19, $90, $00, $2F, $00, $88, $00, $66, $00, $98, $00, $60, $00, $C8, $96, $96, $00, SKILL_INCREASE,  SKILL_HEAL,      SKILL_BEASTCUT,  $FF
-    db MONSTER_KINGCOBRA,  $94, $02, 3, $19, $7E, $00, $2E, $00, $5F, $00, $52, $00, $82, $00, $2F, $00, $FA, $00, $64, $00, SKILL_POISONHIT, SKILL_CURSE,     SKILL_NONE,      $FF
-    db MONSTER_MOMMONJA,   $58, $02, 4, $19, $7D, $00, $42, $00, $55, $00, $50, $00, $87, $00, $AA, $00, $96, $96, $C8, $00, SKILL_SNOWSTORM, SKILL_LUREDANCE, SKILL_MOUTHSHUT, $FF
-    db MONSTER_MISTYWING,  $3D, $02, 3, $1A, $83, $00, $5E, $00, $69, $00, $69, $00, $84, $00, $64, $00, $96, $64, $96, $00, SKILL_SURROUND,  SKILL_BARRIER,   SKILL_EERIELITE, $FF
-    db MONSTER_STAGBUG,    $80, $02, 3, $1A, $6A, $00, $31, $00, $8D, $00, $9B, $00, $60, $00, $31, $00, $C8, $32, $C8, $00, SKILL_SLEEP,     SKILL_BLAZEAIR,  SKILL_LEGSWEEP,  $FF
-    db MONSTER_DARKEYE,    $D0, $02, 4, $14, $61, $00, $85, $00, $4D, $00, $5F, $00, $69, $00, $66, $00, $96, $00, $96, $00, SKILL_METALCUT,  SKILL_PALSYAIR,  SKILL_RADIANT,   $FF
-    db MONSTER_NITEWHIP,   $9A, $02, 3, $1B, $65, $00, $4A, $00, $3A, $00, $87, $00, $8C, $00, $6F, $00, $C8, $64, $96, $00, SKILL_WINDBEAST, SKILL_LIGHTNING, SKILL_BLAZEAIR,  $FF
-    db MONSTER_ROGUENITE,  $0C, $03, 3, $1B, $A0, $00, $26, $00, $A6, $00, $C8, $00, $4B, $00, $4F, $00, $FA, $FA, $96, $00, SKILL_HEAL,      SKILL_EVILSLASH, SKILL_METALCUT,  $FF
-    db MONSTER_BOXSLIME,   $E4, $02, 4, $1B, $66, $00, $31, $00, $70, $00, $52, $00, $91, $00, $4C, $00, $64, $32, $96, $00, SKILL_BLAZEMORE, SKILL_UPPER,     SKILL_RAMMING,   $FF
-    db MONSTER_STONEMAN,   $00, $19, 7, $14, $20, $03, $24, $00, $82, $00, $5A, $00, $2D, $00, $5A, $00, $FA, $64, $32, $00, SKILL_COVER,     SKILL_SUCKALL,   SKILL_NONE,      $FF
-    db MONSTER_STONEMAN,   $00, $00, 0, $14, $AA, $00, $24, $00, $82, $00, $6E, $00, $2D, $00, $5A, $00, $FA, $32, $32, $00, SKILL_COVER,     SKILL_SUCKALL,   SKILL_NONE,      $FF
-    db MONSTER_BATTLEREX,  $00, $00, 0, $14, $E8, $03, $32, $00, $AA, $00, $50, $00, $50, $00, $46, $00, $FA, $64, $96, $00, SKILL_METALCUT,  SKILL_BLAZEAIR,  SKILL_NONE,      $FF
-    db MONSTER_BATTLEREX,  $00, $00, 0, $14, $A5, $00, $5A, $00, $8C, $00, $50, $00, $64, $00, $46, $00, $FA, $FA, $96, $00, SKILL_METALCUT,  SKILL_BLAZEAIR,  SKILL_NONE,      $FF
-    db MONSTER_COPYCAT,    $00, $00, 0, $14, $20, $03, $30, $00, $5F, $00, $46, $00, $3C, $00, $3C, $00, $32, $32, $FA, $00, SKILL_TRANSFORM, SKILL_ROBDANCE,  SKILL_IMITATE,   $FF
-    db MONSTER_COPYCAT,    $00, $00, 0, $14, $50, $00, $30, $00, $64, $00, $55, $00, $3C, $00, $3C, $00, $C8, $32, $FA, $00, SKILL_TRANSFORM, SKILL_ROBDANCE,  SKILL_IMITATE,   $FF
-    db MONSTER_ORC,        $C6, $02, 3, $1C, $A0, $00, $28, $00, $82, $00, $58, $00, $56, $00, $8C, $00, $C8, $00, $64, $00, SKILL_SAP,       SKILL_BIRDBLOW,  SKILL_NONE,      $FF
-    db MONSTER_REAPER,     $EE, $02, 4, $1C, $6E, $00, $87, $00, $9C, $00, $28, $00, $82, $00, $AA, $00, $C8, $32, $FA, $00, SKILL_DEVILCUT,  SKILL_CURSE,     SKILL_EERIELITE, $FF
-    db MONSTER_GISMO,      $BC, $02, 4, $1C, $98, $00, $34, $00, $51, $00, $78, $00, $8E, $00, $8E, $00, $96, $96, $96, $00, SKILL_SUCKAIR,   SKILL_BLAZEAIR,  SKILL_ICEAIR,    $FF
-    db MONSTER_ROCKSLIME,  $3E, $03, 4, $1D, $BA, $00, $09, $00, $8C, $00, $8A, $00, $59, $00, $37, $00, $FA, $C8, $96, $00, SKILL_HIGHJUMP,  SKILL_ROCKTHROW, SKILL_STRONGD,   $FF
-    db MONSTER_CHAMELGON,  $08, $03, 4, $1D, $A0, $00, $95, $00, $5A, $00, $58, $00, $8A, $00, $55, $00, $C8, $32, $C8, $00, SKILL_PANICALL,  SKILL_PARALYZE,  SKILL_NONE,      $FF
-    db MONSTER_GOATEGON,   $8E, $03, 4, $1D, $DC, $00, $78, $00, $AC, $00, $5C, $00, $83, $00, $84, $00, $C8, $32, $C8, $00, SKILL_FIREBANE,  SKILL_SLOWALL,   SKILL_SLEEPAIR,  $FF
-    db MONSTER_DUCKKITE,   $72, $03, 3, $1C, $75, $00, $73, $00, $8F, $00, $8A, $00, $A5, $00, $8C, $00, $96, $32, $64, $00, SKILL_SLEEP,     SKILL_PANICALL,  SKILL_CURSE,     $FF
-    db MONSTER_CACTIBALL,  $D1, $03, 3, $1C, $C0, $00, $A5, $00, $8C, $00, $41, $00, $87, $00, $82, $00, $FA, $96, $FA, $00, SKILL_HIGHJUMP,  SKILL_PARALYZE,  SKILL_ODDDANCE,  $FF
-    db MONSTER_TAILEATER,  $C0, $03, 4, $1E, $A0, $00, $3A, $00, $74, $00, $5A, $00, $79, $00, $58, $00, $96, $32, $96, $00, SKILL_ICESLASH,  SKILL_POISONGAS, SKILL_RADIANT,   $FF
-    db MONSTER_AGDEVIL,    $ED, $03, 4, $1F, $A0, $00, $5A, $00, $94, $00, $7D, $00, $5A, $00, $8E, $00, $C8, $32, $96, $00, SKILL_FIREBANE,  SKILL_SLEEPAIR,  SKILL_NONE,      $FF
-    db MONSTER_WINDMERGE,  $4C, $04, 4, $1F, $74, $00, $8E, $00, $62, $00, $B0, $00, $7A, $00, $A5, $00, $96, $64, $C8, $00, SKILL_INFERMOST, SKILL_BARRIER,   SKILL_CURSEOFF,  $FF
-    db MONSTER_WEEDBUG,    $BD, $03, 4, $1F, $8F, $00, $5A, $00, $41, $00, $8C, $00, $5A, $00, $8D, $00, $64, $96, $C8, $00, SKILL_ROBMAGIC,  SKILL_BARRIER,   SKILL_MAGICWALL, $FF
-    db MONSTER_SPOTKING,   $B0, $04, 5, $20, $2C, $01, $3E, $00, $CE, $00, $63, $00, $73, $00, $AA, $00, $C8, $96, $96, $00, SKILL_CLEANCUT,  SKILL_NAPATTACK, SKILL_MOUTHSHUT, $FF
-    db MONSTER_LIZARDFLY,  $DE, $03, 4, $1C, $78, $00, $5D, $00, $BC, $00, $63, $00, $5D, $00, $5A, $00, $C8, $64, $96, $00, SKILL_FIREBANE,  SKILL_WINDBEAST, SKILL_BLAZEAIR,  $FF
-    db MONSTER_HAMMERMAN,  $0B, $04, 4, $20, $88, $00, $3C, $00, $9C, $00, $64, $00, $76, $00, $3E, $00, $FA, $00, $32, $00, SKILL_KAMIKAZE,  SKILL_EVILSLASH, SKILL_CHARGEUP,  $FF
-    db MONSTER_MADGOOSE,   $D7, $03, 4, $1C, $B4, $00, $C5, $00, $A7, $00, $BE, $00, $B4, $00, $60, $00, $96, $64, $C8, $00, SKILL_PANICALL,  SKILL_ODDDANCE,  SKILL_LUREDANCE, $FF
-    db MONSTER_TREEBOY,    $47, $04, 4, $21, $D5, $00, $B9, $00, $68, $00, $64, $00, $9C, $00, $B9, $00, $C8, $C8, $C8, $00, SKILL_SNOWSTORM, SKILL_HEALMORE,  SKILL_CURSEOFF,  $FF
-    db MONSTER_DROLL,      $80, $04, 4, $21, $84, $00, $28, $00, $8E, $00, $64, $00, $44, $00, $7E, $00, $96, $00, $64, $00, SKILL_SLOWALL,   SKILL_BRANCHING, SKILL_NONE,      $FF
-    db MONSTER_FUNKYBIRD,  $00, $00, 0, $1E, $B0, $04, $A0, $00, $64, $00, $8C, $00, $62, $00, $A0, $00, $96, $32, $96, $00, SKILL_PANIDANCE, SKILL_HUSTLE,    SKILL_LIFEDANCE, $FF
-    db MONSTER_FUNKYBIRD,  $00, $00, 0, $1E, $78, $00, $A0, $00, $64, $00, $8C, $00, $62, $00, $A0, $00, $96, $32, $FA, $00, SKILL_PANIDANCE, SKILL_HUSTLE,    SKILL_LIFEDANCE, $FF
-    db MONSTER_SKYDRAGON,  $78, $1E, 7, $1E, $B0, $04, $96, $00, $AA, $00, $78, $00, $50, $00, $50, $00, $C8, $32, $C8, $00, SKILL_SUCKAIR,   SKILL_SCORCHING, SKILL_NONE,      $FF
-    db MONSTER_SKYDRAGON,  $00, $00, 0, $1E, $7D, $00, $96, $00, $AA, $00, $9B, $00, $50, $00, $50, $00, $96, $32, $C8, $00, SKILL_SUCKAIR,   SKILL_SCORCHING, SKILL_NONE,      $FF
-    db MONSTER_DIGSTER,    $00, $00, 0, $2D, $E8, $03, $55, $00, $BE, $00, $96, $00, $3C, $00, $8C, $00, $96, $00, $96, $00, SKILL_STRONGD,   SKILL_SUCKALL,   SKILL_NONE,      $FF
-    db MONSTER_DIGSTER,    $00, $00, 0, $2D, $E6, $00, $55, $00, $BE, $00, $A0, $00, $3C, $00, $8C, $00, $96, $C8, $96, $00, SKILL_STRONGD,   SKILL_SUCKALL,   SKILL_NONE,      $FF
-    db MONSTER_GIANTMOTH,  $A3, $04, 4, $1C, $9B, $00, $A5, $00, $9B, $00, $A8, $00, $BA, $00, $A2, $00, $C8, $64, $C8, $00, SKILL_WINDBEAST, SKILL_PARALYZE,  SKILL_RADIANT,   $FF
-    db MONSTER_ARCDEMON,   $B8, $06, 5, $22, $E6, $00, $62, $00, $E6, $00, $B4, $00, $48, $00, $FA, $00, $C8, $32, $96, $00, SKILL_BOOM,      SKILL_BOLTSLASH, SKILL_BIRDBLOW,  $FF
-    db MONSTER_MADSPIRIT,  $58, $05, 5, $22, $A0, $00, $A2, $00, $CB, $00, $A8, $00, $64, $00, $42, $00, $C8, $64, $FA, $00, SKILL_SLEEPAIR,  SKILL_RADIANT,   SKILL_THICKFOG,  $FF
-    db MONSTER_CURSELAMP,  $BD, $04, 4, $28, $C8, $00, $CC, $00, $B6, $00, $B4, $00, $66, $00, $C8, $00, $C8, $32, $C8, $00, SKILL_INCREASE,  SKILL_SPEEDUP,   SKILL_TWINHITS,  $FF
-    db MONSTER_TORTRAGON,  $19, $05, 4, $21, $A2, $00, $68, $00, $D4, $00, $FA, $00, $48, $00, $68, $00, $96, $64, $64, $00, SKILL_BOUNCE,    SKILL_LIGHTNING, SKILL_NONE,      $FF
-    db MONSTER_WILDAPE,    $E2, $04, 4, $21, $A0, $00, $44, $00, $C3, $00, $4B, $00, $9E, $00, $64, $00, $FA, $00, $96, $00, SKILL_TWINSLASH, SKILL_YELLHELP,  SKILL_BIGTRIP,   $FF
-    db MONSTER_LANDOWL,    $F8, $05, 5, $21, $F0, $00, $47, $00, $04, $01, $6E, $00, $6E, $00, $46, $00, $C8, $00, $96, $00, SKILL_INFERMOST, SKILL_BOLTSLASH, SKILL_SIDESTEP,  $FF
-    db MONSTER_AMBERWEED,  $72, $04, 4, $24, $B4, $00, $C0, $00, $73, $00, $8C, $00, $B4, $00, $46, $00, $C8, $64, $FA, $00, SKILL_BARRIER,   SKILL_TWINHITS,  SKILL_MAGICWALL, $FF
-    db MONSTER_ARMYCRAB,   $13, $05, 5, $24, $82, $00, $6C, $00, $A0, $00, $E6, $00, $37, $00, $48, $00, $C8, $64, $C8, $00, SKILL_INCREASE,  SKILL_METALCUT,  SKILL_YELLHELP,  $FF
-    db MONSTER_EVILBEAST,  $B3, $04, 5, $1E, $96, $00, $47, $00, $CA, $00, $A2, $00, $38, $00, $BA, $00, $C8, $32, $C8, $00, SKILL_FIREBANE,  SKILL_ICEAIR,    SKILL_NONE,      $FF
-    db MONSTER_SHADOW,     $E8, $04, 5, $25, $D9, $00, $86, $00, $D2, $00, $D2, $00, $76, $00, $B9, $00, $FA, $32, $FA, $00, SKILL_ICEAIR,    SKILL_KO_DANCE,  SKILL_THICKFOG,  $FF
-    db MONSTER_EVILWAND,   $3F, $05, 4, $25, $AC, $00, $82, $00, $A7, $00, $E6, $00, $BE, $00, $64, $00, $96, $32, $96, $00, SKILL_DECHAOS,   SKILL_ICEAIR,    SKILL_NONE,      $FF
-    db MONSTER_SLIMEBORG,  $A4, $05, 5, $26, $FA, $00, $49, $00, $CD, $00, $C0, $00, $C8, $00, $64, $00, $FA, $C8, $C8, $00, SKILL_RAINSLASH, SKILL_LIGHTNING, SKILL_BLADED,    $FF
-    db MONSTER_LIZARDMAN,  $43, $05, 4, $26, $D2, $00, $49, $00, $B6, $00, $6E, $00, $69, $00, $64, $00, $FA, $64, $32, $00, SKILL_EVILSLASH, SKILL_BEASTCUT,  SKILL_NONE,      $FF
-    db MONSTER_GRIZZLY,    $18, $06, 5, $26, $E6, $00, $12, $00, $1D, $01, $52, $00, $C8, $00, $50, $00, $FA, $00, $96, $00, SKILL_TWINSLASH, SKILL_SQUALLHIT, SKILL_BIGTRIP,   $FF
-    db MONSTER_WYVERN,     $2C, $06, 4, $27, $C1, $00, $69, $00, $A5, $00, $82, $00, $A0, $00, $CD, $00, $C8, $64, $96, $00, SKILL_SLEEPALL,  SKILL_HEALMORE,  SKILL_ICEAIR,    $FF
-    db MONSTER_FIREWEED,   $A0, $05, 4, $24, $B4, $00, $C8, $00, $53, $00, $80, $00, $9B, $00, $93, $00, $FA, $96, $C8, $00, SKILL_BLAZEMORE, SKILL_DECHAOS,   SKILL_PALSYAIR,  $FF
-    db MONSTER_MADHORNET,  $64, $05, 6, $26, $E9, $00, $69, $00, $A7, $00, $70, $00, $D2, $00, $78, $00, $C8, $00, $C8, $00, SKILL_POISONHIT, SKILL_PARALYZE,  SKILL_STORMWIND, $FF
-    db MONSTER_JAMIRUS,    $C8, $32, 7, $23, $40, $06, $AF, $00, $04, $01, $A0, $00, $96, $00, $91, $00, $FA, $FA, $FA, $00, SKILL_BLAZEMOST, SKILL_QUADHITS,  SKILL_STORMWIND, $FF
-    db MONSTER_JAMIRUS,    $00, $00, 0, $23, $C8, $00, $AF, $00, $04, $01, $C8, $00, $96, $00, $91, $00, $FA, $FA, $FA, $00, SKILL_BLAZEMOST, SKILL_QUADHITS,  SKILL_STORMWIND, $FF
-    db MONSTER_SERVANT,    $E4, $3A, 5, $23, $E8, $03, $FA, $00, $A0, $00, $A0, $00, $C8, $00, $AA, $00, $FA, $96, $FA, $00, SKILL_BLAZEMOST, SKILL_BLIZZARD,  SKILL_FOCUS,     $FF
-    db MONSTER_SERVANT,    $00, $00, 0, $23, $A0, $00, $FA, $00, $A0, $00, $B4, $00, $C8, $00, $AA, $00, $FA, $FA, $FA, $00, SKILL_BLAZEMOST, SKILL_BLIZZARD,  SKILL_FOCUS,     $FF
-    db MONSTER_CENTASAUR,  $00, $00, 7, $1E, $DC, $00, $73, $00, $CD, $00, $8C, $00, $40, $01, $C8, $00, $FA, $64, $C8, $00, SKILL_STOPSPELL, SKILL_FIRESLASH, SKILL_RAINSLASH, $FF
-    db MONSTER_EVILARMOR,  $00, $00, 7, $1C, $AF, $00, $62, $00, $AA, $00, $DC, $00, $84, $00, $92, $00, $FA, $32, $96, $00, SKILL_FIRESLASH, SKILL_BOLTSLASH, SKILL_DRAGONCUT, $FF
-    db MONSTER_KINGSLIME,  $68, $42, 5, $26, $D0, $07, $4B, $00, $C8, $00, $82, $00, $BE, $00, $BE, $00, $FA, $96, $C8, $00, SKILL_BARRIER,   SKILL_HEALMORE,  SKILL_NONE,      $FF
-    db MONSTER_KINGSLIME,  $00, $00, 0, $26, $E6, $00, $4B, $00, $C8, $00, $A0, $00, $BE, $00, $BE, $00, $96, $FA, $C8, $00, SKILL_BARRIER,   SKILL_HEALMORE,  SKILL_REVIVE,    $FF
-    db MONSTER_TOADSTOOL,  $2C, $01, 5, $0A, $2D, $00, $11, $00, $19, $00, $17, $00, $28, $00, $24, $00, $00, $00, $00, $00, SKILL_NAPATTACK, SKILL_SLEEPAIR,  SKILL_MOUTHSHUT, $FF
-    db MONSTER_LIPSY,      $FA, $00, 5, $0A, $17, $00, $11, $00, $17, $00, $16, $00, $14, $00, $48, $00, $00, $00, $00, $00, SKILL_NAPATTACK, SKILL_AHHH,      SKILL_LUSHLICKS, $FF
-    db MONSTER_LIONEX,     $3A, $07, 5, $28, $0C, $01, $82, $00, $CA, $00, $F6, $00, $D2, $00, $A0, $00, $96, $96, $C8, $00, SKILL_INFERMOST, SKILL_HEALUS,    SKILL_VACUSLASH, $FF
-    db MONSTER_ROTRAVEN,   $90, $06, 4, $21, $9B, $00, $91, $00, $A7, $00, $84, $00, $F4, $00, $D2, $00, $96, $32, $96, $00, SKILL_KAMIKAZE,  SKILL_BOLTSLASH, SKILL_LIGHTNING, $FF
-    db MONSTER_JEWELBAG,   $D0, $07, 5, $26, $8A, $00, $7E, $00, $DA, $00, $F6, $00, $B4, $00, $F0, $00, $64, $00, $32, $00, SKILL_FIREBANE,  SKILL_STOPSPELL, SKILL_PANICALL,  $FF
-    db MONSTER_SWORDGON,   $7B, $07, 4, $29, $F6, $00, $A5, $00, $BE, $00, $D5, $00, $80, $00, $73, $00, $FA, $C8, $FA, $00, SKILL_CLEANCUT,  SKILL_RAINSLASH, SKILL_BLADED,    $FF
-    db MONSTER_SUPERTEN,   $50, $07, 5, $29, $14, $01, $50, $00, $94, $00, $5A, $00, $DA, $00, $9A, $00, $FA, $64, $C8, $00, SKILL_KO_DANCE,  SKILL_IMITATE,   SKILL_HUSTLE,    $FF
-    db MONSTER_MADCONDOR,  $1B, $08, 5, $29, $BE, $00, $82, $00, $00, $01, $E0, $00, $A0, $00, $A0, $00, $C8, $64, $00, $00, SKILL_FIREBANE,  SKILL_HEALUS,    SKILL_NONE,      $FF
-    db MONSTER_MANEATER,   $CC, $07, 6, $2A, $C0, $00, $E1, $00, $B0, $00, $5A, $00, $73, $00, $6E, $00, $FA, $00, $C8, $00, SKILL_DRAGONCUT, SKILL_PSYCHEUP,  SKILL_SLEEPAIR,  $FF
-    db MONSTER_GRENDAL,    $52, $08, 5, $2A, $30, $01, $52, $00, $04, $01, $36, $01, $E2, $00, $E2, $00, $FA, $C8, $C8, $00, SKILL_FIRESLASH, SKILL_DRAGONCUT, SKILL_GUARDIAN,  $FF
-    db MONSTER_DARKCRAB,   $CF, $07, 4, $1C, $FE, $00, $87, $00, $04, $01, $DE, $00, $55, $00, $8C, $00, $C8, $64, $00, $00, SKILL_MAGICWALL, SKILL_IRONIZE,   SKILL_NONE,      $FF
-    db MONSTER_MADMIRROR,  $88, $08, 5, $26, $1C, $01, $5C, $00, $91, $00, $CC, $00, $E8, $00, $AA, $00, $96, $96, $96, $00, SKILL_BOUNCE,    SKILL_TRANSFORM, SKILL_NONE,      $FF
-    db MONSTER_WINGSNAKE,  $EE, $07, 4, $2B, $1C, $01, $8A, $00, $E6, $00, $B1, $00, $AA, $00, $8C, $00, $FA, $00, $96, $00, SKILL_HIGHJUMP,  SKILL_SQUALLHIT, SKILL_POISONAIR, $FF
-    db MONSTER_YETI,       $1C, $07, 5, $26, $1F, $01, $8C, $00, $08, $01, $E6, $00, $64, $00, $8C, $00, $FA, $96, $C8, $00, SKILL_SNOWSTORM, SKILL_ICESLASH,  SKILL_WARCRY,    $FF
-    db MONSTER_DANCEVEGI,  $EA, $06, 4, $2C, $B0, $00, $7A, $00, $7C, $00, $F0, $00, $3C, $01, $96, $00, $C8, $64, $C8, $00, SKILL_KO_DANCE,  SKILL_SIDESTEP,  SKILL_LUREDANCE, $FF
-    db MONSTER_OGRE,       $10, $09, 4, $21, $20, $01, $8C, $00, $EB, $00, $EB, $00, $68, $00, $E6, $00, $FA, $00, $64, $00, SKILL_MASSACRE,  SKILL_METALCUT,  SKILL_RAINSLASH, $FF
-    db MONSTER_SKULLGON,   $D4, $09, 5, $2B, $A4, $01, $57, $00, $02, $01, $50, $00, $87, $00, $E6, $00, $FA, $64, $96, $00, SKILL_TWINSLASH, SKILL_ICESLASH,  SKILL_ICEAIR,    $FF
-    db MONSTER_VOODOLL,    $70, $08, 4, $21, $CC, $00, $B4, $00, $DC, $00, $00, $01, $96, $00, $AA, $00, $C8, $32, $FA, $00, SKILL_SURROUND,  SKILL_PANICALL,  SKILL_DEFENCE,   $FF
-    db MONSTER_RAYBURN,    $2C, $0A, 6, $21, $CE, $00, $6E, $00, $EB, $00, $73, $00, $09, $01, $6E, $00, $FA, $64, $96, $00, SKILL_VACUSLASH, SKILL_DEVILCUT,  SKILL_POISONHIT, $FF
-    db MONSTER_IRONTURT,   $C8, $08, 5, $2B, $2C, $01, $78, $00, $02, $01, $C8, $00, $78, $00, $B4, $00, $64, $FA, $FA, $00, SKILL_BOUNCE,    SKILL_GUARDIAN,  SKILL_STRONGD,   $FF
-    db MONSTER_DARKHORN,   $54, $52, 5, $28, $D0, $07, $82, $00, $E1, $00, $78, $00, $50, $00, $D2, $00, $FA, $00, $C8, $00, SKILL_SLEEPALL,  SKILL_STOPSPELL, SKILL_PSYCHEUP,  $FF
-    db MONSTER_DARKHORN,   $00, $00, 0, $28, $AA, $00, $82, $00, $F5, $00, $96, $00, $50, $00, $FA, $00, $FA, $00, $FA, $00, SKILL_SLEEPALL,  SKILL_STOPSPELL, SKILL_PSYCHEUP,  $FF
-    db MONSTER_AKUBAR,     $D8, $59, 7, $28, $D0, $07, $90, $01, $E6, $00, $F0, $00, $FA, $00, $FF, $00, $C8, $64, $C8, $00, SKILL_EXPLODET,  SKILL_FOCUS,     SKILL_ICESTORM,  $FF
-    db MONSTER_AKUBAR,     $00, $00, 0, $28, $2C, $01, $90, $01, $C8, $00, $2C, $01, $FA, $00, $FF, $00, $FA, $64, $C8, $00, SKILL_EXPLODET,  SKILL_FOCUS,     SKILL_ICESTORM,  $FF
-    db MONSTER_OROCHI,     $60, $6D, 7, $28, $D0, $07, $6E, $00, $2C, $01, $D2, $00, $82, $00, $82, $00, $FA, $00, $FA, $00, SKILL_FIRESLASH, SKILL_QUADHITS,  SKILL_SCORCHING, $FF
-    db MONSTER_OROCHI,     $00, $00, 0, $28, $36, $01, $6E, $00, $2C, $01, $04, $01, $82, $00, $82, $00, $FA, $00, $FA, $00, SKILL_FIRESLASH, SKILL_QUADHITS,  SKILL_SCORCHING, $FF
-    db MONSTER_METABBLE,   $E8, $FD, 6, $26, $08, $00, $EA, $01, $5F, $00, $02, $03, $FF, $01, $FF, $00, $FA, $FA, $FA, $00, SKILL_FIREBOLT,  SKILL_EXPLODET,  $DB,             $FF
-    db MONSTER_GULPBEAST,  $B0, $09, 5, $26, $68, $01, $5A, $00, $2C, $01, $B9, $00, $96, $00, $5A, $00, $FA, $00, $96, $00, SKILL_BESERKER,  SKILL_MASSACRE,  SKILL_WARCRY,    $FF
-    db MONSTER_BALZAK,     $00, $0A, 5, $26, $5E, $01, $A5, $00, $FA, $00, $40, $01, $18, $01, $B4, $00, $FA, $64, $C8, $00, SKILL_EXPLODET,  SKILL_ZAP,       SKILL_NONE,      $FF
-    db MONSTER_SPIKEROUS,  $8C, $0A, 5, $1C, $FA, $00, $17, $00, $0E, $01, $54, $01, $5A, $00, $71, $00, $FA, $96, $96, $00, SKILL_BESERKER,  SKILL_KAMIKAZE,  SKILL_ROCKTHROW, $FF
-    db MONSTER_TRUMPETER,  $F0, $0A, 5, $2F, $0E, $01, $96, $00, $4A, $01, $D2, $00, $BE, $00, $82, $00, $C8, $64, $96, $00, SKILL_BESERKER,  SKILL_SANDSTORM, SKILL_WARCRY,    $FF
-    db MONSTER_SKELETOR,   $D2, $0A, 5, $2F, $B4, $00, $AF, $00, $36, $01, $04, $01, $91, $00, $B4, $00, $FA, $32, $FA, $00, SKILL_DEFENCE,   SKILL_BIRDBLOW,  SKILL_QUADHITS,  $FF
-    db MONSTER_METALDRAK,  $20, $0D, 6, $2B, $4A, $01, $69, $00, $18, $01, $04, $01, $FA, $00, $82, $00, $96, $32, $64, $00, SKILL_MASSACRE,  SKILL_ROCKTHROW, SKILL_SANDSTORM, $FF
-    db MONSTER_MADDRAGON,  $4E, $0C, 5, $21, $DC, $00, $18, $00, $4F, $01, $82, $00, $5A, $00, $1E, $00, $FA, $00, $96, $00, SKILL_MASSACRE,  SKILL_EVILSLASH, SKILL_LUREDANCE, $FF
-    db MONSTER_SNAPPER,    $40, $0B, 5, $30, $EB, $00, $B9, $00, $FA, $00, $8C, $00, $8C, $00, $E6, $00, $C8, $64, $96, $00, SKILL_STOPSPELL, SKILL_YELLHELP,  SKILL_RAINSLASH, $FF
-    db MONSTER_GOATHORN,   $C0, $0D, 6, $21, $0E, $01, $BE, $00, $04, $01, $96, $00, $BE, $00, $F0, $00, $FA, $64, $FA, $00, SKILL_EXPLODET,  SKILL_INFERMOST, SKILL_BLIZZARD,  $FF
-    db MONSTER_DEADNOBLE,  $AE, $0B, 5, $30, $68, $01, $F0, $00, $54, $01, $18, $01, $18, $01, $D7, $00, $FA, $64, $C8, $00, SKILL_DEFEAT,    SKILL_HEALUSALL, SKILL_NONE,      $FF
-    db MONSTER_ROBOSTER,   $D4, $0D, 5, $26, $2C, $01, $2D, $00, $54, $01, $E6, $00, $68, $01, $D2, $00, $FA, $32, $C8, $00, SKILL_QUADHITS,  SKILL_SQUALLHIT, SKILL_RAINSLASH, $FF
-    db MONSTER_BOMBCRAG,   $C4, $09, 4, $30, $36, $01, $BE, $00, $AF, $00, $FA, $00, $19, $00, $8C, $00, $C8, $64, $96, $00, SKILL_SACRIFICE, SKILL_FAREWELL,  SKILL_MEDITATE,  $FF
-    db MONSTER_ANDREAL,    $98, $0D, 5, $30, $68, $01, $18, $01, $E6, $00, $40, $01, $C8, $00, $FA, $00, $FA, $00, $C8, $00, SKILL_INFERMOST, SKILL_SURROUND,  SKILL_POISONAIR, $FF
-    db MONSTER_UNICORN,    $30, $0C, 5, $30, $B4, $00, $4A, $01, $B4, $00, $96, $00, $22, $01, $FF, $00, $FA, $C8, $FA, $00, SKILL_HEALALL,   SKILL_REVIVE,    SKILL_ANTIDOTE,  $FF
-    db MONSTER_GREATDRAK,  $FC, $0D, 5, $33, $72, $01, $82, $00, $04, $01, $D2, $00, $AA, $00, $D2, $00, $FA, $C8, $FA, $00, SKILL_ICESLASH,  SKILL_ICESTORM,  SKILL_SUCKALL,   $FF
-    db MONSTER_ZAPBIRD,    $F8, $0C, 5, $30, $18, $01, $78, $00, $D2, $00, $C8, $00, $F0, $00, $FF, $00, $FA, $96, $96, $00, SKILL_BOLTSLASH, SKILL_LIGHTNING, SKILL_NONE,      $FF
-    db MONSTER_WHIPBIRD,   $04, $0C, 6, $33, $F4, $01, $C8, $00, $AF, $00, $FA, $00, $F0, $00, $E6, $00, $C8, $64, $96, $00, SKILL_IRONIZE,   SKILL_THICKFOG,  SKILL_NONE,      $FF
-    db MONSTER_DURRAN,     $18, $79, 7, $2D, $B8, $0B, $4A, $01, $A4, $01, $7C, $01, $72, $01, $0A, $00, $C8, $00, $64, $00, SKILL_DRAGONCUT, SKILL_BIRDBLOW,  SKILL_VACUUM,    $FF
-    db MONSTER_DURRAN,     $00, $00, 0, $2D, $DC, $00, $4A, $01, $7C, $01, $FA, $00, $BE, $00, $FF, $00, $C8, $00, $C8, $00, SKILL_DRAGONCUT, SKILL_BIRDBLOW,  SKILL_VACUUM,    $FF
-    db MONSTER_DRACOLORD1, $90, $65, 7, $30, $A0, $0F, $26, $02, $54, $01, $40, $01, $E6, $00, $FF, $00, $FA, $C8, $C8, $00, SKILL_FIREBOLT,  SKILL_MEDITATE,  SKILL_BEDRAGON,  $FF
-    db MONSTER_DRACOLORD1, $00, $00, 0, $30, $FA, $00, $26, $02, $54, $01, $04, $01, $E6, $00, $FF, $00, $64, $C8, $FA, $00, SKILL_FIREBOLT,  SKILL_MEDITATE,  SKILL_BEDRAGON,  $FF
-    db MONSTER_HARGON,     $70, $94, 7, $32, $A0, $0F, $26, $02, $04, $01, $90, $01, $E6, $00, $FF, $00, $FA, $32, $FA, $00, SKILL_FIREBOLT,  SKILL_EXPLODET,  SKILL_BAZOOCALL, $FF
-    db MONSTER_HARGON,     $00, $00, 0, $32, $BE, $00, $26, $02, $04, $01, $54, $01, $E6, $00, $FF, $00, $96, $32, $FA, $00, SKILL_FIREBOLT,  SKILL_EXPLODET,  SKILL_BAZOOCALL, $FF
-    db MONSTER_SIDOH,      $70, $94, 7, $32, $70, $17, $E7, $03, $12, $02, $54, $01, $E6, $00, $0A, $00, $C8, $00, $C8, $00, SKILL_WHITEFIRE, SKILL_WHITEAIR,  SKILL_HELLBLAST, $FF
-    db MONSTER_SIDOH,      $00, $00, 0, $32, $72, $01, $26, $02, $72, $01, $54, $01, $E6, $00, $FF, $00, $C8, $00, $C8, $00, SKILL_WHITEFIRE, SKILL_BIGBANG,   SKILL_DEMAGIC,   $FF
-    db MONSTER_BARAMOS,    $F8, $A7, 7, $32, $A0, $0F, $E7, $03, $9A, $01, $26, $02, $E6, $00, $0A, $00, $FA, $00, $96, $00, SKILL_EXPLODET,  SKILL_ROCKTHROW, SKILL_HELLBLAST, $FF
-    db MONSTER_BARAMOS,    $00, $00, 0, $32, $FA, $00, $26, $02, $04, $01, $04, $01, $E6, $00, $FF, $00, $FA, $00, $64, $00, SKILL_PANICALL,  SKILL_HELLBLAST, SKILL_BIGBANG,   $FF
-    db MONSTER_ZOMA,       $14, $B0, 7, $37, $94, $11, $E7, $03, $B8, $01, $90, $01, $04, $01, $FF, $00, $FA, $00, $C8, $00, SKILL_WHITEAIR,  SKILL_BIGBANG,   SKILL_DEMAGIC,   $FF
-    db MONSTER_ZOMA,       $00, $00, 0, $37, $90, $01, $58, $02, $A4, $01, $5E, $01, $04, $01, $FF, $00, $FA, $00, $C8, $00, SKILL_FOCUS,     SKILL_WHITEAIR,  SKILL_DEMAGIC,   $FF
-    db MONSTER_PIZZARO,    $A4, $98, 7, $37, $70, $17, $58, $02, $FE, $01, $C2, $01, $04, $01, $14, $00, $FA, $32, $C8, $00, SKILL_QUADHITS,  SKILL_WHITEFIRE, SKILL_HELLBLAST, $FF
-    db MONSTER_PIZZARO,    $00, $00, 0, $37, $68, $01, $58, $02, $A4, $01, $5E, $01, $04, $01, $FF, $00, $64, $FA, $C8, $00, SKILL_QUADHITS,  SKILL_WHITEAIR,  SKILL_ULTRADOWN, $FF
-    db MONSTER_ESTERK,     $5C, $A4, 7, $3C, $D8, $0E, $BC, $02, $30, $02, $08, $02, $C2, $01, $FF, $00, $FA, $00, $FA, $00, SKILL_RAINSLASH, SKILL_DEMAGIC,   SKILL_GIGASLASH, $FF
-    db MONSTER_ESTERK,     $00, $00, 0, $3C, $58, $02, $BC, $02, $CC, $01, $C2, $01, $2C, $01, $FF, $00, $FA, $00, $FA, $00, SKILL_FOCUS,     SKILL_WHITEFIRE, SKILL_DEMAGIC,   $FF
-    db MONSTER_MIRUDRAAS1, $CC, $BB, 7, $3C, $88, $13, $E7, $03, $08, $02, $E0, $01, $2C, $01, $0A, $00, $FA, $00, $C8, $00, SKILL_BLAZEMOST, SKILL_EXPLODET,  SKILL_THORDAIN,  $FF
-    db MONSTER_MIRUDRAAS1, $00, $00, 0, $3C, $7C, $01, $BC, $02, $CC, $01, $7C, $01, $2C, $01, $FF, $00, $FA, $00, $C8, $00, SKILL_BLAZEMOST, SKILL_EXPLODET,  SKILL_BLIZZARD,  $FF
-    db MONSTER_MUDOU,      $14, $B0, 7, $3C, $88, $13, $E7, $03, $12, $02, $C2, $01, $2C, $01, $0A, $00, $FA, $64, $96, $00, SKILL_WHITEFIRE, SKILL_WHITEAIR,  SKILL_POISONAIR, $FF
-    db MONSTER_MUDOU,      $00, $00, 0, $3C, $7C, $01, $BC, $02, $CC, $01, $C2, $01, $2C, $01, $FF, $00, $32, $64, $96, $00, SKILL_WHITEFIRE, SKILL_WHITEAIR,  SKILL_SLEEPAIR,  $FF
-    db MONSTER_DEATHMORE1, $50, $C3, 7, $3A, $28, $23, $BC, $02, $CC, $01, $08, $02, $C2, $01, $FF, $00, $FA, $00, $C8, $00, SKILL_HELLBLAST, SKILL_BIGBANG,   SKILL_SAMSICALL, $FF
-    db MONSTER_DEATHMORE1, $00, $00, 0, $3A, $7C, $01, $BC, $02, $CC, $01, $7C, $01, $2C, $01, $FF, $00, $FA, $00, $FA, $00, SKILL_EXPLODET,  SKILL_HELLBLAST, SKILL_POISONAIR, $FF
-    db MONSTER_DARKDRIUM,  $E8, $FD, 0, $46, $28, $23, $52, $03, $0C, $03, $08, $02, $86, $01, $0A, $00, $FA, $96, $FA, $00, SKILL_BIATTACK,  SKILL_WHITEFIRE, SKILL_WHITEAIR,  $FF
-    db MONSTER_DARKDRIUM,  $00, $00, 0, $46, $E7, $03, $52, $03, $E7, $03, $08, $02, $86, $01, $FF, $00, $FA, $FA, $FA, $00, SKILL_BIATTACK,  SKILL_WHITEFIRE, SKILL_WHITEAIR,  $FF
-    db MONSTER_WATABOU,    $00, $00, 0, $14, $96, $00, $CC, $01, $A0, $00, $CD, $00, $72, $01, $FF, $00, $00, $FA, $FA, $00, SKILL_CHANCE,    SKILL_WHISTLE,   SKILL_IMITATE,   $FF
-    db MONSTER_DRACKY,     $00, $00, 7, $01, $08, $00, $14, $00, $0C, $00, $04, $00, $0C, $00, $0E, $00, $C8, $00, $00, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_ANTEATER,   $00, $00, 7, $01, $0C, $00, $00, $00, $11, $00, $04, $00, $04, $00, $03, $00, $96, $00, $32, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_DRACKY,     $00, $00, 7, $01, $08, $00, $14, $00, $0B, $00, $03, $00, $0A, $00, $0E, $00, $C8, $00, $00, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_SLIME,      $00, $00, 7, $01, $08, $00, $00, $00, $08, $00, $05, $00, $07, $00, $01, $00, $C8, $32, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_STUBSUCK,   $00, $00, 7, $02, $10, $00, $06, $00, $13, $00, $07, $00, $0A, $00, $0A, $00, $64, $32, $C8, $64, SKILL_SLEEP,     SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_SLIME,      $00, $00, 7, $01, $07, $00, $00, $00, $08, $00, $05, $00, $06, $00, $01, $00, $C8, $32, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_SPOOKY,     $00, $00, 7, $07, $10, $00, $08, $00, $0D, $00, $0C, $00, $11, $00, $10, $00, $C8, $00, $C8, $C8, SKILL_LUSHLICKS, SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_HORK,       $00, $00, 7, $05, $14, $00, $06, $00, $14, $00, $06, $00, $0A, $00, $0A, $00, $64, $00, $00, $32, SKILL_POISONGAS, SKILL_LUSHLICKS, SKILL_NONE,      $FF
-    db MONSTER_SPOOKY,     $00, $00, 7, $07, $0E, $00, $08, $00, $0F, $00, $09, $00, $0B, $00, $0D, $00, $C8, $00, $C8, $C8, SKILL_LUSHLICKS, SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_SPOTSLIME,  $00, $00, 7, $08, $1A, $00, $0B, $00, $1E, $00, $11, $00, $1E, $00, $0B, $00, $C8, $00, $64, $96, SKILL_CALLHELP,  SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_SPOTSLIME,  $00, $00, 7, $09, $14, $00, $0C, $00, $1A, $00, $0F, $00, $1E, $00, $20, $00, $32, $00, $96, $00, SKILL_LUSHLICKS, SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_SPOTSLIME,  $00, $00, 7, $08, $18, $00, $0F, $00, $1C, $00, $0E, $00, $20, $00, $0B, $00, $C8, $00, $C8, $96, SKILL_IMITATE,   SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_MUDDOLL,    $00, $00, 7, $0C, $26, $00, $14, $00, $16, $00, $12, $00, $18, $00, $2C, $00, $64, $00, $FA, $32, SKILL_ODDDANCE,  SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_ALMIRAJ,    $00, $00, 7, $0A, $2A, $00, $1A, $00, $1A, $00, $14, $00, $28, $00, $16, $00, $96, $00, $64, $64, SKILL_SLEEP,     SKILL_RAMMING,   SKILL_CHARGEUP,  $FF
-    db MONSTER_MUDDOLL,    $00, $00, 7, $0C, $28, $00, $2C, $00, $14, $00, $16, $00, $16, $00, $2C, $00, $32, $00, $FA, $32, SKILL_SIDESTEP,  SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_PUTREPUP,   $00, $00, 7, $0C, $4B, $00, $0A, $00, $1C, $00, $18, $00, $1E, $00, $14, $00, $C8, $00, $96, $96, SKILL_SAP,       SKILL_SLOW,      SKILL_NONE,      $FF
-    db MONSTER_MADRAVEN,   $00, $00, 7, $0C, $32, $00, $0C, $00, $1E, $00, $18, $00, $3C, $00, $50, $00, $C8, $00, $64, $96, SKILL_HIGHJUMP,  SKILL_TAILWIND,  SKILL_NONE,      $FF
-    db MONSTER_SKULLROO,   $00, $00, 7, $0C, $3A, $00, $08, $00, $26, $00, $12, $00, $32, $00, $32, $00, $96, $00, $64, $32, SKILL_CHARGEUP,  SKILL_PANIDANCE, SKILL_NONE,      $FF
-    db MONSTER_CRESTPENT,  $00, $00, 7, $08, $3C, $00, $08, $00, $14, $00, $1E, $00, $0F, $00, $09, $00, $C8, $00, $64, $64, SKILL_STOPSPELL, SKILL_POISONHIT, SKILL_BEDRAGON,  $FF
-    db MONSTER_TREESLIME,  $00, $00, 7, $0C, $46, $00, $08, $00, $1E, $00, $1A, $00, $31, $00, $2E, $00, $64, $00, $FA, $C8, SKILL_SAP,       SKILL_PARALYZE,  SKILL_SLEEPAIR,  $FF
-    db MONSTER_POISONGON,  $00, $00, 7, $0C, $32, $00, $0E, $00, $23, $00, $1E, $00, $1A, $00, $17, $00, $96, $00, $32, $00, SKILL_POISONHIT, SKILL_POISONGAS, SKILL_NONE,      $FF
-    db MONSTER_DRAKSLIME,  $00, $00, 7, $0E, $28, $00, $10, $00, $1E, $00, $1A, $00, $60, $00, $34, $00, $64, $00, $C8, $96, SKILL_SUCKAIR,   SKILL_FIREAIR,   SKILL_NONE,      $FF
-    db MONSTER_DRAGON,     $00, $00, 7, $0F, $41, $00, $14, $00, $2D, $00, $28, $00, $1E, $00, $1A, $00, $FA, $00, $00, $FA, SKILL_FIRESLASH, SKILL_FIREAIR,   SKILL_NONE,      $FF
-    db MONSTER_FAIRYDRAK,  $00, $00, 7, $0E, $28, $00, $15, $00, $19, $00, $1E, $00, $33, $00, $1B, $00, $96, $00, $64, $32, SKILL_SURROUND,  SKILL_SLEEPAIR,  SKILL_NONE,      $FF
-    db MONSTER_SNAILY,     $00, $00, 7, $10, $2D, $00, $14, $00, $1E, $00, $3C, $00, $6E, $00, $3C, $00, $96, $64, $00, $96, SKILL_ICEBOLT,   SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_ARMORPEDE,  $00, $00, 7, $14, $50, $00, $1B, $00, $28, $00, $48, $00, $28, $00, $44, $00, $FA, $00, $64, $32, SKILL_UPPER,     SKILL_TWINHITS,  SKILL_TWINSLASH, $FF
-    db MONSTER_SNAILY,     $00, $00, 7, $10, $28, $00, $14, $00, $20, $00, $37, $00, $6E, $00, $3C, $00, $96, $32, $00, $96, SKILL_CALLHELP,  SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_SACCER,     $00, $00, 7, $11, $50, $00, $1F, $00, $30, $00, $52, $00, $09, $00, $3E, $00, $96, $00, $C8, $64, SKILL_UPPER,     SKILL_PSYCHEUP,  SKILL_NONE,      $FF
-    db MONSTER_FLORAJAY,   $00, $00, 7, $13, $32, $00, $38, $00, $37, $00, $2A, $00, $8E, $00, $78, $00, $64, $32, $64, $FA, SKILL_SPEEDUP,   SKILL_BEASTCUT,  SKILL_LIFESONG,  $FF
-    db MONSTER_MADPLANT,   $00, $00, 7, $14, $64, $00, $64, $00, $34, $00, $32, $00, $87, $00, $5B, $00, $C8, $00, $FA, $64, SKILL_SAP,       SKILL_SLOW,      SKILL_NUMBOFF,   $FF
-    db MONSTER_MEDUSAEYE,  $00, $00, 7, $14, $46, $00, $30, $00, $28, $00, $60, $00, $30, $00, $2C, $00, $64, $00, $64, $FA, SKILL_SURROUND,  SKILL_SAP,       SKILL_BRANCHING, $FF
-    db MONSTER_MADGOPHER,  $00, $00, 7, $15, $64, $00, $26, $00, $3D, $00, $2D, $00, $36, $00, $30, $00, $FA, $00, $00, $C8, SKILL_CHARGEUP,  SKILL_BIRDBLOW,  SKILL_ZOMBIECUT, $FF
-    db MONSTER_MEDUSAEYE,  $00, $00, 7, $14, $46, $00, $44, $00, $2C, $00, $5A, $00, $30, $00, $2C, $00, $64, $00, $64, $FA, SKILL_SURROUND,  SKILL_SAP,       SKILL_BRANCHING, $FF
-    db MONSTER_MADCAT,     $00, $00, 7, $14, $64, $00, $1C, $00, $41, $00, $3C, $00, $50, $00, $2D, $00, $C8, $32, $C8, $FA, SKILL_VACUSLASH, SKILL_SQUALLHIT, SKILL_LEGSWEEP,  $FF
-    db MONSTER_ROGUENITE,  $00, $00, 7, $1B, $6E, $00, $26, $00, $50, $00, $64, $00, $32, $00, $4F, $00, $FA, $FA, $96, $C8, SKILL_HEAL,      SKILL_EVILSLASH, SKILL_METALCUT,  $FF
-    db MONSTER_MADCAT,     $00, $00, 7, $14, $64, $00, $1C, $00, $48, $00, $32, $00, $50, $00, $2D, $00, $FA, $32, $C8, $FA, SKILL_VACUSLASH, SKILL_SQUALLHIT, SKILL_LEGSWEEP,  $FF
-    db MONSTER_SPIKYBOY,   $00, $00, 7, $18, $50, $00, $1A, $00, $46, $00, $53, $00, $32, $00, $3F, $00, $96, $64, $64, $FA, SKILL_SACRIFICE, SKILL_HIGHJUMP,  SKILL_SMASHLIME, $FF
-    db MONSTER_STUBBIRD,   $00, $00, 7, $17, $64, $00, $2C, $00, $64, $00, $78, $00, $5A, $00, $52, $00, $FA, $32, $32, $64, SKILL_TWINHITS,  SKILL_RAINSLASH, SKILL_DRAKSLASH, $FF
-    db MONSTER_SPIKYBOY,   $00, $00, 7, $18, $50, $00, $2E, $00, $4B, $00, $53, $00, $32, $00, $3F, $00, $96, $64, $64, $FA, SKILL_SACRIFICE, SKILL_HIGHJUMP,  SKILL_SMASHLIME, $FF
-    db MONSTER_HEALER,     $00, $00, 7, $16, $50, $00, $32, $00, $10, $00, $50, $00, $25, $00, $FA, $00, $C8, $FA, $64, $C8, SKILL_HEAL,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_ROGUENITE,  $00, $00, 7, $1B, $B4, $00, $30, $00, $96, $00, $78, $00, $32, $00, $4F, $00, $FA, $32, $96, $C8, SKILL_HEAL,      SKILL_EVILSLASH, SKILL_METALCUT,  $FF
-    db MONSTER_HEALER,     $00, $00, 7, $16, $5A, $00, $32, $00, $10, $00, $50, $00, $25, $00, $FA, $00, $C8, $FA, $64, $C8, SKILL_HEAL,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_BOXSLIME,   $00, $00, 7, $1B, $F0, $00, $27, $00, $7A, $00, $64, $00, $91, $00, $4C, $00, $64, $32, $C8, $96, SKILL_UPPER,     SKILL_RAMMING,   SKILL_NONE,      $FF
-    db MONSTER_ROCKSLIME,  $00, $00, 7, $1D, $AA, $00, $14, $00, $9B, $00, $A0, $00, $59, $00, $37, $00, $C8, $64, $96, $FA, SKILL_HIGHJUMP,  SKILL_STRONGD,   SKILL_NONE,      $FF
-    db MONSTER_BOXSLIME,   $00, $00, 7, $1B, $F0, $00, $1D, $00, $7A, $00, $64, $00, $91, $00, $4C, $00, $C8, $96, $96, $96, SKILL_BLAZEMORE, SKILL_RAMMING,   SKILL_NONE,      $FF
-    db MONSTER_HAMMERMAN,  $00, $00, 7, $20, $96, $00, $1E, $00, $6E, $00, $5A, $00, $76, $00, $3E, $00, $FA, $00, $32, $FA, SKILL_KAMIKAZE,  SKILL_EVILSLASH, SKILL_CHARGEUP,  $FF
-    db MONSTER_HAMMERMAN,  $00, $00, 7, $20, $82, $00, $23, $00, $78, $00, $55, $00, $76, $00, $3E, $00, $FA, $00, $32, $FA, SKILL_KAMIKAZE,  SKILL_CHARGEUP,  SKILL_NONE,      $FF
-    db MONSTER_HAMMERMAN,  $00, $00, 7, $20, $78, $00, $1E, $00, $73, $00, $50, $00, $76, $00, $3E, $00, $FA, $00, $32, $FA, SKILL_KAMIKAZE,  SKILL_EVILSLASH, SKILL_CHARGEUP,  $FF
-    db MONSTER_AGDEVIL,    $00, $00, 7, $1F, $C8, $00, $3C, $00, $62, $00, $73, $00, $5A, $00, $8E, $00, $C8, $32, $96, $96, SKILL_FIREBANE,  SKILL_SLEEPAIR,  SKILL_NONE,      $FF
-    db MONSTER_WINDMERGE,  $00, $00, 7, $1F, $96, $00, $50, $00, $44, $00, $7E, $00, $7A, $00, $A5, $00, $C8, $64, $C8, $64, SKILL_INFERMOST, SKILL_BARRIER,   SKILL_CURSEOFF,  $FF
-    db MONSTER_TREEBOY,    $00, $00, 7, $21, $C8, $00, $55, $00, $40, $00, $50, $00, $9C, $00, $B9, $00, $C8, $C8, $C8, $32, SKILL_ICEBOLT,   SKILL_HEAL,      SKILL_CURSEOFF,  $FF
-    db MONSTER_ARMYCRAB,   $00, $00, 7, $24, $AA, $00, $4E, $00, $64, $00, $96, $00, $69, $00, $48, $00, $FA, $32, $FA, $00, SKILL_INCREASE,  SKILL_METALCUT,  SKILL_NONE,      $FF
-    db MONSTER_MADDRAGON,  $00, $00, 7, $21, $DC, $00, $14, $00, $C8, $00, $46, $00, $96, $00, $14, $00, $FA, $00, $96, $96, SKILL_MASSACRE,  SKILL_EVILSLASH, SKILL_LUREDANCE, $FF
-    db MONSTER_ARMYCRAB,   $00, $00, 7, $24, $82, $00, $4E, $00, $6E, $00, $8C, $00, $69, $00, $48, $00, $C8, $32, $FA, $00, SKILL_INCREASE,  SKILL_METALCUT,  SKILL_CALLHELP,  $FF
-    db MONSTER_FIREWEED,   $00, $00, 7, $27, $A0, $00, $50, $00, $49, $00, $6C, $00, $6E, $00, $93, $00, $FA, $00, $96, $64, SKILL_BLAZEMORE, SKILL_DECHAOS,   SKILL_PALSYAIR,  $FF
-    db MONSTER_EVILBEAST,  $00, $00, 7, $25, $96, $00, $3C, $00, $AC, $00, $84, $00, $6A, $00, $BA, $00, $FA, $32, $FA, $96, SKILL_FIREBANE,  SKILL_ICEAIR,    SKILL_NONE,      $FF
-    db MONSTER_WYVERN,     $00, $00, 7, $27, $A0, $00, $4B, $00, $87, $00, $64, $00, $A0, $00, $CD, $00, $96, $96, $96, $FA, SKILL_SLEEPALL,  SKILL_HEALMORE,  SKILL_ICEAIR,    $FF
-    db MONSTER_GRIZZLY,    $00, $00, 7, $26, $FA, $00, $14, $00, $04, $01, $48, $00, $C8, $00, $50, $00, $FA, $00, $00, $C8, SKILL_SQUALLHIT, SKILL_BIGTRIP,   SKILL_NONE,      $FF
-    db MONSTER_LIONEX,     $00, $00, 7, $28, $04, $01, $64, $00, $7A, $00, $C8, $00, $D2, $00, $A0, $00, $96, $96, $96, $32, SKILL_INFERMOST, SKILL_HEALUS,    SKILL_VACUSLASH, $FF
-    db MONSTER_GRIZZLY,    $00, $00, 7, $26, $F0, $00, $14, $00, $FA, $00, $48, $00, $C8, $00, $50, $00, $FA, $00, $00, $C8, SKILL_TWINSLASH, SKILL_SQUALLHIT, SKILL_BIGTRIP,   $FF
-    db MONSTER_TOADSTOOL,  $00, $00, 7, $28, $FA, $00, $78, $00, $96, $00, $A0, $00, $96, $00, $78, $00, $00, $00, $00, $00, SKILL_NAPATTACK, SKILL_SLEEPAIR,  SKILL_MOUTHSHUT, $FF
-    db MONSTER_LIPSY,      $00, $00, 7, $26, $5E, $01, $6E, $00, $AA, $00, $64, $00, $B4, $00, $96, $00, $32, $00, $32, $00, SKILL_NAPATTACK, SKILL_AHHH,      SKILL_LUSHLICKS, $FF
-    db MONSTER_TOADSTOOL,  $00, $00, 7, $28, $FA, $00, $64, $00, $8C, $00, $96, $00, $78, $00, $78, $00, $00, $00, $00, $00, SKILL_NAPATTACK, SKILL_SLEEPAIR,  SKILL_MOUTHSHUT, $FF
-    db MONSTER_DANCEVEGI,  $00, $00, 7, $2C, $A0, $00, $50, $00, $54, $00, $C8, $00, $78, $00, $96, $00, $C8, $00, $C8, $64, SKILL_KO_DANCE,  SKILL_SIDESTEP,  SKILL_LUREDANCE, $FF
-    db MONSTER_VOODOLL,    $00, $00, 7, $21, $BE, $00, $78, $00, $A8, $00, $D8, $00, $96, $00, $AA, $00, $FA, $00, $C8, $FA, SKILL_SURROUND,  SKILL_PANICALL,  SKILL_DEFENCE,   $FF
-    db MONSTER_DANCEVEGI,  $00, $00, 7, $2C, $AA, $00, $55, $00, $56, $00, $BE, $00, $3C, $01, $96, $00, $C8, $00, $96, $64, SKILL_KO_DANCE,  SKILL_SIDESTEP,  SKILL_LUREDANCE, $FF
-    db MONSTER_SLIME,      $00, $00, 7, $26, $FA, $00, $78, $00, $C8, $00, $82, $00, $04, $01, $8C, $00, $64, $00, $64, $C8, SKILL_FIREBOLT,  SKILL_RADIANT,   SKILL_NONE,      $FF
-    db MONSTER_DRACKY,     $00, $00, 7, $26, $B4, $00, $96, $00, $AA, $00, $82, $00, $A0, $00, $C8, $00, $C8, $00, $C8, $96, SKILL_SLEEPALL,  SKILL_ROBMAGIC,  SKILL_RADIANT,   $FF
-    db MONSTER_ARMYANT,    $00, $00, 7, $21, $D2, $00, $64, $00, $FA, $00, $C8, $00, $96, $00, $5A, $00, $FA, $00, $00, $C8, SKILL_KAMIKAZE,  SKILL_YELLHELP,  SKILL_NAPATTACK, $FF
-    db MONSTER_METABBLE,   $00, $00, 7, $26, $0A, $00, $EA, $01, $6E, $00, $9E, $02, $FF, $01, $FF, $00, $FA, $FA, $FA, $00, SKILL_FIREBOLT,  SKILL_EXPLODET,  SKILL_NONE,      $FF
-    db MONSTER_ROBOSTER,   $00, $00, 7, $26, $36, $01, $91, $00, $E6, $00, $B4, $00, $68, $01, $D2, $00, $FA, $32, $32, $32, SKILL_QUADHITS,  SKILL_SQUALLHIT, SKILL_RAINSLASH, $FF
-    db MONSTER_METALDRAK,  $00, $00, 7, $2B, $90, $01, $69, $00, $FA, $00, $C8, $00, $FA, $00, $82, $00, $C8, $32, $96, $64, SKILL_MASSACRE,  SKILL_SANDSTORM, SKILL_NONE,      $FF
-    db MONSTER_CENTASAUR,  $00, $00, 7, $2B, $40, $01, $55, $00, $CD, $00, $F0, $00, $40, $01, $C8, $00, $FA, $32, $C8, $FA, SKILL_STOPSPELL, SKILL_FIRESLASH, SKILL_RAINSLASH, $FF
-    db MONSTER_OROCHI,     $00, $00, 7, $32, $2C, $01, $C8, $00, $A0, $00, $40, $01, $FA, $00, $B4, $00, $FA, $00, $FA, $C8, SKILL_FIRESLASH, SKILL_QUADHITS,  SKILL_SCORCHING, $FF
-    db MONSTER_SWORDGON,   $00, $00, 7, $30, $FA, $00, $64, $00, $B4, $00, $D2, $00, $64, $00, $82, $00, $C8, $C8, $C8, $FA, SKILL_CLEANCUT,  SKILL_RAINSLASH, SKILL_BLADED,    $FF
-    db MONSTER_ANDREAL,    $00, $00, 7, $30, $54, $01, $B4, $00, $B9, $00, $04, $01, $C8, $00, $FA, $00, $C8, $00, $C8, $C8, SKILL_INFERMOST, SKILL_SURROUND,  SKILL_POISONAIR, $FF
-    db MONSTER_UNICORN,    $00, $00, 7, $30, $DC, $00, $E6, $00, $AA, $00, $96, $00, $22, $01, $FF, $00, $FA, $FA, $FA, $FA, SKILL_HEALALL,   SKILL_REVIVE,    SKILL_ANTIDOTE,  $FF
-    db MONSTER_MADDRAGON,  $00, $00, 7, $21, $DC, $00, $14, $00, $31, $01, $78, $00, $C8, $00, $1E, $00, $FA, $00, $C8, $96, SKILL_MASSACRE,  SKILL_EVILSLASH, SKILL_LUREDANCE, $FF
-    db MONSTER_METALKING,  $00, $00, 7, $32, $08, $00, $BC, $02, $96, $00, $BC, $02, $FF, $01, $FF, $00, $FA, $FA, $FA, $C8, SKILL_ZAP,       SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_COATOL,     $00, $00, 7, $32, $2C, $01, $B4, $00, $DC, $00, $F0, $00, $40, $01, $C8, $00, $FA, $64, $96, $64, SKILL_EXPLODET,  SKILL_EVILSLASH, SKILL_BOLTSLASH, $FF
-    db MONSTER_RAINHAWK,   $00, $00, 7, $32, $7C, $01, $32, $00, $C8, $00, $DC, $00, $40, $01, $FF, $00, $C8, $96, $32, $FA, SKILL_MEGAMAGIC, SKILL_SURGE,     SKILL_NONE,      $FF
-    db MONSTER_LIZARDMAN,  $00, $00, 0, $14, $50, $00, $28, $00, $82, $00, $46, $00, $46, $00, $46, $00, $64, $64, $64, $64, SKILL_HEAL,      SKILL_VIVIFY,    SKILL_STRONGD,   $FF
-    db MONSTER_CATFLY,     $00, $00, 0, $14, $32, $00, $28, $00, $50, $00, $32, $00, $64, $00, $46, $00, $C8, $00, $32, $C8, SKILL_ROBMAGIC,  SKILL_UPPER,     SKILL_TWINHITS,  $FF
-    db MONSTER_DEADNITE,   $00, $00, 0, $14, $50, $00, $50, $00, $46, $00, $5A, $00, $3C, $00, $5A, $00, $FA, $32, $96, $96, SKILL_DRAGONCUT, SKILL_DEVILCUT,  SKILL_SMASHLIME, $FF
-    db MONSTER_ICEMAN,     $00, $00, 0, $14, $50, $00, $28, $00, $50, $00, $96, $00, $32, $00, $28, $00, $00, $00, $00, $00, SKILL_COVER,     SKILL_TAILWIND,  SKILL_NONE,      $FF
-    db MONSTER_RAYBURN,    $00, $00, 0, $1E, $96, $00, $50, $00, $A0, $00, $64, $00, $DC, $00, $5A, $00, $FA, $96, $64, $C8, SKILL_BLAZE,     SKILL_FIREBAL,   SKILL_BANG,      $FF
-    db MONSTER_EYEDER,     $00, $00, 0, $1E, $64, $00, $3C, $00, $82, $00, $78, $00, $8C, $00, $64, $00, $32, $96, $C8, $64, SKILL_ROBDANCE,  SKILL_SIDESTEP,  SKILL_LUREDANCE, $FF
-    db MONSTER_FANGSLIME,  $00, $00, 0, $1E, $5A, $00, $3C, $00, $AA, $00, $82, $00, $AA, $00, $5A, $00, $C8, $C8, $C8, $C8, SKILL_SUCKAIR,   SKILL_BIATTACK,  SKILL_BLADED,    $FF
-    db MONSTER_DROLL,      $00, $00, 0, $1E, $50, $00, $78, $00, $64, $00, $64, $00, $50, $00, $78, $00, $96, $00, $64, $64, SKILL_BIRDBLOW,  SKILL_SMASHLIME, SKILL_DRAKSLASH, $FF
-    db MONSTER_YETI,       $00, $00, 0, $26, $DC, $00, $8C, $00, $E6, $00, $D2, $00, $64, $00, $8C, $00, $96, $FA, $C8, $00, SKILL_STOPSPELL, SKILL_DANCESHUT, SKILL_MOUTHSHUT, $FF
-    db MONSTER_STONEMAN,   $00, $00, 0, $28, $2C, $01, $78, $00, $C8, $00, $F0, $00, $5A, $00, $AA, $00, $FA, $32, $32, $C8, SKILL_HEALUS,    SKILL_FAREWELL,  SKILL_AHHH,      $FF
-    db MONSTER_METALY,     $00, $00, 0, $14, $0A, $00, $C8, $00, $1E, $00, $2C, $01, $C8, $00, $32, $00, $00, $64, $64, $00, SKILL_COVER,     SKILL_LIFEDANCE, SKILL_NONE,      $FF
-    db MONSTER_SKELETOR,   $00, $00, 0, $28, $A0, $00, $AA, $00, $36, $01, $04, $01, $8C, $00, $B4, $00, $FA, $32, $FA, $96, SKILL_CLEANCUT,  SKILL_MULTICUT,  SKILL_GIGASLASH, $FF
-    db MONSTER_MIMIC,      $0A, $00, 4, $01, $0C, $00, $02, $00, $0A, $00, $06, $00, $05, $00, $08, $00, $C8, $64, $64, $32, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_MIMIC,      $1E, $00, 4, $05, $14, $00, $09, $00, $14, $00, $0C, $00, $0A, $00, $1E, $00, $C8, $64, $64, $32, SKILL_BLAZE,     SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_MIMIC,      $5A, $00, 4, $0A, $2D, $00, $14, $00, $28, $00, $14, $00, $14, $00, $50, $00, $C8, $64, $64, $32, SKILL_BLAZE,     SKILL_BEAT,      SKILL_NONE,      $FF
-    db MONSTER_MIMIC,      $2C, $01, 4, $14, $50, $00, $28, $00, $3C, $00, $28, $00, $28, $00, $82, $00, $C8, $64, $64, $32, SKILL_BLAZEMORE, SKILL_BEAT,      SKILL_NONE,      $FF
-    db MONSTER_MIMIC,      $58, $02, 4, $1E, $7D, $00, $3C, $00, $50, $00, $3C, $00, $3C, $00, $AA, $00, $C8, $64, $64, $32, SKILL_BLAZEMORE, SKILL_BEAT,      SKILL_NONE,      $FF
-    db MONSTER_MIMIC,      $B0, $04, 4, $26, $A5, $00, $50, $00, $64, $00, $50, $00, $50, $00, $D2, $00, $C8, $64, $64, $32, SKILL_BLAZEMOST, SKILL_DEFEAT,    SKILL_NONE,      $FF
-    db MONSTER_MIMIC,      $04, $0C, 4, $26, $27, $01, $A0, $00, $78, $00, $6E, $00, $5A, $00, $E1, $00, $C8, $64, $64, $32, SKILL_BLAZEMOST, SKILL_DEFEAT,    SKILL_NONE,      $FF
-    db MONSTER_MIMIC,      $BC, $17, 4, $26, $4A, $01, $DC, $00, $C8, $00, $96, $00, $6E, $00, $E1, $00, $C8, $64, $64, $32, SKILL_BLAZEMOST, SKILL_DEFEAT,    SKILL_NONE,      $FF
-    db MONSTER_SLIME,      $00, $00, 0, $01, $04, $00, $02, $00, $03, $00, $04, $00, $08, $00, $05, $00, $00, $FA, $64, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_DRAGONKID,  $00, $00, 0, $01, $08, $00, $04, $00, $0A, $00, $07, $00, $06, $00, $08, $00, $FA, $32, $00, $FA, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_ANTEATER,   $00, $00, 0, $01, $06, $00, $03, $00, $06, $00, $04, $00, $07, $00, $05, $00, $64, $96, $FA, $32, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_1EYECLOWN,  $00, $00, 0, $01, $07, $00, $08, $00, $05, $00, $03, $00, $06, $00, $0A, $00, $32, $64, $FA, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_BLIZZARDY,  $00, $00, 0, $01, $0F, $00, $0A, $00, $0C, $00, $08, $00, $12, $00, $0A, $00, $96, $C8, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_PHOENIX,    $00, $00, 0, $01, $0F, $00, $0A, $00, $0C, $00, $08, $00, $12, $00, $0A, $00, $96, $C8, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_LAVAMAN,    $00, $00, 0, $01, $12, $00, $08, $00, $0C, $00, $12, $00, $04, $00, $06, $00, $FA, $64, $32, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_ICEMAN,     $00, $00, 0, $01, $12, $00, $08, $00, $0C, $00, $12, $00, $04, $00, $06, $00, $FA, $64, $32, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_NITEWHIP,   $00, $00, 0, $01, $14, $00, $14, $00, $14, $00, $0F, $00, $19, $00, $0F, $00, $C8, $64, $C8, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_ARMORPEDE,  $00, $00, 0, $01, $1E, $00, $14, $00, $14, $00, $1E, $00, $0F, $00, $0F, $00, $C8, $96, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_MANEATER,   $00, $00, 0, $01, $1E, $00, $1E, $00, $19, $00, $14, $00, $14, $00, $14, $00, $C8, $32, $96, $64, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_ZAPBIRD,    $00, $00, 0, $01, $1E, $00, $19, $00, $1E, $00, $19, $00, $1E, $00, $14, $00, $96, $C8, $C8, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_TRUMPETER,  $00, $00, 0, $01, $23, $00, $19, $00, $23, $00, $1E, $00, $19, $00, $19, $00, $FA, $96, $64, $64, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_CHOPCLOWN,  $00, $00, 0, $01, $23, $00, $14, $00, $23, $00, $14, $00, $23, $00, $14, $00, $C8, $64, $C8, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_SPIKEROUS,  $00, $00, 0, $01, $28, $00, $1E, $00, $28, $00, $3C, $00, $14, $00, $1E, $00, $FA, $C8, $96, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_METABBLE,   $00, $00, 0, $01, $0A, $00, $32, $00, $14, $00, $C8, $00, $C8, $00, $1E, $00, $00, $96, $64, $00, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_STUBSUCK,   $2C, $01, 4, $14, $50, $00, $78, $00, $28, $00, $1E, $00, $1E, $00, $64, $00, $64, $32, $C8, $64, SKILL_SLEEPALL,  SKILL_ZOMBIECUT, SKILL_NONE,      $FF
-    db MONSTER_SERVANT,    $00, $00, 6, $37, $2C, $01, $5E, $01, $7C, $01, $DC, $00, $32, $01, $FF, $00, $FA, $32, $64, $FA, SKILL_BLAZEMOST, SKILL_BLIZZARD,  SKILL_NONE,      $FF
-    db $D7,                $00, $00, 7, $3C, $D0, $07, $C8, $00, $86, $01, $DC, $00, $90, $01, $FF, $00, $FA, $32, $64, $C8, SKILL_EVILSLASH, SKILL_BOLTSLASH, SKILL_RAINSLASH, $FF
-    db $D8,                $00, $00, 7, $1E, $C8, $00, $64, $00, $B4, $00, $96, $00, $50, $00, $96, $00, $FA, $FA, $FA, $FA, SKILL_HEALMORE,  SKILL_LIGHTNING, SKILL_COVER,     $FF
-    db $D9,                $00, $00, 7, $28, $2C, $01, $C8, $00, $D2, $00, $A0, $00, $78, $00, $64, $00, $FA, $FA, $FA, $FA, SKILL_TWINHITS,  SKILL_SCORCHING, SKILL_SICKLICK,  $FF
-    db $DA,                $00, $00, 7, $32, $C2, $01, $C8, $00, $FA, $00, $BE, $00, $96, $00, $C8, $00, $FA, $FA, $FA, $FA, SKILL_EVILSLASH, SKILL_SQUALLHIT, SKILL_RAINSLASH, $FF
-    db $DB,                $00, $00, 7, $3C, $BC, $02, $90, $01, $5E, $01, $2C, $01, $64, $00, $FA, $00, $FA, $FA, $FA, $FA, SKILL_ICESTORM,  SKILL_HELLBLAST, SKILL_DEMAGIC,   $FF
-    db $DC,                $00, $00, 7, $32, $E7, $03, $2C, $01, $2C, $01, $C8, $00, $C8, $00, $C8, $00, $FA, $00, $00, $FA, SKILL_WHITEFIRE, SKILL_WHITEAIR,  SKILL_DEMAGIC,   $FF
-    db MONSTER_DRAGONKID,  $E8, $03, 4, $17, $46, $00, $3C, $00, $64, $00, $3C, $00, $5A, $00, $5A, $00, $96, $32, $96, $FA, SKILL_BLAZEAIR,  SKILL_SLEEPAIR,  SKILL_DODGE,     $FF
-    db MONSTER_SKYDRAGON,  $00, $00, 0, $01, $14, $00, $1B, $00, $1C, $00, $14, $00, $0F, $00, $10, $00, $96, $32, $C8, $FA, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_SLIME,      $00, $00, 0, $01, $3C, $00, $32, $00, $40, $00, $36, $00, $78, $00, $41, $00, $00, $00, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_HAMMERMAN,  $46, $00, 5, $05, $19, $00, $0C, $00, $1C, $00, $0E, $00, $16, $00, $2D, $00, $C8, $32, $64, $C8, SKILL_BOLTSLASH, SKILL_VACUSLASH, SKILL_ICESLASH,  $FF
-    db MONSTER_GOATEGON,   $50, $00, 5, $06, $1A, $00, $0A, $00, $20, $00, $16, $00, $1A, $00, $19, $00, $FA, $00, $96, $C8, SKILL_TWINSLASH, SKILL_RAMMING,   SKILL_BESERKER,  $FF
-    db MONSTER_STAGBUG,    $53, $00, 5, $05, $1B, $00, $0C, $00, $1A, $00, $1C, $00, $0F, $00, $1C, $00, $FA, $64, $32, $96, SKILL_VACUSLASH, SKILL_ICESLASH,  SKILL_METALCUT,  $FF
-    db MONSTER_SPOTKING,   $56, $00, 5, $06, $20, $00, $14, $00, $19, $00, $14, $00, $20, $00, $2B, $00, $C8, $64, $64, $FA, SKILL_BIATTACK,  SKILL_CALLHELP,  SKILL_RAINSLASH, $FF
-    db MONSTER_LIZARDFLY,  $5A, $00, 5, $06, $24, $00, $10, $00, $1C, $00, $10, $00, $0A, $00, $1E, $00, $C8, $00, $C8, $32, SKILL_FIREAIR,   SKILL_FRIGIDAIR, SKILL_NONE,      $FF
-    db MONSTER_DUCKKITE,   $58, $00, 5, $05, $16, $00, $18, $00, $19, $00, $15, $00, $1F, $00, $22, $00, $C8, $32, $00, $64, SKILL_BEASTCUT,  SKILL_BIRDBLOW,  SKILL_SMASHLIME, $FF
-    db MONSTER_DARKEYE,    $51, $00, 5, $06, $16, $00, $2A, $00, $15, $00, $0E, $00, $24, $00, $29, $00, $64, $32, $96, $96, SKILL_TWINHITS,  SKILL_MAGICBACK, SKILL_SIDESTEP,  $FF
-    db MONSTER_CACTIBALL,  $64, $00, 5, $06, $20, $00, $25, $00, $19, $00, $18, $00, $11, $00, $26, $00, $64, $64, $C8, $64, SKILL_LUREDANCE, SKILL_LUSHLICKS, SKILL_BLADED,    $FF
-    db MONSTER_SNAPPER,    $32, $00, 5, $05, $1E, $00, $17, $00, $14, $00, $0A, $00, $0C, $00, $22, $00, $96, $32, $FA, $C8, SKILL_BEAT,      SKILL_SLOW,      SKILL_SANDSTORM, $FF
-    db MONSTER_REAPER,     $4C, $00, 5, $06, $1F, $00, $11, $00, $1D, $00, $0D, $00, $16, $00, $27, $00, $64, $00, $96, $64, SKILL_STOPSPELL, SKILL_DANCESHUT, SKILL_MOUTHSHUT, $FF
-    db MONSTER_MISTYWING,  $44, $00, 5, $06, $23, $00, $22, $00, $10, $00, $18, $00, $20, $00, $1E, $00, $32, $00, $FA, $96, SKILL_SLEEP,     SKILL_WARCRY,    SKILL_TAILWIND,  $FF
-    db MONSTER_GASGON,     $4B, $00, 5, $05, $1A, $00, $06, $00, $22, $00, $19, $00, $0E, $00, $20, $00, $96, $96, $96, $64, SKILL_HEAL,      SKILL_DODGE,     SKILL_NONE,      $FF
-    db MONSTER_SLIMENITE,  $3F, $00, 5, $05, $1D, $00, $18, $00, $1E, $00, $12, $00, $22, $00, $21, $00, $96, $64, $32, $FA, SKILL_UPPER,     SKILL_SPEED,     SKILL_HEAL,      $FF
-    db MONSTER_TAILEATER,  $4C, $00, 5, $06, $17, $00, $14, $00, $15, $00, $14, $00, $18, $00, $1C, $00, $C8, $96, $96, $32, SKILL_MAGICBACK, SKILL_HEAL,      SKILL_NONE,      $FF
-    db MONSTER_TREEBOY,    $4C, $00, 5, $05, $25, $00, $2D, $00, $10, $00, $15, $00, $13, $00, $25, $00, $64, $96, $C8, $C8, SKILL_ICEBOLT,   SKILL_HEAL,      SKILL_VIVIFY,    $FF
-    db MONSTER_AGDEVIL,    $56, $00, 5, $05, $1E, $00, $24, $00, $20, $00, $17, $00, $17, $00, $2D, $00, $C8, $96, $C8, $C8, SKILL_BESERKER,  SKILL_COVER,     SKILL_STRONGD,   $FF
-    db MONSTER_WYVERN,     $B7, $00, 5, $0C, $2E, $00, $20, $00, $34, $00, $1C, $00, $30, $00, $54, $00, $C8, $32, $64, $00, SKILL_BIATTACK,  SKILL_SQUALLHIT, SKILL_WINDBEAST, $FF
-    db MONSTER_AMBERWEED,  $BA, $00, 5, $0D, $24, $00, $40, $00, $32, $00, $24, $00, $27, $00, $2A, $00, $FA, $00, $00, $96, SKILL_FIREBAL,   SKILL_DEVILCUT,  SKILL_BLAZEAIR,  $FF
-    db MONSTER_ARCDEMON,   $C8, $00, 5, $0C, $30, $00, $2E, $00, $35, $00, $2A, $00, $12, $00, $58, $00, $C8, $64, $C8, $96, SKILL_FIRESLASH, SKILL_VACUSLASH, SKILL_ICESLASH,  $FF
-    db MONSTER_ICEMAN,     $D8, $00, 3, $0C, $26, $00, $29, $00, $2F, $00, $28, $00, $15, $00, $33, $00, $C8, $00, $00, $C8, SKILL_MASSACRE,  SKILL_SQUALLHIT, SKILL_BRANCHING, $FF
-    db MONSTER_SLIMEBORG,  $CB, $00, 5, $0C, $34, $00, $18, $00, $2B, $00, $1F, $00, $31, $00, $3D, $00, $FA, $64, $64, $96, SKILL_CLEANCUT,  SKILL_PSYCHEUP,  SKILL_WARCRY,    $FF
-    db MONSTER_ARMYCRAB,   $BE, $00, 5, $0C, $2E, $00, $1F, $00, $32, $00, $24, $00, $1C, $00, $32, $00, $64, $00, $96, $32, SKILL_CURSE,     SKILL_ODDDANCE,  SKILL_DRAKSLASH, $FF
-    db MONSTER_SHADOW,     $A6, $00, 5, $0D, $3B, $00, $28, $00, $36, $00, $32, $00, $1A, $00, $2E, $00, $96, $32, $C8, $96, SKILL_SLEEP,     SKILL_ROBMAGIC,  SKILL_SPEEDUP,   $FF
-    db MONSTER_LIZARDMAN,  $B0, $00, 5, $0D, $37, $00, $22, $00, $34, $00, $22, $00, $20, $00, $30, $00, $C8, $64, $C8, $00, SKILL_PANICALL,  SKILL_LUREDANCE, SKILL_LEGSWEEP,  $FF
-    db MONSTER_MADHORNET,  $D2, $00, 6, $0D, $3C, $00, $25, $00, $36, $00, $1F, $00, $36, $00, $37, $00, $96, $32, $C8, $FA, SKILL_CURSE,     SKILL_SANDSTORM, SKILL_TAILWIND,  $FF
-    db MONSTER_FIREWEED,   $99, $00, 5, $0C, $31, $00, $2A, $00, $28, $00, $1D, $00, $1E, $00, $2E, $00, $64, $00, $FA, $96, SKILL_PANIDANCE, SKILL_LUSHLICKS, SKILL_WARCRY,    $FF
-    db MONSTER_WINDMERGE,  $C4, $00, 5, $0C, $2C, $00, $2D, $00, $26, $00, $28, $00, $28, $00, $33, $00, $96, $64, $32, $C8, SKILL_HEAL,      SKILL_COVER,     SKILL_TAILWIND,  $FF
-    db MONSTER_ORC,        $B4, $00, 5, $0D, $33, $00, $1D, $00, $24, $00, $19, $00, $2C, $00, $39, $00, $C8, $C8, $C8, $32, SKILL_HEAL,      SKILL_VIVIFY,    SKILL_LUREDANCE, $FF
-    db MONSTER_DROLL,      $96, $00, 5, $0C, $27, $00, $32, $00, $28, $00, $1C, $00, $1F, $00, $37, $00, $00, $C8, $C8, $FA, SKILL_HEAL,      SKILL_THICKFOG,  SKILL_COVER,     $FF
-    db MONSTER_PHOENIX,    $C1, $00, 5, $0C, $32, $00, $2F, $00, $35, $00, $1B, $00, $29, $00, $2F, $00, $C8, $C8, $C8, $FA, SKILL_HEAL,      SKILL_BLAZEAIR,  SKILL_TAILWIND,  $FF
-    db MONSTER_GIANTMOTH,  $AA, $00, 5, $0C, $29, $00, $2E, $00, $28, $00, $24, $00, $1D, $00, $39, $00, $C8, $96, $C8, $64, SKILL_HEAL,      SKILL_POISONHIT, SKILL_ODDDANCE,  $FF
-    db MONSTER_GRIZZLY,    $B7, $00, 6, $0D, $39, $00, $2B, $00, $3E, $00, $17, $00, $30, $00, $18, $00, $FA, $FA, $FA, $FA, SKILL_HEAL,      SKILL_MASSACRE,  SKILL_RADIANT,   $FF
-    db MONSTER_WILDAPE,    $F4, $01, 5, $14, $41, $00, $2E, $00, $4E, $00, $26, $00, $33, $00, $2F, $00, $FA, $00, $00, $64, SKILL_CHARGEUP,  SKILL_METALCUT,  SKILL_CLEANCUT,  $FF
-    db MONSTER_BLIZZARDY,  $01, $02, 5, $14, $48, $00, $35, $00, $47, $00, $2E, $00, $2E, $00, $39, $00, $C8, $64, $64, $96, SKILL_INFERMORE, SKILL_TWINSLASH, SKILL_HIGHJUMP,  $FF
-    db MONSTER_EVILWAND,   $0E, $02, 5, $15, $42, $00, $37, $00, $3B, $00, $2D, $00, $35, $00, $2D, $00, $FA, $00, $C8, $64, SKILL_BLAZEMORE, SKILL_BOOM,      SKILL_CHARGEUP,  $FF
-    db MONSTER_LAVAMAN,    $22, $02, 5, $15, $50, $00, $2B, $00, $58, $00, $31, $00, $28, $00, $33, $00, $C8, $32, $32, $96, SKILL_BLAZEMORE, SKILL_FIRESLASH, SKILL_METALCUT,  $FF
-    db MONSTER_CURSELAMP,  $29, $02, 5, $14, $3C, $00, $46, $00, $3E, $00, $32, $00, $2A, $00, $3B, $00, $FA, $64, $64, $00, SKILL_SNOWSTORM, SKILL_SACRIFICE, SKILL_DRAGONCUT, $FF
-    db MONSTER_MADSPIRIT,  $22, $02, 5, $14, $3F, $00, $44, $00, $55, $00, $37, $00, $40, $00, $3C, $00, $96, $00, $C8, $64, SKILL_PANICALL,  SKILL_DEFENCE,   SKILL_BOUNCE,    $FF
-    db MONSTER_GISMO,      $33, $02, 5, $15, $39, $00, $2F, $00, $45, $00, $34, $00, $48, $00, $2E, $00, $96, $32, $96, $64, SKILL_SLEEPALL,  SKILL_SLOWALL,   SKILL_POISONAIR, $FF
-    db MONSTER_DEADNITE,   $04, $02, 5, $14, $50, $00, $41, $00, $48, $00, $43, $00, $34, $00, $4D, $00, $64, $00, $64, $64, SKILL_SPEEDUP,   SKILL_WARCRY,    SKILL_DANCESHUT, $FF
-    db MONSTER_ROGUENITE,  $15, $02, 5, $15, $4B, $00, $3D, $00, $67, $00, $78, $00, $28, $00, $3D, $00, $C8, $64, $C8, $C8, SKILL_TAKEMAGIC, SKILL_CURSE,     SKILL_SICKLICK,  $FF
-    db MONSTER_KINGCOBRA,  $33, $02, 5, $15, $64, $00, $27, $00, $50, $00, $48, $00, $6E, $00, $29, $00, $96, $32, $96, $00, SKILL_BEAT,      SKILL_TWINHITS,  SKILL_EERIELITE, $FF
-    db MONSTER_PHOENIX,    $15, $02, 5, $14, $51, $00, $2E, $00, $4D, $00, $33, $00, $42, $00, $28, $00, $C8, $96, $00, $96, SKILL_HEAL,      SKILL_MAGICWALL, SKILL_VACUSLASH, $FF
-    db MONSTER_DRAGON,     $33, $02, 5, $15, $69, $00, $24, $00, $53, $00, $3F, $00, $30, $00, $40, $00, $C8, $C8, $C8, $C8, SKILL_HEAL,      SKILL_CALLHELP,  SKILL_COVER,     $FF
-    db MONSTER_METALY,     $A0, $0F, 6, $14, $0A, $00, $C8, $00, $2D, $00, $2C, $01, $FA, $00, $42, $00, $FA, $C8, $C8, $FA, SKILL_HEAL,      SKILL_MASSACRE,  SKILL_GUARDIAN,  $FF
-    db MONSTER_LANDOWL,    $04, $02, 5, $15, $5F, $00, $39, $00, $6E, $00, $39, $00, $35, $00, $30, $00, $C8, $C8, $C8, $FA, SKILL_INFERMORE, SKILL_HEAL,      SKILL_SURGE,     $FF
-    db MONSTER_EVILBEAST,  $22, $02, 5, $14, $54, $00, $35, $00, $6E, $00, $47, $00, $40, $00, $64, $00, $FA, $FA, $FA, $00, SKILL_BOLT,      SKILL_HEAL,      SKILL_BIGTRIP,   $FF
-    db MONSTER_LIPSY,      $4D, $01, 5, $14, $34, $00, $2B, $00, $2E, $00, $2E, $00, $24, $00, $39, $00, $FA, $FA, $FA, $FA, SKILL_HEALUS,    SKILL_FAREWELL,  SKILL_KAMIKAZE,  $FF
-    db MONSTER_LIONEX,     $E8, $03, 5, $1A, $6E, $00, $46, $00, $64, $00, $6A, $00, $7A, $00, $75, $00, $FA, $96, $C8, $C8, SKILL_FIREBANE,  SKILL_SUCKAIR,   SKILL_SCORCHING, $FF
-    db MONSTER_RAYBURN,    $EE, $03, 5, $1A, $5D, $00, $37, $00, $68, $00, $3E, $00, $88, $00, $41, $00, $C8, $00, $00, $FA, SKILL_LIGHTNING, SKILL_ICESTORM,  SKILL_PARALYZE,  $FF
-    db MONSTER_MANEATER,   $09, $04, 5, $1B, $58, $00, $72, $00, $5D, $00, $2D, $00, $2A, $00, $39, $00, $C8, $64, $96, $C8, SKILL_ZAP,       SKILL_ROCKTHROW, SKILL_LUSHLICKS, $FF
-    db MONSTER_ROTRAVEN,   $FC, $03, 5, $1A, $43, $00, $54, $00, $72, $00, $46, $00, $78, $00, $66, $00, $96, $32, $64, $00, SKILL_BEAT,      SKILL_VACUSLASH, SKILL_BIATTACK,  $FF
-    db MONSTER_OGRE,       $13, $04, 5, $1B, $86, $00, $48, $00, $78, $00, $6B, $00, $34, $00, $73, $00, $32, $00, $00, $00, SKILL_TWINSLASH, SKILL_BEASTCUT,  SKILL_VACUUM,    $FF
-    db MONSTER_IRONTURT,   $FC, $03, 5, $1A, $8C, $00, $3C, $00, $82, $00, $64, $00, $3D, $00, $5B, $00, $64, $64, $64, $64, SKILL_SACRIFICE, SKILL_BARRIER,   SKILL_TATSUCALL, $FF
-    db MONSTER_COPYCAT,    $2A, $04, 5, $1A, $37, $00, $2D, $00, $52, $00, $3D, $00, $40, $00, $39, $00, $96, $96, $96, $32, SKILL_MAGICWALL, SKILL_IMITATE,   SKILL_THICKFOG,  $FF
-    db MONSTER_DARKCRAB,   $EE, $03, 5, $19, $82, $00, $40, $00, $88, $00, $6F, $00, $36, $00, $46, $00, $32, $00, $96, $FA, SKILL_STOPSPELL, SKILL_ROBDANCE,  SKILL_SICKLICK,  $FF
-    db MONSTER_WINGSNAKE,  $24, $04, 5, $1A, $84, $00, $4D, $00, $78, $00, $59, $00, $55, $00, $4E, $00, $64, $32, $64, $64, SKILL_DEFENCE,   SKILL_PANIDANCE, SKILL_BRANCHING, $FF
-    db MONSTER_DANCEVEGI,  $2A, $04, 5, $19, $53, $00, $3D, $00, $3B, $00, $78, $00, $9C, $00, $55, $00, $FA, $FA, $FA, $FA, SKILL_TWINHITS,  SKILL_LUREDANCE, SKILL_MOUTHSHUT, $FF
-    db MONSTER_GRENDAL,    $E4, $03, 5, $1A, $63, $00, $29, $00, $87, $00, $9B, $00, $70, $00, $71, $00, $96, $96, $96, $64, SKILL_HEALMORE,  SKILL_PSYCHEUP,  SKILL_LIFESONG,  $FF
-    db MONSTER_JEWELBAG,   $1A, $04, 5, $19, $44, $00, $4C, $00, $7B, $00, $7E, $00, $28, $00, $82, $00, $C8, $C8, $C8, $32, SKILL_HEALUS,    SKILL_SIDESTEP,  SKILL_DIAGOCALL, $FF
-    db MONSTER_PHOENIX,    $10, $04, 5, $1A, $6E, $00, $41, $00, $7D, $00, $46, $00, $64, $00, $4B, $00, $64, $64, $64, $FA, SKILL_CALLHELP,  SKILL_POISONAIR, SKILL_HUSTLE,    $FF
-    db MONSTER_GOATEGON,   $FF, $03, 5, $19, $85, $00, $6B, $00, $9B, $00, $52, $00, $62, $00, $80, $00, $C8, $96, $C8, $96, SKILL_HEALALL,   SKILL_VIVIFY,    SKILL_SQUALLHIT, $FF
-    db MONSTER_FACETREE,   $10, $04, 5, $1A, $7D, $00, $77, $00, $43, $00, $4A, $00, $33, $00, $56, $00, $32, $00, $32, $00, SKILL_MAGICWALL, SKILL_GUARDIAN,  SKILL_DRAKSLASH, $FF
-    db MONSTER_SWORDGON,   $45, $04, 5, $19, $7E, $00, $5F, $00, $5F, $00, $80, $00, $2E, $00, $43, $00, $FA, $C8, $C8, $FA, SKILL_ZAP,       SKILL_INCREASE,  SKILL_HEALMORE,  $FF
-    db MONSTER_SUPERTEN,   $82, $06, 5, $21, $9C, $00, $3C, $00, $4D, $00, $3C, $00, $88, $00, $4E, $00, $64, $00, $64, $C8, SKILL_FIREBOLT,  SKILL_FIRESLASH, SKILL_QUADHITS,  $FF
-    db MONSTER_MADMIRROR,  $82, $06, 5, $21, $A4, $00, $3E, $00, $47, $00, $40, $00, $AA, $00, $78, $00, $96, $32, $32, $FA, SKILL_BOOM,      SKILL_BIRDBLOW,  SKILL_RAINSLASH, $FF
-    db MONSTER_YETI,       $AA, $06, 5, $22, $C6, $00, $6E, $00, $AA, $00, $AA, $00, $50, $00, $5E, $00, $FA, $96, $64, $64, SKILL_INFERMOST, SKILL_HIGHJUMP,  SKILL_VACUUM,    $FF
-    db MONSTER_SKULLGON,   $B8, $06, 5, $21, $A4, $00, $3F, $00, $84, $00, $AE, $00, $55, $00, $A9, $00, $C8, $64, $32, $FA, SKILL_BLAZEMOST, SKILL_TWINSLASH, SKILL_SQUALLHIT, $FF
-    db MONSTER_CENTASAUR,  $DC, $06, 5, $21, $C8, $00, $7E, $00, $E1, $00, $0E, $01, $40, $01, $DC, $00, $FA, $32, $32, $96, SKILL_SACRIFICE, SKILL_VACUUM,    SKILL_POISONHIT, $FF
-    db MONSTER_EVILARMOR,  $B4, $06, 5, $22, $B9, $00, $66, $00, $E5, $00, $A4, $01, $87, $00, $94, $00, $C8, $32, $FA, $64, SKILL_SLEEPALL,  SKILL_BARRIER,   SKILL_RAINSLASH, $FF
-    db MONSTER_VOODOLL,    $E0, $06, 5, $21, $9A, $00, $94, $00, $A8, $00, $A4, $00, $78, $00, $85, $00, $64, $32, $96, $C8, SKILL_BOUNCE,    SKILL_POISONAIR, SKILL_WARCRY,    $FF
-    db MONSTER_GOLEM,      $BB, $06, 5, $21, $D2, $00, $3B, $00, $6C, $00, $B6, $00, $34, $00, $C0, $00, $64, $64, $64, $FA, SKILL_PANIDANCE, SKILL_ROBDANCE,  SKILL_HUSTLE,    $FF
-    db MONSTER_LAVAMAN,    $B1, $06, 5, $21, $B4, $00, $3F, $00, $9E, $00, $B3, $00, $57, $00, $65, $00, $C8, $32, $C8, $96, SKILL_CURSE,     SKILL_EERIELITE, SKILL_SAMSICALL, $FF
-    db MONSTER_BLIZZARDY,  $D2, $06, 5, $21, $B6, $00, $67, $00, $79, $00, $74, $00, $98, $00, $6B, $00, $C8, $64, $C8, $96, SKILL_SANDSTORM, SKILL_SICKLICK,  SKILL_STORMWIND, $FF
-    db MONSTER_MADCAT,     $BE, $06, 5, $22, $A6, $00, $40, $00, $9F, $00, $7C, $00, $A3, $00, $6B, $00, $96, $96, $96, $FA, SKILL_HEALMORE,  SKILL_ICESLASH,  SKILL_LUREDANCE, $FF
-    db MONSTER_STONEMAN,   $CC, $06, 5, $22, $DC, $00, $60, $00, $93, $00, $DC, $00, $47, $00, $7D, $00, $C8, $96, $C8, $C8, SKILL_FIREBOLT,  SKILL_HEALUS,    SKILL_SUCKALL,   $FF
-    db MONSTER_BIGEYE,     $A7, $06, 5, $21, $9B, $00, $86, $00, $A2, $00, $7A, $00, $89, $00, $64, $00, $FA, $FA, $FA, $FA, SKILL_HEALUS,    SKILL_FAREWELL,  SKILL_HIGHJUMP,  $FF
-    db MONSTER_METALY,     $BC, $17, 6, $1E, $0F, $00, $2C, $01, $41, $00, $90, $01, $5E, $01, $56, $00, $FA, $C8, $FA, $64, SKILL_HEAL,      SKILL_KAMIKAZE,  SKILL_SUCKALL,   $FF
-    db MONSTER_GASGON,     $D2, $06, 5, $22, $A4, $00, $3A, $00, $43, $00, $75, $00, $50, $00, $61, $00, $96, $32, $64, $00, SKILL_HEALMORE,  SKILL_YELLHELP,  SKILL_SUCKALL,   $FF
-    db MONSTER_GIGANTES,   $C2, $06, 5, $21, $D2, $00, $14, $00, $E2, $00, $54, $00, $80, $00, $12, $00, $64, $64, $64, $64, SKILL_IMITATE,   SKILL_GUARDIAN,  SKILL_SMASHLIME, $FF
-    db MONSTER_SKELETOR,   $69, $0D, 5, $27, $91, $00, $A0, $00, $10, $01, $E0, $00, $80, $00, $A6, $00, $C8, $32, $32, $96, SKILL_BIRDBLOW,  SKILL_FOCUS,     SKILL_DRAKSLASH, $FF
-    db MONSTER_SNAPPER,    $C0, $0D, 5, $28, $BA, $00, $A1, $00, $EA, $00, $7C, $00, $7F, $00, $76, $00, $FA, $00, $64, $C8, SKILL_SUCKAIR,   SKILL_WHITEFIRE, SKILL_BRANCHING, $FF
-    db MONSTER_LAVAMAN,    $DA, $0D, 5, $26, $BE, $00, $71, $00, $C6, $00, $9F, $00, $8C, $00, $65, $00, $C8, $32, $32, $96, SKILL_THORDAIN,  SKILL_TWINSLASH, SKILL_SQUALLHIT, $FF
-    db MONSTER_PHOENIX,    $CD, $0D, 5, $28, $B5, $00, $74, $00, $B1, $00, $79, $00, $9B, $00, $51, $00, $C8, $32, $00, $96, SKILL_DEVILCUT,  SKILL_NAPATTACK, SKILL_BAZOOCALL, $FF
-    db MONSTER_KINGSLIME,  $9B, $0D, 5, $26, $FA, $00, $5E, $00, $DA, $00, $B5, $00, $CE, $00, $C8, $00, $FA, $96, $00, $C8, SKILL_BLIZZARD,  SKILL_EVILSLASH, SKILL_DRAGONCUT, $FF
-    db MONSTER_MADPECKER,  $BC, $0D, 5, $26, $8B, $00, $58, $00, $C5, $00, $73, $00, $BA, $00, $7F, $00, $C8, $00, $C8, $64, SKILL_SLEEPALL,  SKILL_TWINHITS,  SKILL_BEASTCUT,  $FF
-    db MONSTER_BOMBCRAG,   $A8, $0D, 5, $28, $04, $01, $AE, $00, $9C, $00, $E9, $00, $14, $00, $86, $00, $96, $32, $96, $00, SKILL_TRANSFORM, SKILL_PALSYAIR,  SKILL_BIGTRIP,   $FF
-    db MONSTER_FANGSLIME,  $E1, $0D, 5, $21, $B8, $00, $4E, $00, $A6, $00, $97, $00, $37, $01, $8D, $00, $64, $00, $C8, $FA, SKILL_INCREASE,  SKILL_EERIELITE, SKILL_WARCRY,    $FF
-    db MONSTER_ZAPBIRD,    $FF, $0D, 5, $27, $E0, $00, $57, $00, $BB, $00, $A7, $00, $D2, $00, $DE, $00, $64, $64, $64, $32, SKILL_ULTRADOWN, SKILL_DANCESHUT, SKILL_MOUTHSHUT, $FF
-    db MONSTER_SPIKEROUS,  $8A, $0D, 5, $1C, $CC, $00, $12, $00, $B1, $00, $2C, $01, $51, $00, $68, $00, $C8, $C8, $C8, $64, SKILL_BOUNCE,    SKILL_POISONHIT, SKILL_THICKFOG,  $FF
-    db MONSTER_CENTASAUR,  $D4, $0D, 5, $28, $FB, $00, $7C, $00, $22, $01, $60, $01, $52, $01, $D3, $00, $C8, $C8, $C8, $C8, SKILL_VIVIFY,    SKILL_FIRESLASH, SKILL_AHHH,      $FF
-    db MONSTER_BOMBCRAG,   $9B, $0D, 5, $27, $D2, $00, $9D, $00, $8A, $00, $EF, $00, $12, $00, $84, $00, $64, $64, $64, $96, SKILL_VACUSLASH, SKILL_SURGE,     SKILL_MOUTHSHUT, $FF
-    db MONSTER_SKYDRAGON,  $BC, $0D, 5, $21, $A5, $00, $A4, $00, $C6, $00, $AF, $00, $7B, $00, $70, $00, $FA, $FA, $FA, $FA, SKILL_SACRIFICE, SKILL_SPEEDUP,   SKILL_REVIVE,    $FF
-    db MONSTER_BATTLEREX,  $91, $0D, 5, $27, $BB, $00, $7A, $00, $1E, $01, $BB, $00, $C8, $00, $8D, $00, $C8, $96, $96, $00, SKILL_WHITEAIR,  SKILL_CURSE,     SKILL_HUSTLE,    $FF
-    db MONSTER_FUNKYBIRD,  $D4, $0D, 5, $27, $B2, $00, $C5, $00, $97, $00, $E3, $00, $8F, $00, $C6, $00, $32, $32, $32, $00, SKILL_INCREASE,  SKILL_HEALUS,    SKILL_LIGHTNING, $FF
-    db MONSTER_STONEMAN,   $A8, $0D, 5, $28, $DE, $00, $7E, $00, $C7, $00, $01, $01, $6B, $00, $B8, $00, $64, $64, $64, $64, SKILL_STOPSPELL, SKILL_BAZOOCALL, SKILL_GUARDIAN,  $FF
-    db MONSTER_GULPBEAST,  $E4, $1B, 6, $26, $54, $01, $5A, $00, $2C, $01, $B9, $00, $96, $00, $5A, $00, $FA, $00, $64, $32, SKILL_BLIZZARD,  SKILL_HIGHJUMP,  SKILL_ZOMBIECUT, $FF
-    db MONSTER_GREATDRAK,  $5C, $1C, 6, $2D, $5E, $01, $82, $00, $F0, $00, $D2, $00, $AA, $00, $D2, $00, $FA, $00, $32, $C8, SKILL_INFERMOST, SKILL_CHARGEUP,  SKILL_SMASHLIME, $FF
-    db MONSTER_TRUMPETER,  $38, $1D, 6, $2D, $BE, $00, $96, $00, $4A, $01, $D2, $00, $BE, $00, $82, $00, $C8, $32, $64, $C8, SKILL_BLAZEMOST, SKILL_BOLTSLASH, SKILL_DEVILCUT,  $FF
-    db MONSTER_METALDRAK,  $9C, $1E, 6, $2B, $36, $01, $69, $00, $F0, $00, $DC, $00, $FA, $00, $82, $00, $96, $32, $32, $64, SKILL_EXPLODET,  SKILL_EVILSLASH, SKILL_ICESLASH,  $FF
-    db MONSTER_ZAPBIRD,    $FD, $1E, 6, $2D, $04, $01, $78, $00, $D2, $00, $C8, $00, $F0, $00, $FF, $00, $FA, $32, $96, $64, SKILL_MASSACRE,  SKILL_VACUSLASH, SKILL_VACUUM,    $FF
-    db MONSTER_WHIPBIRD,   $69, $1C, 6, $2D, $E0, $01, $C8, $00, $96, $00, $FA, $00, $F0, $00, $E6, $00, $C8, $C8, $96, $FA, SKILL_FAREWELL,  SKILL_QUADHITS,  SKILL_SANDSTORM, $FF
-    db MONSTER_METABBLE,   $A8, $76, 6, $26, $17, $00, $EA, $01, $BE, $00, $9E, $02, $FF, $01, $FF, $00, $64, $32, $96, $00, SKILL_BOUNCE,    SKILL_RAMMING,   SKILL_YELLHELP,  $FF
-    db MONSTER_BALZAK,     $67, $1E, 6, $21, $4A, $01, $A5, $00, $D2, $00, $40, $01, $18, $01, $B4, $00, $FA, $64, $C8, $FA, SKILL_SLEEPALL,  SKILL_PARALYZE,  SKILL_LUREDANCE, $FF
-    db MONSTER_MADDRAGON,  $08, $1C, 6, $21, $C8, $00, $18, $00, $4F, $01, $82, $00, $BE, $00, $1E, $00, $FA, $00, $C8, $96, SKILL_SUCKAIR,   SKILL_WHITEAIR,  SKILL_MOUTHSHUT, $FF
-    db MONSTER_GOATHORN,   $20, $1C, 6, $21, $96, $00, $BE, $00, $DC, $00, $96, $00, $BE, $00, $F0, $00, $C8, $96, $FA, $00, SKILL_DEFENCE,   SKILL_CURSE,     SKILL_SICKLICK,  $FF
-    db MONSTER_DEADNOBLE,  $74, $1D, 6, $2E, $54, $01, $F0, $00, $54, $01, $18, $01, $18, $01, $D7, $00, $C8, $FA, $C8, $C8, SKILL_HEALALL,   SKILL_FIRESLASH, SKILL_DODGE,     $FF
-    db MONSTER_ROBOSTER,   $79, $1B, 6, $26, $18, $01, $F5, $00, $54, $01, $E6, $00, $68, $01, $D2, $00, $FA, $FA, $FA, $32, SKILL_HEALUS,    SKILL_MULTICUT,  SKILL_STORMWIND, $FF
-    db MONSTER_ANDREAL,    $CC, $1B, 6, $2D, $54, $01, $18, $01, $C8, $00, $40, $01, $C8, $00, $FA, $00, $FA, $FA, $C8, $C8, SKILL_REVIVE,    SKILL_SURGE,     SKILL_SUCKALL,   $FF
-    db MONSTER_UNICORN,    $22, $25, 6, $2D, $C8, $00, $4A, $01, $C8, $00, $96, $00, $22, $01, $FF, $00, $C8, $FA, $FA, $FA, SKILL_SQUALLHIT, SKILL_LUREDANCE, SKILL_GUARDIAN,  $FF
-    db MONSTER_DIGSTER,    $79, $1B, 6, $2E, $0B, $01, $73, $00, $C5, $00, $01, $01, $6E, $00, $B9, $00, $96, $96, $96, $32, SKILL_HUSTLE,    SKILL_LIFEDANCE, SKILL_BRANCHING, $FF
-    db MONSTER_COPYCAT,    $59, $1D, 6, $26, $D2, $00, $D2, $00, $78, $00, $A7, $00, $8A, $00, $C8, $00, $FA, $FA, $FA, $FA, SKILL_TRANSFORM, SKILL_KAMIKAZE,  SKILL_WHITEAIR,  $FF
-    db MONSTER_GREATDRAK,  $58, $34, 6, $32, $72, $01, $96, $00, $FA, $00, $DC, $00, $BE, $00, $E6, $00, $FA, $FA, $FA, $FA, SKILL_TWINHITS,  SKILL_MULTICUT,  SKILL_SICKLICK,  $FF
-    db MONSTER_ROBOSTER,   $BC, $34, 6, $26, $2C, $01, $04, $01, $5E, $01, $F0, $00, $7C, $01, $FA, $00, $FA, $FA, $FA, $FA, SKILL_HEALMORE,  SKILL_FOCUS,     SKILL_SQUALLHIT, $FF
-    db MONSTER_BALZAK,     $62, $35, 6, $21, $7C, $01, $BE, $00, $F0, $00, $54, $01, $2C, $01, $D2, $00, $FA, $FA, $FA, $FA, SKILL_THORDAIN,  SKILL_HEALUS,    SKILL_THICKFOG,  $FF
-    db MONSTER_WHIPBIRD,   $30, $35, 6, $32, $F4, $01, $C8, $00, $B4, $00, $04, $01, $FA, $00, $FF, $00, $FA, $FA, $FA, $FA, SKILL_EVILSLASH, SKILL_BAZOOCALL, SKILL_HUSTLE,    $FF
-    db MONSTER_METALDRAK,  $3D, $34, 6, $2B, $4A, $01, $78, $00, $04, $01, $F0, $00, $FA, $00, $A0, $00, $FA, $FA, $FA, $FA, SKILL_CHANCE,    SKILL_PANIDANCE, SKILL_BIGTRIP,   $FF
-    db MONSTER_GATEGUARD,  $CC, $34, 6, $30, $54, $01, $2C, $01, $4A, $01, $D2, $00, $96, $00, $D2, $00, $FA, $FA, $FA, $FA, SKILL_WHITEAIR,  SKILL_IMITATE,   SKILL_GUARDIAN,  $FF
-    db MONSTER_CHOPCLOWN,  $20, $35, 6, $30, $36, $01, $2C, $01, $2C, $01, $C8, $00, $04, $01, $FF, $00, $FA, $FA, $FA, $FA, SKILL_SACRIFICE, SKILL_FOCUS,     SKILL_MEDITATE,  $FF
-    db MONSTER_METALKING,  $A8, $76, 6, $32, $19, $00, $BC, $02, $22, $01, $BC, $02, $FF, $01, $FF, $00, $FA, $FA, $FA, $FA, SKILL_NAPATTACK, SKILL_GUARDIAN,  SKILL_LIFEDANCE, $FF
-    db MONSTER_OROCHI,     $80, $34, 6, $32, $68, $01, $96, $00, $68, $01, $5E, $01, $C8, $00, $B4, $00, $FA, $FA, $FA, $FA, SKILL_DEFEAT,    SKILL_LUREDANCE, SKILL_HUSTLE,    $FF
-    db MONSTER_TRUMPETER,  $20, $35, 6, $30, $DC, $00, $AA, $00, $FA, $00, $DC, $00, $D2, $00, $96, $00, $FA, $FA, $FA, $FA, SKILL_EXPLODET,  SKILL_WARCRY,    SKILL_DANCESHUT, $FF
-    db MONSTER_SNAPPER,    $52, $35, 6, $32, $FA, $00, $D2, $00, $FA, $00, $A0, $00, $A0, $00, $C8, $00, $FA, $FA, $FA, $FA, SKILL_HIGHJUMP,  SKILL_MULTICUT,  SKILL_SICKLICK,  $FF
-    db MONSTER_HORNBEET,   $F4, $34, 6, $30, $7C, $01, $BE, $00, $F0, $00, $FA, $00, $2C, $01, $C8, $00, $FA, $FA, $FA, $FA, SKILL_POISONHIT, SKILL_SANDSTORM, SKILL_MEDITATE,  $FF
-    db MONSTER_DEADNOBLE,  $D6, $34, 6, $30, $54, $01, $5E, $01, $5E, $01, $BE, $00, $22, $01, $E6, $00, $FA, $FA, $FA, $FA, SKILL_MEGAMAGIC, SKILL_SIDESTEP,  SKILL_STRONGD,   $FF
-    db MONSTER_SERVANT,    $05, $35, 6, $32, $F0, $00, $54, $01, $D2, $00, $40, $01, $22, $01, $FA, $00, $FA, $FA, $FA, $FA, SKILL_WHITEFIRE, SKILL_CURSE,     SKILL_STORMWIND, $FF
-    db MONSTER_STONEMAN,   $68, $34, 6, $30, $68, $01, $A0, $00, $F0, $00, $68, $01, $64, $00, $C8, $00, $FA, $FA, $FA, $FA, SKILL_SUCKAIR,   SKILL_WHITEAIR,  SKILL_EERIELITE, $FF
-    db MONSTER_BOMBCRAG,   $3E, $35, 6, $30, $22, $01, $C8, $00, $B4, $00, $04, $01, $14, $00, $96, $00, $FA, $FA, $FA, $FA, SKILL_RAINSLASH, SKILL_IMITATE,   SKILL_BEDRAGON,  $FF
-    db MONSTER_SLIME,      $E8, $FD, 1, $01, $02, $00, $00, $00, $02, $00, $02, $00, $02, $00, $02, $00, $64, $64, $64, $64, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
-    db MONSTER_GOLDSLIME,  $00, $00, 7, $46, $84, $03, $58, $02, $90, $01, $E7, $03, $9B, $01, $FF, $00, $00, $FA, $00, $FA, SKILL_HEALUS,    SKILL_REVIVE,    SKILL_SURGE,     $FF
-    db MONSTER_DIVINEGON,  $00, $00, 7, $46, $64, $19, $E7, $03, $BC, $02, $90, $01, $18, $01, $FF, $00, $FA, $00, $FA, $FA, SKILL_EVILSLASH, SKILL_FOCUS,     SKILL_HELLBLAST, $FF
-    db MONSTER_ROSEVINE,   $00, $00, 7, $46, $08, $07, $E7, $03, $58, $02, $F4, $01, $90, $01, $FF, $00, $00, $00, $FA, $FA, SKILL_IMITATE,   SKILL_DEMAGIC,   SKILL_STORMWIND, $FF
-    db MONSTER_DRAGON,     $00, $00, 0, $06, $3C, $00, $14, $00, $28, $00, $19, $00, $14, $00, $1E, $00, $FA, $32, $00, $FA, SKILL_FIRESLASH, SKILL_FIREAIR,   SKILL_NONE,      $FF
-    db MONSTER_GOLEM,      $00, $00, 0, $07, $50, $00, $14, $00, $2D, $00, $23, $00, $0F, $00, $46, $00, $96, $96, $96, $C8, SKILL_CHARGEUP,  SKILL_PSYCHEUP,  SKILL_STRONGD,   $FF
-    db MONSTER_DRACKY,     $04, $00, 1, $01, $0E, $00, $14, $00, $0C, $00, $04, $00, $0C, $00, $0E, $00, $C8, $00, $00, $C8, SKILL_ANTIDOTE,  SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance $00,                    0, 0,  0,    0,   0,   0,   0,   0,   0, $00, $00, $00, $00, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_SLIME,          0, 0,  1,   30,   0,  10,   6,   5,   1, $64, $C8, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_SLIME,          3, 2,  1,    8,   0,   8,   5,   7,   1, $C8, $32, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_ANTEATER,       9, 1,  1,   12,   0,  19,   4,   4,   3, $96, $00, $32, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_DRACKY,         4, 1,  1,    8,  20,  12,   4,  12,  14, $C8, $00, $00, $C8, SKILL_ANTIDOTE,  SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_STUBSUCK,       9, 2,  2,   20,   6,  23,   8,  12,  10, $64, $32, $C8, $C8, SKILL_SLEEP,     SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_GOHOPPER,      10, 2,  2,   24,   2,  18,   6,  10,   8, $64, $32, $00, $C8, SKILL_CHARGEUP,  SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_GREMLIN,       10, 2,  2,   26,   9,  14,   9,   9,  28, $32, $96, $C8, $C8, SKILL_FIREBAL,   SKILL_HEAL,      SKILL_NONE,      $FF
+    dinstance MONSTER_SPOOKY,        18, 3,  3,   37,   3,  25,   9,  31,  13, $C8, $64, $C8, $C8, SKILL_LUSHLICKS, SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_GOOPI,         16, 3,  5,   41,   3,  28,   8,   8,   6, $96, $32, $96, $C8, SKILL_LEGSWEEP,  SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_ARMYANT,       12, 2,  3,   24,   3,  29,   9,  11,  13, $FA, $32, $00, $C8, SKILL_NAPATTACK, SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_HEALER,         0, 0,  6,   40,   7,  20,  12,  12,  28, $64, $FA, $64, $C8, SKILL_HEAL,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_HEALER,         0, 0,  6,   30,  18,  16,  10,  32,  28, $64, $FA, $C8, $C8, SKILL_HEAL,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_MINIDRAK,      32, 3,  4,   45,   5,  32,  10,  18,   6, $96, $64, $96, $96, SKILL_SANDSTORM, SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_PICKY,         25, 2,  4,   32,   6,  30,  12,  26,  12, $C8, $64, $96, $96, SKILL_SAP,       SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_PILLOWRAT,     27, 3,  4,   29,  12,  26,  12,  30,  13, $64, $32, $64, $96, SKILL_SIDESTEP,  SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_HORK,          45, 3,  5,   51,   6,  35,  10,  10,  10, $96, $32, $32, $96, SKILL_POISONGAS, SKILL_LUSHLICKS, SKILL_NONE,      $FF
+    dinstance MONSTER_DRAGONKID,     55, 3,  6,   32,   7,  32,  20,  35,  11, $96, $64, $64, $96, SKILL_SLEEPAIR,  SKILL_DODGE,     SKILL_NONE,      $FF
+    dinstance MONSTER_EVILSEED,      50, 2,  7,   43,   5,  29,  25,  15,  28, $C8, $00, $FA, $96, SKILL_CLEANCUT,  SKILL_PARALYZE,  SKILL_NONE,      $FF
+    dinstance MONSTER_CATAPILA,      64, 3,  8,   38,  16,  44,  29,  12,  10, $C8, $32, $64, $96, SKILL_UPPER,     SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_FAIRYRAT,      55, 2,  6,   48,  18,  32,  14,  40,  30, $64, $32, $C8, $96, SKILL_SLOW,      SKILL_SMASHLIME, SKILL_NONE,      $FF
+    dinstance MONSTER_BIGROOST,      67, 2,  8,   48,  18,  28,  16,  42,   9, $C8, $96, $96, $96, SKILL_SANDSTORM, SKILL_DODGE,     SKILL_NONE,      $FF
+    dinstance MONSTER_DEMONITE,      65, 2,  7,   41,   3,  34,  14,  40,  19, $64, $64, $FA, $96, SKILL_BLAZEMORE, SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_BONESLAVE,     67, 3,  7,   53,  20,  53,  15,  24,  45, $32, $00, $00, $96, SKILL_BOLTSLASH, SKILL_BIRDBLOW,  SKILL_NONE,      $FF
+    dinstance MONSTER_SABREMAN,      64, 2,  7,   45,  20,  60,  24,  26,  42, $FA, $00, $64, $96, SKILL_ROBMAGIC,  SKILL_DEVILCUT,  SKILL_NONE,      $FF
+    dinstance MONSTER_SPOTSLIME,     72, 2,  8,   48,  11,  39,  14,  50,  11, $64, $64, $64, $96, SKILL_CALLHELP,  SKILL_LUSHLICKS, SKILL_NONE,      $FF
+    dinstance MONSTER_CRESTPENT,     73, 2,  8,   62,   8,  32,  33,  15,   9, $C8, $64, $32, $96, SKILL_STOPSPELL, SKILL_POISONHIT, SKILL_NONE,      $FF
+    dinstance MONSTER_BEANMAN,       90, 2,  8,   61,  11,  40,  34,  30,  10, $FA, $00, $C8, $96, SKILL_ROBMAGIC,  SKILL_TWINHITS,  SKILL_NONE,      $FF
+    dinstance MONSTER_1EYECLOWN,     81, 2,  9,   54,  14,  42,  20,  38,  30, $C8, $00, $FA, $96, SKILL_BLAZEMORE, SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_COILBIRD,      78, 3,  9,   66,  30,  34,  22,  52,  17, $64, $C8, $64, $96, SKILL_NUMBOFF,   SKILL_DECHAOS,   SKILL_NONE,      $FF
+    dinstance MONSTER_METALY,      3365, 6, 10,    6, 120,  22, 300, 130,  32, $64, $64, $64, $96, SKILL_BLAZE,     $DB,             SKILL_NONE,      $FF
+    dinstance MONSTER_DRAGON,         0, 0,  6,   90,  60,  40,  25,  15,  10, $FA, $32, $00, $96, SKILL_FIRESLASH, SKILL_FIREAIR,   SKILL_NONE,      $FF
+    dinstance MONSTER_GOLEM,          0, 0,  7,  100,  20,  45,  20,  20,  70, $96, $96, $96, $96, SKILL_CHARGEUP,  SKILL_PSYCHEUP,  SKILL_STRONGD,   $FF
+    dinstance MONSTER_ALMIRAJ,      130, 3, 10,   57,  46,  48,  25,  50,  15, $96, $32, $64, $64, SKILL_SLEEP,     SKILL_BESERKER,  SKILL_CHARGEUP,  $FF
+    dinstance MONSTER_BULLBIRD,     144, 3, 12,   72,  17,  64,  21,  57,  10, $C8, $32, $C8, $64, SKILL_RAMMING,   SKILL_CHARGEUP,  SKILL_BRANCHING, $FF
+    dinstance MONSTER_FLORAMAN,     121, 3, 12,   68,  80,  30,  26,  39,  65, $64, $96, $FA, $64, SKILL_FIREBANE,  SKILL_ANTIDOTE,  SKILL_CURSEOFF,  $FF
+    dinstance MONSTER_GIANTWORM,    126, 3, 12,   62,  20,  59,  24,  45,  40, $FA, $00, $C8, $64, SKILL_BEASTCUT,  SKILL_ODDDANCE,  SKILL_NONE,      $FF
+    dinstance MONSTER_SKULRIDER,    175, 3, 11,   80,  20,  63,  45,  42,  19, $96, $00, $64, $64, SKILL_FIRESLASH, SKILL_RAINSLASH, SKILL_LEGSWEEP,  $FF
+    dinstance MONSTER_GIANTSLUG,    132, 2, 12,   60,  18,  51,  25,  43,  21, $64, $C8, $C8, $64, SKILL_LUSHLICKS, SKILL_DODGE,     SKILL_NONE,      $FF
+    dinstance MONSTER_MUDDOLL,      144, 3, 12,   79,  44,  56,  28,  22,  44, $96, $64, $C8, $64, SKILL_ODDDANCE,  SKILL_SIDESTEP,  SKILL_NONE,      $FF
+    dinstance MONSTER_TREESLIME,    151, 3, 12,   86,  22,  44,  28,  69,  46, $64, $32, $C8, $64, SKILL_SAP,       SKILL_PARALYZE,  SKILL_SLEEPAIR,  $FF
+    dinstance MONSTER_POISONGON,    150, 3, 12,   65,  43,  59,  50,  26,  23, $96, $64, $64, $64, SKILL_POISONHIT, SKILL_POISONGAS, SKILL_NONE,      $FF
+    dinstance MONSTER_CATFLY,       146, 2, 13,   67,  46,  56,  26,  67,  49, $96, $32, $96, $64, SKILL_STOPSPELL, SKILL_SLOW,      SKILL_NONE,      $FF
+    dinstance MONSTER_WINGTREE,     160, 3, 13,   69,  60,  67,  30,  52,  40, $C8, $64, $C8, $64, SKILL_FAREWELL,  SKILL_ZOMBIECUT, SKILL_NONE,      $FF
+    dinstance MONSTER_EYEDER,       156, 3, 16,   54,  15,  70,  90,  85,  50, $32, $96, $C8, $64, SKILL_FIREBAL,   SKILL_HEAL,      SKILL_NONE,      $FF
+    dinstance MONSTER_PUTREPUP,     145, 3, 14,   84,  52,  76,  35,  30,  26, $C8, $00, $C8, $64, SKILL_SAP,       SKILL_SLOW,      SKILL_NONE,      $FF
+    dinstance MONSTER_DRAKSLIME,    153, 3, 14,   75,  26,  58,  32,  96,  52, $96, $64, $C8, $64, SKILL_SUCKAIR,   SKILL_BLAZEAIR,  SKILL_NONE,      $FF
+    dinstance MONSTER_FAIRYDRAK,    168, 3, 14,   66,  51,  53,  33,  51,  27, $96, $64, $96, $64, SKILL_SURROUND,  SKILL_SLEEPAIR,  SKILL_NONE,      $FF
+    dinstance MONSTER_SKULLROO,     170, 3, 15,   95,  24,  79,  31,  57,  55, $32, $32, $32, $64, SKILL_CHARGEUP,  SKILL_PANIDANCE, SKILL_NONE,      $FF
+    dinstance MONSTER_BUTTERFLY,    176, 2, 15,   68,  57,  59,  36,  78,  28, $C8, $00, $96, $64, SKILL_SURROUND,  SKILL_CURSE,     SKILL_NONE,      $FF
+    dinstance MONSTER_MADRAVEN,     190, 3, 17,   73,  55,  67,  49,  80,  85, $C8, $32, $96, $64, SKILL_HIGHJUMP,  SKILL_TAILWIND,  SKILL_NONE,      $FF
+    dinstance MONSTER_MADCAT,         0, 0, 12,  200,  30,  63,  35,  63,  35, $FA, $00, $C8, $64, SKILL_VACUSLASH, SKILL_SQUALLHIT, SKILL_LEGSWEEP,  $FF
+    dinstance MONSTER_MADCAT,         0, 0, 12,   80,  30,  63,  50,  63,  35, $FA, $FA, $C8, $64, SKILL_VACUSLASH, SKILL_SQUALLHIT, SKILL_LEGSWEEP,  $FF
+    dinstance MONSTER_FACETREE,       0, 0, 12,  400, 100,  60,  30,  38,  55, $C8, $32, $C8, $64, SKILL_STOPSPELL, SKILL_CURSE,     SKILL_ODDDANCE,  $FF
+    dinstance MONSTER_FACETREE,       0, 0, 12,  100, 100,  45,  50,  38,  55, $64, $96, $C8, $64, SKILL_STOPSPELL, SKILL_CURSE,     SKILL_ODDDANCE,  $FF
+    dinstance MONSTER_MADKNIGHT,      0, 0, 12,  300,  60,  77,  60,  40,  50, $FA, $00, $C8, $64, SKILL_MASSACRE,  SKILL_BEASTCUT,  SKILL_NONE,      $FF
+    dinstance MONSTER_MADKNIGHT,      0, 0, 12,   85,  60,  77,  75,  40,  50, $FA, $00, $C8, $32, SKILL_MASSACRE,  SKILL_BEASTCUT,  SKILL_NONE,      $FF
+    dinstance MONSTER_MUDRON,       284, 3, 16,   78,  40,  58,  46,  34,  70, $32, $C8, $FA, $32, SKILL_BEAT,      SKILL_HEAL,      SKILL_NONE,      $FF
+    dinstance MONSTER_FACER,        282, 3, 16,   64, 113,  49,  34,  95, 110, $96, $32, $64, $32, SKILL_INFERMORE, SKILL_LIFESONG,  SKILL_NONE,      $FF
+    dinstance MONSTER_SNAILY,       290, 2, 16,   67,  30,  65, 115, 110,  60, $FA, $FA, $32, $32, SKILL_ICEBOLT,   SKILL_CALLHELP,  SKILL_NONE,      $FF
+    dinstance MONSTER_SACCER,       246, 3, 17,   95,  61,  88, 129,  35,  62, $96, $32, $96, $32, SKILL_UPPER,     SKILL_PSYCHEUP,  SKILL_NONE,      $FF
+    dinstance MONSTER_MADPECKER,    322, 3, 22,   68,  32, 126,  70, 122,  61, $FA, $00, $96, $32, SKILL_INFERMORE, SKILL_SAP,       SKILL_NONE,      $FF
+    dinstance MONSTER_GULPPLE,      288, 3, 17,   96,  82,  75, 100,  66,  74, $C8, $64, $96, $32, SKILL_INFERMORE, SKILL_NAPATTACK, SKILL_NONE,      $FF
+    dinstance MONSTER_EYEBALL,      320, 3, 18,   98,  67,  76,  72,  69,  68, $C8, $32, $FA, $32, SKILL_MAGICBACK, SKILL_WARCRY,    SKILL_NONE,      $FF
+    dinstance MONSTER_MUMMY,        342, 3, 18,  130,  68,  77,  55,  42,  38, $C8, $32, $96, $32, SKILL_EVILSLASH, SKILL_CALLHELP,  SKILL_PARALYZE,  $FF
+    dinstance MONSTER_BABBLE,       312, 3, 18,   82,  35,  80,  44, 120,  60, $96, $64, $96, $32, SKILL_SURROUND,  SKILL_POISONHIT, SKILL_NONE,      $FF
+    dinstance MONSTER_PTERANOD,     406, 3, 19,  140,  40, 103,  70, 123,  80, $C8, $64, $96, $32, SKILL_FIREBAL,   SKILL_WINDBEAST, SKILL_TAILWIND,  $FF
+    dinstance MONSTER_TONGUELLA,    356, 3, 19,  108,  62,  90,  61,  45,  40, $FA, $32, $C8, $32, SKILL_NAPATTACK, SKILL_LUSHLICKS, SKILL_NONE,      $FF
+    dinstance MONSTER_FLORAJAY,     259, 3, 19,   75,  86,  65,  42, 142, 120, $C8, $96, $96, $32, SKILL_SPEEDUP,   SKILL_BEASTCUT,  SKILL_LIFESONG,  $FF
+    dinstance MONSTER_MADPLANT,     374, 3, 20,  116, 140,  72,  50, 135,  91, $FA, $64, $FA, $32, SKILL_SAP,       SKILL_SLOW,      SKILL_NUMBOFF,   $FF
+    dinstance MONSTER_ARMORPEDE,    450, 4, 24,  125,  37, 119, 127,  50,  68, $FA, $32, $C8, $32, SKILL_UPPER,     SKILL_TWINHITS,  SKILL_TWINSLASH, $FF
+    dinstance MONSTER_MEDUSAEYE,    305, 4, 18,   82,  68,  66,  96,  88,  64, $64, $32, $64, $32, SKILL_SURROUND,  SKILL_SAP,       SKILL_BRANCHING, $FF
+    dinstance MONSTER_MADCANDLE,    522, 3, 21,   95,  38, 100, 135,  91,  67, $C8, $64, $96, $32, SKILL_BLAZEMORE, SKILL_PSYCHEUP,  SKILL_NONE,      $FF
+    dinstance MONSTER_WINGSLIME,    358, 4, 21,   76,  68,  66,  44, 150,  68, $64, $32, $64, $32, SKILL_SQUALLHIT, SKILL_WINDBEAST, SKILL_TAILWIND,  $FF
+    dinstance MONSTER_MADGOPHER,    410, 3, 21,  106,  68,  97,  45,  54,  48, $FA, $96, $C8, $32, SKILL_CHARGEUP,  SKILL_BIRDBLOW,  SKILL_ZOMBIECUT, $FF
+    dinstance MONSTER_FANGSLIME,      0, 0, 20,  400,  40,  87,  50,  80,  65, $C8, $64, $96, $00, SKILL_CHARGEUP,  SKILL_CALLHELP,  SKILL_WARCRY,    $FF
+    dinstance MONSTER_FANGSLIME,      0, 0, 20,   70,  40,  85,  52,  90,  65, $C8, $C8, $C8, $32, SKILL_CHARGEUP,  SKILL_CALLHELP,  SKILL_WARCRY,    $FF
+    dinstance MONSTER_BIGEYE,      1500, 7, 20,  500,  40,  80,  40,  62,  80, $96, $96, $96, $32, SKILL_SNOWSTORM, SKILL_HEAL,      SKILL_ICEAIR,    $FF
+    dinstance MONSTER_BIGEYE,         0, 0, 20,   80,  57,  80,  48,  62,  80, $96, $C8, $64, $32, SKILL_SNOWSTORM, SKILL_HEAL,      SKILL_ICEAIR,    $FF
+    dinstance MONSTER_GIGANTES,    1700, 6, 14,  600,  10, 130,  30,  68,  15, $FA, $FA, $FA, $32, SKILL_EVILSLASH, SKILL_CHARGEUP,  SKILL_ZOMBIECUT, $FF
+    dinstance MONSTER_GIGANTES,       0, 0, 14,  150,  10, 130,  46,  48,  15, $FA, $FA, $FA, $32, SKILL_EVILSLASH, SKILL_CHARGEUP,  SKILL_ZOMBIECUT, $FF
+    dinstance MONSTER_SLABBIT,      475, 3, 22,  130,  40,  91,  60, 162, 105, $96, $64, $96, $00, SKILL_SIDESTEP,  SKILL_BIGTRIP,   SKILL_NONE,      $FF
+    dinstance MONSTER_GASGON,       510, 4, 22,  141, 111, 113,  59,  30,  73, $C8, $FA, $64, $00, SKILL_FAREWELL,  SKILL_BESERKER,  SKILL_NONE,      $FF
+    dinstance MONSTER_WINDBEAST,    480, 3, 22,  110, 132,  78,  81, 130, 105, $C8, $96, $C8, $00, SKILL_INFERMORE, SKILL_ICEBOLT,   SKILL_VACUSLASH, $FF
+    dinstance MONSTER_STUBBIRD,     588, 4, 23,   91,  84, 170, 140,  90,  82, $FA, $32, $C8, $00, SKILL_TWINHITS,  SKILL_RAINSLASH, SKILL_DRAKSLASH, $FF
+    dinstance MONSTER_ONIONO,       500, 3, 23,  100, 110,  95,  50, 126, 143, $96, $64, $C8, $00, SKILL_ROBMAGIC,  SKILL_CHARGEUP,  SKILL_SLEEPAIR,  $FF
+    dinstance MONSTER_GOPHECADA,    490, 3, 23,  172,  55,  95, 112,  54,  43, $00, $00, $00, $00, SKILL_BEAT,      SKILL_MAGICBACK, SKILL_CALLHELP,  $FF
+    dinstance MONSTER_PIXY,         518, 3, 24,   90,  46, 102,  68,  80,  62, $64, $64, $96, $00, SKILL_SPEEDUP,   SKILL_TWINHITS,  SKILL_ANTIDOTE,  $FF
+    dinstance MONSTER_DEADNITE,     630, 4, 24,  121,  87, 140,  99, 105,  92, $FA, $C8, $C8, $00, SKILL_HEAL,      SKILL_DECHAOS,   SKILL_CURSEOFF,  $FF
+    dinstance MONSTER_SPIKYBOY,     560, 3, 24,   93,  46, 100,  93,  50,  63, $96, $32, $96, $00, SKILL_SACRIFICE, SKILL_HIGHJUMP,  SKILL_SMASHLIME, $FF
+    dinstance MONSTER_SLIMENITE,    585, 4, 25,  144,  47, 136, 102, 152,  96, $C8, $96, $96, $00, SKILL_INCREASE,  SKILL_HEAL,      SKILL_BEASTCUT,  $FF
+    dinstance MONSTER_KINGCOBRA,    660, 3, 25,  126,  46,  95,  82, 130,  47, $FA, $00, $64, $00, SKILL_POISONHIT, SKILL_CURSE,     SKILL_NONE,      $FF
+    dinstance MONSTER_MOMMONJA,     600, 4, 25,  125,  66,  85,  80, 135, 170, $96, $96, $C8, $00, SKILL_SNOWSTORM, SKILL_LUREDANCE, SKILL_MOUTHSHUT, $FF
+    dinstance MONSTER_MISTYWING,    573, 3, 26,  131,  94, 105, 105, 132, 100, $96, $64, $96, $00, SKILL_SURROUND,  SKILL_BARRIER,   SKILL_EERIELITE, $FF
+    dinstance MONSTER_STAGBUG,      640, 3, 26,  106,  49, 141, 155,  96,  49, $C8, $32, $C8, $00, SKILL_SLEEP,     SKILL_BLAZEAIR,  SKILL_LEGSWEEP,  $FF
+    dinstance MONSTER_DARKEYE,      720, 4, 20,   97, 133,  77,  95, 105, 102, $96, $00, $96, $00, SKILL_METALCUT,  SKILL_PALSYAIR,  SKILL_RADIANT,   $FF
+    dinstance MONSTER_NITEWHIP,     666, 3, 27,  101,  74,  58, 135, 140, 111, $C8, $64, $96, $00, SKILL_WINDBEAST, SKILL_LIGHTNING, SKILL_BLAZEAIR,  $FF
+    dinstance MONSTER_ROGUENITE,    780, 3, 27,  160,  38, 166, 200,  75,  79, $FA, $FA, $96, $00, SKILL_HEAL,      SKILL_EVILSLASH, SKILL_METALCUT,  $FF
+    dinstance MONSTER_BOXSLIME,     740, 4, 27,  102,  49, 112,  82, 145,  76, $64, $32, $96, $00, SKILL_BLAZEMORE, SKILL_UPPER,     SKILL_RAMMING,   $FF
+    dinstance MONSTER_STONEMAN,    6400, 7, 20,  800,  36, 130,  90,  45,  90, $FA, $64, $32, $00, SKILL_COVER,     SKILL_SUCKALL,   SKILL_NONE,      $FF
+    dinstance MONSTER_STONEMAN,       0, 0, 20,  170,  36, 130, 110,  45,  90, $FA, $32, $32, $00, SKILL_COVER,     SKILL_SUCKALL,   SKILL_NONE,      $FF
+    dinstance MONSTER_BATTLEREX,      0, 0, 20, 1000,  50, 170,  80,  80,  70, $FA, $64, $96, $00, SKILL_METALCUT,  SKILL_BLAZEAIR,  SKILL_NONE,      $FF
+    dinstance MONSTER_BATTLEREX,      0, 0, 20,  165,  90, 140,  80, 100,  70, $FA, $FA, $96, $00, SKILL_METALCUT,  SKILL_BLAZEAIR,  SKILL_NONE,      $FF
+    dinstance MONSTER_COPYCAT,        0, 0, 20,  800,  48,  95,  70,  60,  60, $32, $32, $FA, $00, SKILL_TRANSFORM, SKILL_ROBDANCE,  SKILL_IMITATE,   $FF
+    dinstance MONSTER_COPYCAT,        0, 0, 20,   80,  48, 100,  85,  60,  60, $C8, $32, $FA, $00, SKILL_TRANSFORM, SKILL_ROBDANCE,  SKILL_IMITATE,   $FF
+    dinstance MONSTER_ORC,          710, 3, 28,  160,  40, 130,  88,  86, 140, $C8, $00, $64, $00, SKILL_SAP,       SKILL_BIRDBLOW,  SKILL_NONE,      $FF
+    dinstance MONSTER_REAPER,       750, 4, 28,  110, 135, 156,  40, 130, 170, $C8, $32, $FA, $00, SKILL_DEVILCUT,  SKILL_CURSE,     SKILL_EERIELITE, $FF
+    dinstance MONSTER_GISMO,        700, 4, 28,  152,  52,  81, 120, 142, 142, $96, $96, $96, $00, SKILL_SUCKAIR,   SKILL_BLAZEAIR,  SKILL_ICEAIR,    $FF
+    dinstance MONSTER_ROCKSLIME,    830, 4, 29,  186,   9, 140, 138,  89,  55, $FA, $C8, $96, $00, SKILL_HIGHJUMP,  SKILL_ROCKTHROW, SKILL_STRONGD,   $FF
+    dinstance MONSTER_CHAMELGON,    776, 4, 29,  160, 149,  90,  88, 138,  85, $C8, $32, $C8, $00, SKILL_PANICALL,  SKILL_PARALYZE,  SKILL_NONE,      $FF
+    dinstance MONSTER_GOATEGON,     910, 4, 29,  220, 120, 172,  92, 131, 132, $C8, $32, $C8, $00, SKILL_FIREBANE,  SKILL_SLOWALL,   SKILL_SLEEPAIR,  $FF
+    dinstance MONSTER_DUCKKITE,     882, 3, 28,  117, 115, 143, 138, 165, 140, $96, $32, $64, $00, SKILL_SLEEP,     SKILL_PANICALL,  SKILL_CURSE,     $FF
+    dinstance MONSTER_CACTIBALL,    977, 3, 28,  192, 165, 140,  65, 135, 130, $FA, $96, $FA, $00, SKILL_HIGHJUMP,  SKILL_PARALYZE,  SKILL_ODDDANCE,  $FF
+    dinstance MONSTER_TAILEATER,    960, 4, 30,  160,  58, 116,  90, 121,  88, $96, $32, $96, $00, SKILL_ICESLASH,  SKILL_POISONGAS, SKILL_RADIANT,   $FF
+    dinstance MONSTER_AGDEVIL,     1005, 4, 31,  160,  90, 148, 125,  90, 142, $C8, $32, $96, $00, SKILL_FIREBANE,  SKILL_SLEEPAIR,  SKILL_NONE,      $FF
+    dinstance MONSTER_WINDMERGE,   1100, 4, 31,  116, 142,  98, 176, 122, 165, $96, $64, $C8, $00, SKILL_INFERMOST, SKILL_BARRIER,   SKILL_CURSEOFF,  $FF
+    dinstance MONSTER_WEEDBUG,      957, 4, 31,  143,  90,  65, 140,  90, 141, $64, $96, $C8, $00, SKILL_ROBMAGIC,  SKILL_BARRIER,   SKILL_MAGICWALL, $FF
+    dinstance MONSTER_SPOTKING,    1200, 5, 32,  300,  62, 206,  99, 115, 170, $C8, $96, $96, $00, SKILL_CLEANCUT,  SKILL_NAPATTACK, SKILL_MOUTHSHUT, $FF
+    dinstance MONSTER_LIZARDFLY,    990, 4, 28,  120,  93, 188,  99,  93,  90, $C8, $64, $96, $00, SKILL_FIREBANE,  SKILL_WINDBEAST, SKILL_BLAZEAIR,  $FF
+    dinstance MONSTER_HAMMERMAN,   1035, 4, 32,  136,  60, 156, 100, 118,  62, $FA, $00, $32, $00, SKILL_KAMIKAZE,  SKILL_EVILSLASH, SKILL_CHARGEUP,  $FF
+    dinstance MONSTER_MADGOOSE,     983, 4, 28,  180, 197, 167, 190, 180,  96, $96, $64, $C8, $00, SKILL_PANICALL,  SKILL_ODDDANCE,  SKILL_LUREDANCE, $FF
+    dinstance MONSTER_TREEBOY,     1095, 4, 33,  213, 185, 104, 100, 156, 185, $C8, $C8, $C8, $00, SKILL_SNOWSTORM, SKILL_HEALMORE,  SKILL_CURSEOFF,  $FF
+    dinstance MONSTER_DROLL,       1152, 4, 33,  132,  40, 142, 100,  68, 126, $96, $00, $64, $00, SKILL_SLOWALL,   SKILL_BRANCHING, SKILL_NONE,      $FF
+    dinstance MONSTER_FUNKYBIRD,      0, 0, 30, 1200, 160, 100, 140,  98, 160, $96, $32, $96, $00, SKILL_PANIDANCE, SKILL_HUSTLE,    SKILL_LIFEDANCE, $FF
+    dinstance MONSTER_FUNKYBIRD,      0, 0, 30,  120, 160, 100, 140,  98, 160, $96, $32, $FA, $00, SKILL_PANIDANCE, SKILL_HUSTLE,    SKILL_LIFEDANCE, $FF
+    dinstance MONSTER_SKYDRAGON,   7800, 7, 30, 1200, 150, 170, 120,  80,  80, $C8, $32, $C8, $00, SKILL_SUCKAIR,   SKILL_SCORCHING, SKILL_NONE,      $FF
+    dinstance MONSTER_SKYDRAGON,      0, 0, 30,  125, 150, 170, 155,  80,  80, $96, $32, $C8, $00, SKILL_SUCKAIR,   SKILL_SCORCHING, SKILL_NONE,      $FF
+    dinstance MONSTER_DIGSTER,        0, 0, 45, 1000,  85, 190, 150,  60, 140, $96, $00, $96, $00, SKILL_STRONGD,   SKILL_SUCKALL,   SKILL_NONE,      $FF
+    dinstance MONSTER_DIGSTER,        0, 0, 45,  230,  85, 190, 160,  60, 140, $96, $C8, $96, $00, SKILL_STRONGD,   SKILL_SUCKALL,   SKILL_NONE,      $FF
+    dinstance MONSTER_GIANTMOTH,   1187, 4, 28,  155, 165, 155, 168, 186, 162, $C8, $64, $C8, $00, SKILL_WINDBEAST, SKILL_PARALYZE,  SKILL_RADIANT,   $FF
+    dinstance MONSTER_ARCDEMON,    1720, 5, 34,  230,  98, 230, 180,  72, 250, $C8, $32, $96, $00, SKILL_BOOM,      SKILL_BOLTSLASH, SKILL_BIRDBLOW,  $FF
+    dinstance MONSTER_MADSPIRIT,   1368, 5, 34,  160, 162, 203, 168, 100,  66, $C8, $64, $FA, $00, SKILL_SLEEPAIR,  SKILL_RADIANT,   SKILL_THICKFOG,  $FF
+    dinstance MONSTER_CURSELAMP,   1213, 4, 40,  200, 204, 182, 180, 102, 200, $C8, $32, $C8, $00, SKILL_INCREASE,  SKILL_SPEEDUP,   SKILL_TWINHITS,  $FF
+    dinstance MONSTER_TORTRAGON,   1305, 4, 33,  162, 104, 212, 250,  72, 104, $96, $64, $64, $00, SKILL_BOUNCE,    SKILL_LIGHTNING, SKILL_NONE,      $FF
+    dinstance MONSTER_WILDAPE,     1250, 4, 33,  160,  68, 195,  75, 158, 100, $FA, $00, $96, $00, SKILL_TWINSLASH, SKILL_YELLHELP,  SKILL_BIGTRIP,   $FF
+    dinstance MONSTER_LANDOWL,     1528, 5, 33,  240,  71, 260, 110, 110,  70, $C8, $00, $96, $00, SKILL_INFERMOST, SKILL_BOLTSLASH, SKILL_SIDESTEP,  $FF
+    dinstance MONSTER_AMBERWEED,   1138, 4, 36,  180, 192, 115, 140, 180,  70, $C8, $64, $FA, $00, SKILL_BARRIER,   SKILL_TWINHITS,  SKILL_MAGICWALL, $FF
+    dinstance MONSTER_ARMYCRAB,    1299, 5, 36,  130, 108, 160, 230,  55,  72, $C8, $64, $C8, $00, SKILL_INCREASE,  SKILL_METALCUT,  SKILL_YELLHELP,  $FF
+    dinstance MONSTER_EVILBEAST,   1203, 5, 30,  150,  71, 202, 162,  56, 186, $C8, $32, $C8, $00, SKILL_FIREBANE,  SKILL_ICEAIR,    SKILL_NONE,      $FF
+    dinstance MONSTER_SHADOW,      1256, 5, 37,  217, 134, 210, 210, 118, 185, $FA, $32, $FA, $00, SKILL_ICEAIR,    SKILL_KO_DANCE,  SKILL_THICKFOG,  $FF
+    dinstance MONSTER_EVILWAND,    1343, 4, 37,  172, 130, 167, 230, 190, 100, $96, $32, $96, $00, SKILL_DECHAOS,   SKILL_ICEAIR,    SKILL_NONE,      $FF
+    dinstance MONSTER_SLIMEBORG,   1444, 5, 38,  250,  73, 205, 192, 200, 100, $FA, $C8, $C8, $00, SKILL_RAINSLASH, SKILL_LIGHTNING, SKILL_BLADED,    $FF
+    dinstance MONSTER_LIZARDMAN,   1347, 4, 38,  210,  73, 182, 110, 105, 100, $FA, $64, $32, $00, SKILL_EVILSLASH, SKILL_BEASTCUT,  SKILL_NONE,      $FF
+    dinstance MONSTER_GRIZZLY,     1560, 5, 38,  230,  18, 285,  82, 200,  80, $FA, $00, $96, $00, SKILL_TWINSLASH, SKILL_SQUALLHIT, SKILL_BIGTRIP,   $FF
+    dinstance MONSTER_WYVERN,      1580, 4, 39,  193, 105, 165, 130, 160, 205, $C8, $64, $96, $00, SKILL_SLEEPALL,  SKILL_HEALMORE,  SKILL_ICEAIR,    $FF
+    dinstance MONSTER_FIREWEED,    1440, 4, 36,  180, 200,  83, 128, 155, 147, $FA, $96, $C8, $00, SKILL_BLAZEMORE, SKILL_DECHAOS,   SKILL_PALSYAIR,  $FF
+    dinstance MONSTER_MADHORNET,   1380, 6, 38,  233, 105, 167, 112, 210, 120, $C8, $00, $C8, $00, SKILL_POISONHIT, SKILL_PARALYZE,  SKILL_STORMWIND, $FF
+    dinstance MONSTER_JAMIRUS,    13000, 7, 35, 1600, 175, 260, 160, 150, 145, $FA, $FA, $FA, $00, SKILL_BLAZEMOST, SKILL_QUADHITS,  SKILL_STORMWIND, $FF
+    dinstance MONSTER_JAMIRUS,        0, 0, 35,  200, 175, 260, 200, 150, 145, $FA, $FA, $FA, $00, SKILL_BLAZEMOST, SKILL_QUADHITS,  SKILL_STORMWIND, $FF
+    dinstance MONSTER_SERVANT,    15076, 5, 35, 1000, 250, 160, 160, 200, 170, $FA, $96, $FA, $00, SKILL_BLAZEMOST, SKILL_BLIZZARD,  SKILL_FOCUS,     $FF
+    dinstance MONSTER_SERVANT,        0, 0, 35,  160, 250, 160, 180, 200, 170, $FA, $FA, $FA, $00, SKILL_BLAZEMOST, SKILL_BLIZZARD,  SKILL_FOCUS,     $FF
+    dinstance MONSTER_CENTASAUR,      0, 7, 30,  220, 115, 205, 140, 320, 200, $FA, $64, $C8, $00, SKILL_STOPSPELL, SKILL_FIRESLASH, SKILL_RAINSLASH, $FF
+    dinstance MONSTER_EVILARMOR,      0, 7, 28,  175,  98, 170, 220, 132, 146, $FA, $32, $96, $00, SKILL_FIRESLASH, SKILL_BOLTSLASH, SKILL_DRAGONCUT, $FF
+    dinstance MONSTER_KINGSLIME,  17000, 5, 38, 2000,  75, 200, 130, 190, 190, $FA, $96, $C8, $00, SKILL_BARRIER,   SKILL_HEALMORE,  SKILL_NONE,      $FF
+    dinstance MONSTER_KINGSLIME,      0, 0, 38,  230,  75, 200, 160, 190, 190, $96, $FA, $C8, $00, SKILL_BARRIER,   SKILL_HEALMORE,  SKILL_REVIVE,    $FF
+    dinstance MONSTER_TOADSTOOL,    300, 5, 10,   45,  17,  25,  23,  40,  36, $00, $00, $00, $00, SKILL_NAPATTACK, SKILL_SLEEPAIR,  SKILL_MOUTHSHUT, $FF
+    dinstance MONSTER_LIPSY,        250, 5, 10,   23,  17,  23,  22,  20,  72, $00, $00, $00, $00, SKILL_NAPATTACK, SKILL_AHHH,      SKILL_LUSHLICKS, $FF
+    dinstance MONSTER_LIONEX,      1850, 5, 40,  268, 130, 202, 246, 210, 160, $96, $96, $C8, $00, SKILL_INFERMOST, SKILL_HEALUS,    SKILL_VACUSLASH, $FF
+    dinstance MONSTER_ROTRAVEN,    1680, 4, 33,  155, 145, 167, 132, 244, 210, $96, $32, $96, $00, SKILL_KAMIKAZE,  SKILL_BOLTSLASH, SKILL_LIGHTNING, $FF
+    dinstance MONSTER_JEWELBAG,    2000, 5, 38,  138, 126, 218, 246, 180, 240, $64, $00, $32, $00, SKILL_FIREBANE,  SKILL_STOPSPELL, SKILL_PANICALL,  $FF
+    dinstance MONSTER_SWORDGON,    1915, 4, 41,  246, 165, 190, 213, 128, 115, $FA, $C8, $FA, $00, SKILL_CLEANCUT,  SKILL_RAINSLASH, SKILL_BLADED,    $FF
+    dinstance MONSTER_SUPERTEN,    1872, 5, 41,  276,  80, 148,  90, 218, 154, $FA, $64, $C8, $00, SKILL_KO_DANCE,  SKILL_IMITATE,   SKILL_HUSTLE,    $FF
+    dinstance MONSTER_MADCONDOR,   2075, 5, 41,  190, 130, 256, 224, 160, 160, $C8, $64, $00, $00, SKILL_FIREBANE,  SKILL_HEALUS,    SKILL_NONE,      $FF
+    dinstance MONSTER_MANEATER,    1996, 6, 42,  192, 225, 176,  90, 115, 110, $FA, $00, $C8, $00, SKILL_DRAGONCUT, SKILL_PSYCHEUP,  SKILL_SLEEPAIR,  $FF
+    dinstance MONSTER_GRENDAL,     2130, 5, 42,  304,  82, 260, 310, 226, 226, $FA, $C8, $C8, $00, SKILL_FIRESLASH, SKILL_DRAGONCUT, SKILL_GUARDIAN,  $FF
+    dinstance MONSTER_DARKCRAB,    1999, 4, 28,  254, 135, 260, 222,  85, 140, $C8, $64, $00, $00, SKILL_MAGICWALL, SKILL_IRONIZE,   SKILL_NONE,      $FF
+    dinstance MONSTER_MADMIRROR,   2184, 5, 38,  284,  92, 145, 204, 232, 170, $96, $96, $96, $00, SKILL_BOUNCE,    SKILL_TRANSFORM, SKILL_NONE,      $FF
+    dinstance MONSTER_WINGSNAKE,   2030, 4, 43,  284, 138, 230, 177, 170, 140, $FA, $00, $96, $00, SKILL_HIGHJUMP,  SKILL_SQUALLHIT, SKILL_POISONAIR, $FF
+    dinstance MONSTER_YETI,        1820, 5, 38,  287, 140, 264, 230, 100, 140, $FA, $96, $C8, $00, SKILL_SNOWSTORM, SKILL_ICESLASH,  SKILL_WARCRY,    $FF
+    dinstance MONSTER_DANCEVEGI,   1770, 4, 44,  176, 122, 124, 240, 316, 150, $C8, $64, $C8, $00, SKILL_KO_DANCE,  SKILL_SIDESTEP,  SKILL_LUREDANCE, $FF
+    dinstance MONSTER_OGRE,        2320, 4, 33,  288, 140, 235, 235, 104, 230, $FA, $00, $64, $00, SKILL_MASSACRE,  SKILL_METALCUT,  SKILL_RAINSLASH, $FF
+    dinstance MONSTER_SKULLGON,    2516, 5, 43,  420,  87, 258,  80, 135, 230, $FA, $64, $96, $00, SKILL_TWINSLASH, SKILL_ICESLASH,  SKILL_ICEAIR,    $FF
+    dinstance MONSTER_VOODOLL,     2160, 4, 33,  204, 180, 220, 256, 150, 170, $C8, $32, $FA, $00, SKILL_SURROUND,  SKILL_PANICALL,  SKILL_DEFENCE,   $FF
+    dinstance MONSTER_RAYBURN,     2604, 6, 33,  206, 110, 235, 115, 265, 110, $FA, $64, $96, $00, SKILL_VACUSLASH, SKILL_DEVILCUT,  SKILL_POISONHIT, $FF
+    dinstance MONSTER_IRONTURT,    2248, 5, 43,  300, 120, 258, 200, 120, 180, $64, $FA, $FA, $00, SKILL_BOUNCE,    SKILL_GUARDIAN,  SKILL_STRONGD,   $FF
+    dinstance MONSTER_DARKHORN,   21076, 5, 40, 2000, 130, 225, 120,  80, 210, $FA, $00, $C8, $00, SKILL_SLEEPALL,  SKILL_STOPSPELL, SKILL_PSYCHEUP,  $FF
+    dinstance MONSTER_DARKHORN,       0, 0, 40,  170, 130, 245, 150,  80, 250, $FA, $00, $FA, $00, SKILL_SLEEPALL,  SKILL_STOPSPELL, SKILL_PSYCHEUP,  $FF
+    dinstance MONSTER_AKUBAR,     23000, 7, 40, 2000, 400, 230, 240, 250, 255, $C8, $64, $C8, $00, SKILL_EXPLODET,  SKILL_FOCUS,     SKILL_ICESTORM,  $FF
+    dinstance MONSTER_AKUBAR,         0, 0, 40,  300, 400, 200, 300, 250, 255, $FA, $64, $C8, $00, SKILL_EXPLODET,  SKILL_FOCUS,     SKILL_ICESTORM,  $FF
+    dinstance MONSTER_OROCHI,     28000, 7, 40, 2000, 110, 300, 210, 130, 130, $FA, $00, $FA, $00, SKILL_FIRESLASH, SKILL_QUADHITS,  SKILL_SCORCHING, $FF
+    dinstance MONSTER_OROCHI,         0, 0, 40,  310, 110, 300, 260, 130, 130, $FA, $00, $FA, $00, SKILL_FIRESLASH, SKILL_QUADHITS,  SKILL_SCORCHING, $FF
+    dinstance MONSTER_METABBLE,   65000, 6, 38,    8, 490,  95, 770, 511, 255, $FA, $FA, $FA, $00, SKILL_FIREBOLT,  SKILL_EXPLODET,  $DB,             $FF
+    dinstance MONSTER_GULPBEAST,   2480, 5, 38,  360,  90, 300, 185, 150,  90, $FA, $00, $96, $00, SKILL_BESERKER,  SKILL_MASSACRE,  SKILL_WARCRY,    $FF
+    dinstance MONSTER_BALZAK,      2560, 5, 38,  350, 165, 250, 320, 280, 180, $FA, $64, $C8, $00, SKILL_EXPLODET,  SKILL_ZAP,       SKILL_NONE,      $FF
+    dinstance MONSTER_SPIKEROUS,   2700, 5, 28,  250,  23, 270, 340,  90, 113, $FA, $96, $96, $00, SKILL_BESERKER,  SKILL_KAMIKAZE,  SKILL_ROCKTHROW, $FF
+    dinstance MONSTER_TRUMPETER,   2800, 5, 47,  270, 150, 330, 210, 190, 130, $C8, $64, $96, $00, SKILL_BESERKER,  SKILL_SANDSTORM, SKILL_WARCRY,    $FF
+    dinstance MONSTER_SKELETOR,    2770, 5, 47,  180, 175, 310, 260, 145, 180, $FA, $32, $FA, $00, SKILL_DEFENCE,   SKILL_BIRDBLOW,  SKILL_QUADHITS,  $FF
+    dinstance MONSTER_METALDRAK,   3360, 6, 43,  330, 105, 280, 260, 250, 130, $96, $32, $64, $00, SKILL_MASSACRE,  SKILL_ROCKTHROW, SKILL_SANDSTORM, $FF
+    dinstance MONSTER_MADDRAGON,   3150, 5, 33,  220,  24, 335, 130,  90,  30, $FA, $00, $96, $00, SKILL_MASSACRE,  SKILL_EVILSLASH, SKILL_LUREDANCE, $FF
+    dinstance MONSTER_SNAPPER,     2880, 5, 48,  235, 185, 250, 140, 140, 230, $C8, $64, $96, $00, SKILL_STOPSPELL, SKILL_YELLHELP,  SKILL_RAINSLASH, $FF
+    dinstance MONSTER_GOATHORN,    3520, 6, 33,  270, 190, 260, 150, 190, 240, $FA, $64, $FA, $00, SKILL_EXPLODET,  SKILL_INFERMOST, SKILL_BLIZZARD,  $FF
+    dinstance MONSTER_DEADNOBLE,   2990, 5, 48,  360, 240, 340, 280, 280, 215, $FA, $64, $C8, $00, SKILL_DEFEAT,    SKILL_HEALUSALL, SKILL_NONE,      $FF
+    dinstance MONSTER_ROBOSTER,    3540, 5, 38,  300,  45, 340, 230, 360, 210, $FA, $32, $C8, $00, SKILL_QUADHITS,  SKILL_SQUALLHIT, SKILL_RAINSLASH, $FF
+    dinstance MONSTER_BOMBCRAG,    2500, 4, 48,  310, 190, 175, 250,  25, 140, $C8, $64, $96, $00, SKILL_SACRIFICE, SKILL_FAREWELL,  SKILL_MEDITATE,  $FF
+    dinstance MONSTER_ANDREAL,     3480, 5, 48,  360, 280, 230, 320, 200, 250, $FA, $00, $C8, $00, SKILL_INFERMOST, SKILL_SURROUND,  SKILL_POISONAIR, $FF
+    dinstance MONSTER_UNICORN,     3120, 5, 48,  180, 330, 180, 150, 290, 255, $FA, $C8, $FA, $00, SKILL_HEALALL,   SKILL_REVIVE,    SKILL_ANTIDOTE,  $FF
+    dinstance MONSTER_GREATDRAK,   3580, 5, 51,  370, 130, 260, 210, 170, 210, $FA, $C8, $FA, $00, SKILL_ICESLASH,  SKILL_ICESTORM,  SKILL_SUCKALL,   $FF
+    dinstance MONSTER_ZAPBIRD,     3320, 5, 48,  280, 120, 210, 200, 240, 255, $FA, $96, $96, $00, SKILL_BOLTSLASH, SKILL_LIGHTNING, SKILL_NONE,      $FF
+    dinstance MONSTER_WHIPBIRD,    3076, 6, 51,  500, 200, 175, 250, 240, 230, $C8, $64, $96, $00, SKILL_IRONIZE,   SKILL_THICKFOG,  SKILL_NONE,      $FF
+    dinstance MONSTER_DURRAN,     31000, 7, 45, 3000, 330, 420, 380, 370,  10, $C8, $00, $64, $00, SKILL_DRAGONCUT, SKILL_BIRDBLOW,  SKILL_VACUUM,    $FF
+    dinstance MONSTER_DURRAN,         0, 0, 45,  220, 330, 380, 250, 190, 255, $C8, $00, $C8, $00, SKILL_DRAGONCUT, SKILL_BIRDBLOW,  SKILL_VACUUM,    $FF
+    dinstance MONSTER_DRACOLORD1, 26000, 7, 48, 4000, 550, 340, 320, 230, 255, $FA, $C8, $C8, $00, SKILL_FIREBOLT,  SKILL_MEDITATE,  SKILL_BEDRAGON,  $FF
+    dinstance MONSTER_DRACOLORD1,     0, 0, 48,  250, 550, 340, 260, 230, 255, $64, $C8, $FA, $00, SKILL_FIREBOLT,  SKILL_MEDITATE,  SKILL_BEDRAGON,  $FF
+    dinstance MONSTER_HARGON,     38000, 7, 50, 4000, 550, 260, 400, 230, 255, $FA, $32, $FA, $00, SKILL_FIREBOLT,  SKILL_EXPLODET,  SKILL_BAZOOCALL, $FF
+    dinstance MONSTER_HARGON,         0, 0, 50,  190, 550, 260, 340, 230, 255, $96, $32, $FA, $00, SKILL_FIREBOLT,  SKILL_EXPLODET,  SKILL_BAZOOCALL, $FF
+    dinstance MONSTER_SIDOH,      38000, 7, 50, 6000, 999, 530, 340, 230,  10, $C8, $00, $C8, $00, SKILL_WHITEFIRE, SKILL_WHITEAIR,  SKILL_HELLBLAST, $FF
+    dinstance MONSTER_SIDOH,          0, 0, 50,  370, 550, 370, 340, 230, 255, $C8, $00, $C8, $00, SKILL_WHITEFIRE, SKILL_BIGBANG,   SKILL_DEMAGIC,   $FF
+    dinstance MONSTER_BARAMOS,    43000, 7, 50, 4000, 999, 410, 550, 230,  10, $FA, $00, $96, $00, SKILL_EXPLODET,  SKILL_ROCKTHROW, SKILL_HELLBLAST, $FF
+    dinstance MONSTER_BARAMOS,        0, 0, 50,  250, 550, 260, 260, 230, 255, $FA, $00, $64, $00, SKILL_PANICALL,  SKILL_HELLBLAST, SKILL_BIGBANG,   $FF
+    dinstance MONSTER_ZOMA,       45076, 7, 55, 4500, 999, 440, 400, 260, 255, $FA, $00, $C8, $00, SKILL_WHITEAIR,  SKILL_BIGBANG,   SKILL_DEMAGIC,   $FF
+    dinstance MONSTER_ZOMA,           0, 0, 55,  400, 600, 420, 350, 260, 255, $FA, $00, $C8, $00, SKILL_FOCUS,     SKILL_WHITEAIR,  SKILL_DEMAGIC,   $FF
+    dinstance MONSTER_PIZZARO,    39076, 7, 55, 6000, 600, 510, 450, 260,  20, $FA, $32, $C8, $00, SKILL_QUADHITS,  SKILL_WHITEFIRE, SKILL_HELLBLAST, $FF
+    dinstance MONSTER_PIZZARO,        0, 0, 55,  360, 600, 420, 350, 260, 255, $64, $FA, $C8, $00, SKILL_QUADHITS,  SKILL_WHITEAIR,  SKILL_ULTRADOWN, $FF
+    dinstance MONSTER_ESTERK,     42076, 7, 60, 3800, 700, 560, 520, 450, 255, $FA, $00, $FA, $00, SKILL_RAINSLASH, SKILL_DEMAGIC,   SKILL_GIGASLASH, $FF
+    dinstance MONSTER_ESTERK,         0, 0, 60,  600, 700, 460, 450, 300, 255, $FA, $00, $FA, $00, SKILL_FOCUS,     SKILL_WHITEFIRE, SKILL_DEMAGIC,   $FF
+    dinstance MONSTER_MIRUDRAAS1, 48076, 7, 60, 5000, 999, 520, 480, 300,  10, $FA, $00, $C8, $00, SKILL_BLAZEMOST, SKILL_EXPLODET,  SKILL_THORDAIN,  $FF
+    dinstance MONSTER_MIRUDRAAS1,     0, 0, 60,  380, 700, 460, 380, 300, 255, $FA, $00, $C8, $00, SKILL_BLAZEMOST, SKILL_EXPLODET,  SKILL_BLIZZARD,  $FF
+    dinstance MONSTER_MUDOU,      45076, 7, 60, 5000, 999, 530, 450, 300,  10, $FA, $64, $96, $00, SKILL_WHITEFIRE, SKILL_WHITEAIR,  SKILL_POISONAIR, $FF
+    dinstance MONSTER_MUDOU,          0, 0, 60,  380, 700, 460, 450, 300, 255, $32, $64, $96, $00, SKILL_WHITEFIRE, SKILL_WHITEAIR,  SKILL_SLEEPAIR,  $FF
+    dinstance MONSTER_DEATHMORE1, 50000, 7, 58, 9000, 700, 460, 520, 450, 255, $FA, $00, $C8, $00, SKILL_HELLBLAST, SKILL_BIGBANG,   SKILL_SAMSICALL, $FF
+    dinstance MONSTER_DEATHMORE1,     0, 0, 58,  380, 700, 460, 380, 300, 255, $FA, $00, $FA, $00, SKILL_EXPLODET,  SKILL_HELLBLAST, SKILL_POISONAIR, $FF
+    dinstance MONSTER_DARKDRIUM,  65000, 0, 70, 9000, 850, 780, 520, 390,  10, $FA, $96, $FA, $00, SKILL_BIATTACK,  SKILL_WHITEFIRE, SKILL_WHITEAIR,  $FF
+    dinstance MONSTER_DARKDRIUM,      0, 0, 70,  999, 850, 999, 520, 390, 255, $FA, $FA, $FA, $00, SKILL_BIATTACK,  SKILL_WHITEFIRE, SKILL_WHITEAIR,  $FF
+    dinstance MONSTER_WATABOU,        0, 0, 20,  150, 460, 160, 205, 370, 255, $00, $FA, $FA, $00, SKILL_CHANCE,    SKILL_WHISTLE,   SKILL_IMITATE,   $FF
+    dinstance MONSTER_DRACKY,         0, 7,  1,    8,  20,  12,   4,  12,  14, $C8, $00, $00, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_ANTEATER,       0, 7,  1,   12,   0,  17,   4,   4,   3, $96, $00, $32, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_DRACKY,         0, 7,  1,    8,  20,  11,   3,  10,  14, $C8, $00, $00, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_SLIME,          0, 7,  1,    8,   0,   8,   5,   7,   1, $C8, $32, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_STUBSUCK,       0, 7,  2,   16,   6,  19,   7,  10,  10, $64, $32, $C8, $64, SKILL_SLEEP,     SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_SLIME,          0, 7,  1,    7,   0,   8,   5,   6,   1, $C8, $32, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_SPOOKY,         0, 7,  7,   16,   8,  13,  12,  17,  16, $C8, $00, $C8, $C8, SKILL_LUSHLICKS, SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_HORK,           0, 7,  5,   20,   6,  20,   6,  10,  10, $64, $00, $00, $32, SKILL_POISONGAS, SKILL_LUSHLICKS, SKILL_NONE,      $FF
+    dinstance MONSTER_SPOOKY,         0, 7,  7,   14,   8,  15,   9,  11,  13, $C8, $00, $C8, $C8, SKILL_LUSHLICKS, SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_SPOTSLIME,      0, 7,  8,   26,  11,  30,  17,  30,  11, $C8, $00, $64, $96, SKILL_CALLHELP,  SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_SPOTSLIME,      0, 7,  9,   20,  12,  26,  15,  30,  32, $32, $00, $96, $00, SKILL_LUSHLICKS, SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_SPOTSLIME,      0, 7,  8,   24,  15,  28,  14,  32,  11, $C8, $00, $C8, $96, SKILL_IMITATE,   SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_MUDDOLL,        0, 7, 12,   38,  20,  22,  18,  24,  44, $64, $00, $FA, $32, SKILL_ODDDANCE,  SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_ALMIRAJ,        0, 7, 10,   42,  26,  26,  20,  40,  22, $96, $00, $64, $64, SKILL_SLEEP,     SKILL_RAMMING,   SKILL_CHARGEUP,  $FF
+    dinstance MONSTER_MUDDOLL,        0, 7, 12,   40,  44,  20,  22,  22,  44, $32, $00, $FA, $32, SKILL_SIDESTEP,  SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_PUTREPUP,       0, 7, 12,   75,  10,  28,  24,  30,  20, $C8, $00, $96, $96, SKILL_SAP,       SKILL_SLOW,      SKILL_NONE,      $FF
+    dinstance MONSTER_MADRAVEN,       0, 7, 12,   50,  12,  30,  24,  60,  80, $C8, $00, $64, $96, SKILL_HIGHJUMP,  SKILL_TAILWIND,  SKILL_NONE,      $FF
+    dinstance MONSTER_SKULLROO,       0, 7, 12,   58,   8,  38,  18,  50,  50, $96, $00, $64, $32, SKILL_CHARGEUP,  SKILL_PANIDANCE, SKILL_NONE,      $FF
+    dinstance MONSTER_CRESTPENT,      0, 7,  8,   60,   8,  20,  30,  15,   9, $C8, $00, $64, $64, SKILL_STOPSPELL, SKILL_POISONHIT, SKILL_BEDRAGON,  $FF
+    dinstance MONSTER_TREESLIME,      0, 7, 12,   70,   8,  30,  26,  49,  46, $64, $00, $FA, $C8, SKILL_SAP,       SKILL_PARALYZE,  SKILL_SLEEPAIR,  $FF
+    dinstance MONSTER_POISONGON,      0, 7, 12,   50,  14,  35,  30,  26,  23, $96, $00, $32, $00, SKILL_POISONHIT, SKILL_POISONGAS, SKILL_NONE,      $FF
+    dinstance MONSTER_DRAKSLIME,      0, 7, 14,   40,  16,  30,  26,  96,  52, $64, $00, $C8, $96, SKILL_SUCKAIR,   SKILL_FIREAIR,   SKILL_NONE,      $FF
+    dinstance MONSTER_DRAGON,         0, 7, 15,   65,  20,  45,  40,  30,  26, $FA, $00, $00, $FA, SKILL_FIRESLASH, SKILL_FIREAIR,   SKILL_NONE,      $FF
+    dinstance MONSTER_FAIRYDRAK,      0, 7, 14,   40,  21,  25,  30,  51,  27, $96, $00, $64, $32, SKILL_SURROUND,  SKILL_SLEEPAIR,  SKILL_NONE,      $FF
+    dinstance MONSTER_SNAILY,         0, 7, 16,   45,  20,  30,  60, 110,  60, $96, $64, $00, $96, SKILL_ICEBOLT,   SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_ARMORPEDE,      0, 7, 20,   80,  27,  40,  72,  40,  68, $FA, $00, $64, $32, SKILL_UPPER,     SKILL_TWINHITS,  SKILL_TWINSLASH, $FF
+    dinstance MONSTER_SNAILY,         0, 7, 16,   40,  20,  32,  55, 110,  60, $96, $32, $00, $96, SKILL_CALLHELP,  SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_SACCER,         0, 7, 17,   80,  31,  48,  82,   9,  62, $96, $00, $C8, $64, SKILL_UPPER,     SKILL_PSYCHEUP,  SKILL_NONE,      $FF
+    dinstance MONSTER_FLORAJAY,       0, 7, 19,   50,  56,  55,  42, 142, 120, $64, $32, $64, $FA, SKILL_SPEEDUP,   SKILL_BEASTCUT,  SKILL_LIFESONG,  $FF
+    dinstance MONSTER_MADPLANT,       0, 7, 20,  100, 100,  52,  50, 135,  91, $C8, $00, $FA, $64, SKILL_SAP,       SKILL_SLOW,      SKILL_NUMBOFF,   $FF
+    dinstance MONSTER_MEDUSAEYE,      0, 7, 20,   70,  48,  40,  96,  48,  44, $64, $00, $64, $FA, SKILL_SURROUND,  SKILL_SAP,       SKILL_BRANCHING, $FF
+    dinstance MONSTER_MADGOPHER,      0, 7, 21,  100,  38,  61,  45,  54,  48, $FA, $00, $00, $C8, SKILL_CHARGEUP,  SKILL_BIRDBLOW,  SKILL_ZOMBIECUT, $FF
+    dinstance MONSTER_MEDUSAEYE,      0, 7, 20,   70,  68,  44,  90,  48,  44, $64, $00, $64, $FA, SKILL_SURROUND,  SKILL_SAP,       SKILL_BRANCHING, $FF
+    dinstance MONSTER_MADCAT,         0, 7, 20,  100,  28,  65,  60,  80,  45, $C8, $32, $C8, $FA, SKILL_VACUSLASH, SKILL_SQUALLHIT, SKILL_LEGSWEEP,  $FF
+    dinstance MONSTER_ROGUENITE,      0, 7, 27,  110,  38,  80, 100,  50,  79, $FA, $FA, $96, $C8, SKILL_HEAL,      SKILL_EVILSLASH, SKILL_METALCUT,  $FF
+    dinstance MONSTER_MADCAT,         0, 7, 20,  100,  28,  72,  50,  80,  45, $FA, $32, $C8, $FA, SKILL_VACUSLASH, SKILL_SQUALLHIT, SKILL_LEGSWEEP,  $FF
+    dinstance MONSTER_SPIKYBOY,       0, 7, 24,   80,  26,  70,  83,  50,  63, $96, $64, $64, $FA, SKILL_SACRIFICE, SKILL_HIGHJUMP,  SKILL_SMASHLIME, $FF
+    dinstance MONSTER_STUBBIRD,       0, 7, 23,  100,  44, 100, 120,  90,  82, $FA, $32, $32, $64, SKILL_TWINHITS,  SKILL_RAINSLASH, SKILL_DRAKSLASH, $FF
+    dinstance MONSTER_SPIKYBOY,       0, 7, 24,   80,  46,  75,  83,  50,  63, $96, $64, $64, $FA, SKILL_SACRIFICE, SKILL_HIGHJUMP,  SKILL_SMASHLIME, $FF
+    dinstance MONSTER_HEALER,         0, 7, 22,   80,  50,  16,  80,  37, 250, $C8, $FA, $64, $C8, SKILL_HEAL,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_ROGUENITE,      0, 7, 27,  180,  48, 150, 120,  50,  79, $FA, $32, $96, $C8, SKILL_HEAL,      SKILL_EVILSLASH, SKILL_METALCUT,  $FF
+    dinstance MONSTER_HEALER,         0, 7, 22,   90,  50,  16,  80,  37, 250, $C8, $FA, $64, $C8, SKILL_HEAL,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_BOXSLIME,       0, 7, 27,  240,  39, 122, 100, 145,  76, $64, $32, $C8, $96, SKILL_UPPER,     SKILL_RAMMING,   SKILL_NONE,      $FF
+    dinstance MONSTER_ROCKSLIME,      0, 7, 29,  170,  20, 155, 160,  89,  55, $C8, $64, $96, $FA, SKILL_HIGHJUMP,  SKILL_STRONGD,   SKILL_NONE,      $FF
+    dinstance MONSTER_BOXSLIME,       0, 7, 27,  240,  29, 122, 100, 145,  76, $C8, $96, $96, $96, SKILL_BLAZEMORE, SKILL_RAMMING,   SKILL_NONE,      $FF
+    dinstance MONSTER_HAMMERMAN,      0, 7, 32,  150,  30, 110,  90, 118,  62, $FA, $00, $32, $FA, SKILL_KAMIKAZE,  SKILL_EVILSLASH, SKILL_CHARGEUP,  $FF
+    dinstance MONSTER_HAMMERMAN,      0, 7, 32,  130,  35, 120,  85, 118,  62, $FA, $00, $32, $FA, SKILL_KAMIKAZE,  SKILL_CHARGEUP,  SKILL_NONE,      $FF
+    dinstance MONSTER_HAMMERMAN,      0, 7, 32,  120,  30, 115,  80, 118,  62, $FA, $00, $32, $FA, SKILL_KAMIKAZE,  SKILL_EVILSLASH, SKILL_CHARGEUP,  $FF
+    dinstance MONSTER_AGDEVIL,        0, 7, 31,  200,  60,  98, 115,  90, 142, $C8, $32, $96, $96, SKILL_FIREBANE,  SKILL_SLEEPAIR,  SKILL_NONE,      $FF
+    dinstance MONSTER_WINDMERGE,      0, 7, 31,  150,  80,  68, 126, 122, 165, $C8, $64, $C8, $64, SKILL_INFERMOST, SKILL_BARRIER,   SKILL_CURSEOFF,  $FF
+    dinstance MONSTER_TREEBOY,        0, 7, 33,  200,  85,  64,  80, 156, 185, $C8, $C8, $C8, $32, SKILL_ICEBOLT,   SKILL_HEAL,      SKILL_CURSEOFF,  $FF
+    dinstance MONSTER_ARMYCRAB,       0, 7, 36,  170,  78, 100, 150, 105,  72, $FA, $32, $FA, $00, SKILL_INCREASE,  SKILL_METALCUT,  SKILL_NONE,      $FF
+    dinstance MONSTER_MADDRAGON,      0, 7, 33,  220,  20, 200,  70, 150,  20, $FA, $00, $96, $96, SKILL_MASSACRE,  SKILL_EVILSLASH, SKILL_LUREDANCE, $FF
+    dinstance MONSTER_ARMYCRAB,       0, 7, 36,  130,  78, 110, 140, 105,  72, $C8, $32, $FA, $00, SKILL_INCREASE,  SKILL_METALCUT,  SKILL_CALLHELP,  $FF
+    dinstance MONSTER_FIREWEED,       0, 7, 39,  160,  80,  73, 108, 110, 147, $FA, $00, $96, $64, SKILL_BLAZEMORE, SKILL_DECHAOS,   SKILL_PALSYAIR,  $FF
+    dinstance MONSTER_EVILBEAST,      0, 7, 37,  150,  60, 172, 132, 106, 186, $FA, $32, $FA, $96, SKILL_FIREBANE,  SKILL_ICEAIR,    SKILL_NONE,      $FF
+    dinstance MONSTER_WYVERN,         0, 7, 39,  160,  75, 135, 100, 160, 205, $96, $96, $96, $FA, SKILL_SLEEPALL,  SKILL_HEALMORE,  SKILL_ICEAIR,    $FF
+    dinstance MONSTER_GRIZZLY,        0, 7, 38,  250,  20, 260,  72, 200,  80, $FA, $00, $00, $C8, SKILL_SQUALLHIT, SKILL_BIGTRIP,   SKILL_NONE,      $FF
+    dinstance MONSTER_LIONEX,         0, 7, 40,  260, 100, 122, 200, 210, 160, $96, $96, $96, $32, SKILL_INFERMOST, SKILL_HEALUS,    SKILL_VACUSLASH, $FF
+    dinstance MONSTER_GRIZZLY,        0, 7, 38,  240,  20, 250,  72, 200,  80, $FA, $00, $00, $C8, SKILL_TWINSLASH, SKILL_SQUALLHIT, SKILL_BIGTRIP,   $FF
+    dinstance MONSTER_TOADSTOOL,      0, 7, 40,  250, 120, 150, 160, 150, 120, $00, $00, $00, $00, SKILL_NAPATTACK, SKILL_SLEEPAIR,  SKILL_MOUTHSHUT, $FF
+    dinstance MONSTER_LIPSY,          0, 7, 38,  350, 110, 170, 100, 180, 150, $32, $00, $32, $00, SKILL_NAPATTACK, SKILL_AHHH,      SKILL_LUSHLICKS, $FF
+    dinstance MONSTER_TOADSTOOL,      0, 7, 40,  250, 100, 140, 150, 120, 120, $00, $00, $00, $00, SKILL_NAPATTACK, SKILL_SLEEPAIR,  SKILL_MOUTHSHUT, $FF
+    dinstance MONSTER_DANCEVEGI,      0, 7, 44,  160,  80,  84, 200, 120, 150, $C8, $00, $C8, $64, SKILL_KO_DANCE,  SKILL_SIDESTEP,  SKILL_LUREDANCE, $FF
+    dinstance MONSTER_VOODOLL,        0, 7, 33,  190, 120, 168, 216, 150, 170, $FA, $00, $C8, $FA, SKILL_SURROUND,  SKILL_PANICALL,  SKILL_DEFENCE,   $FF
+    dinstance MONSTER_DANCEVEGI,      0, 7, 44,  170,  85,  86, 190, 316, 150, $C8, $00, $96, $64, SKILL_KO_DANCE,  SKILL_SIDESTEP,  SKILL_LUREDANCE, $FF
+    dinstance MONSTER_SLIME,          0, 7, 38,  250, 120, 200, 130, 260, 140, $64, $00, $64, $C8, SKILL_FIREBOLT,  SKILL_RADIANT,   SKILL_NONE,      $FF
+    dinstance MONSTER_DRACKY,         0, 7, 38,  180, 150, 170, 130, 160, 200, $C8, $00, $C8, $96, SKILL_SLEEPALL,  SKILL_ROBMAGIC,  SKILL_RADIANT,   $FF
+    dinstance MONSTER_ARMYANT,        0, 7, 33,  210, 100, 250, 200, 150,  90, $FA, $00, $00, $C8, SKILL_KAMIKAZE,  SKILL_YELLHELP,  SKILL_NAPATTACK, $FF
+    dinstance MONSTER_METABBLE,       0, 7, 38,   10, 490, 110, 670, 511, 255, $FA, $FA, $FA, $00, SKILL_FIREBOLT,  SKILL_EXPLODET,  SKILL_NONE,      $FF
+    dinstance MONSTER_ROBOSTER,       0, 7, 38,  310, 145, 230, 180, 360, 210, $FA, $32, $32, $32, SKILL_QUADHITS,  SKILL_SQUALLHIT, SKILL_RAINSLASH, $FF
+    dinstance MONSTER_METALDRAK,      0, 7, 43,  400, 105, 250, 200, 250, 130, $C8, $32, $96, $64, SKILL_MASSACRE,  SKILL_SANDSTORM, SKILL_NONE,      $FF
+    dinstance MONSTER_CENTASAUR,      0, 7, 43,  320,  85, 205, 240, 320, 200, $FA, $32, $C8, $FA, SKILL_STOPSPELL, SKILL_FIRESLASH, SKILL_RAINSLASH, $FF
+    dinstance MONSTER_OROCHI,         0, 7, 50,  300, 200, 160, 320, 250, 180, $FA, $00, $FA, $C8, SKILL_FIRESLASH, SKILL_QUADHITS,  SKILL_SCORCHING, $FF
+    dinstance MONSTER_SWORDGON,       0, 7, 48,  250, 100, 180, 210, 100, 130, $C8, $C8, $C8, $FA, SKILL_CLEANCUT,  SKILL_RAINSLASH, SKILL_BLADED,    $FF
+    dinstance MONSTER_ANDREAL,        0, 7, 48,  340, 180, 185, 260, 200, 250, $C8, $00, $C8, $C8, SKILL_INFERMOST, SKILL_SURROUND,  SKILL_POISONAIR, $FF
+    dinstance MONSTER_UNICORN,        0, 7, 48,  220, 230, 170, 150, 290, 255, $FA, $FA, $FA, $FA, SKILL_HEALALL,   SKILL_REVIVE,    SKILL_ANTIDOTE,  $FF
+    dinstance MONSTER_MADDRAGON,      0, 7, 33,  220,  20, 305, 120, 200,  30, $FA, $00, $C8, $96, SKILL_MASSACRE,  SKILL_EVILSLASH, SKILL_LUREDANCE, $FF
+    dinstance MONSTER_METALKING,      0, 7, 50,    8, 700, 150, 700, 511, 255, $FA, $FA, $FA, $C8, SKILL_ZAP,       SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_COATOL,         0, 7, 50,  300, 180, 220, 240, 320, 200, $FA, $64, $96, $64, SKILL_EXPLODET,  SKILL_EVILSLASH, SKILL_BOLTSLASH, $FF
+    dinstance MONSTER_RAINHAWK,       0, 7, 50,  380,  50, 200, 220, 320, 255, $C8, $96, $32, $FA, SKILL_MEGAMAGIC, SKILL_SURGE,     SKILL_NONE,      $FF
+    dinstance MONSTER_LIZARDMAN,      0, 0, 20,   80,  40, 130,  70,  70,  70, $64, $64, $64, $64, SKILL_HEAL,      SKILL_VIVIFY,    SKILL_STRONGD,   $FF
+    dinstance MONSTER_CATFLY,         0, 0, 20,   50,  40,  80,  50, 100,  70, $C8, $00, $32, $C8, SKILL_ROBMAGIC,  SKILL_UPPER,     SKILL_TWINHITS,  $FF
+    dinstance MONSTER_DEADNITE,       0, 0, 20,   80,  80,  70,  90,  60,  90, $FA, $32, $96, $96, SKILL_DRAGONCUT, SKILL_DEVILCUT,  SKILL_SMASHLIME, $FF
+    dinstance MONSTER_ICEMAN,         0, 0, 20,   80,  40,  80, 150,  50,  40, $00, $00, $00, $00, SKILL_COVER,     SKILL_TAILWIND,  SKILL_NONE,      $FF
+    dinstance MONSTER_RAYBURN,        0, 0, 30,  150,  80, 160, 100, 220,  90, $FA, $96, $64, $C8, SKILL_BLAZE,     SKILL_FIREBAL,   SKILL_BANG,      $FF
+    dinstance MONSTER_EYEDER,         0, 0, 30,  100,  60, 130, 120, 140, 100, $32, $96, $C8, $64, SKILL_ROBDANCE,  SKILL_SIDESTEP,  SKILL_LUREDANCE, $FF
+    dinstance MONSTER_FANGSLIME,      0, 0, 30,   90,  60, 170, 130, 170,  90, $C8, $C8, $C8, $C8, SKILL_SUCKAIR,   SKILL_BIATTACK,  SKILL_BLADED,    $FF
+    dinstance MONSTER_DROLL,          0, 0, 30,   80, 120, 100, 100,  80, 120, $96, $00, $64, $64, SKILL_BIRDBLOW,  SKILL_SMASHLIME, SKILL_DRAKSLASH, $FF
+    dinstance MONSTER_YETI,           0, 0, 38,  220, 140, 230, 210, 100, 140, $96, $FA, $C8, $00, SKILL_STOPSPELL, SKILL_DANCESHUT, SKILL_MOUTHSHUT, $FF
+    dinstance MONSTER_STONEMAN,       0, 0, 40,  300, 120, 200, 240,  90, 170, $FA, $32, $32, $C8, SKILL_HEALUS,    SKILL_FAREWELL,  SKILL_AHHH,      $FF
+    dinstance MONSTER_METALY,         0, 0, 20,   10, 200,  30, 300, 200,  50, $00, $64, $64, $00, SKILL_COVER,     SKILL_LIFEDANCE, SKILL_NONE,      $FF
+    dinstance MONSTER_SKELETOR,       0, 0, 40,  160, 170, 310, 260, 140, 180, $FA, $32, $FA, $96, SKILL_CLEANCUT,  SKILL_MULTICUT,  SKILL_GIGASLASH, $FF
+    dinstance MONSTER_MIMIC,         10, 4,  1,   12,   2,  10,   6,   5,   8, $C8, $64, $64, $32, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_MIMIC,         30, 4,  5,   20,   9,  20,  12,  10,  30, $C8, $64, $64, $32, SKILL_BLAZE,     SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_MIMIC,         90, 4, 10,   45,  20,  40,  20,  20,  80, $C8, $64, $64, $32, SKILL_BLAZE,     SKILL_BEAT,      SKILL_NONE,      $FF
+    dinstance MONSTER_MIMIC,        300, 4, 20,   80,  40,  60,  40,  40, 130, $C8, $64, $64, $32, SKILL_BLAZEMORE, SKILL_BEAT,      SKILL_NONE,      $FF
+    dinstance MONSTER_MIMIC,        600, 4, 30,  125,  60,  80,  60,  60, 170, $C8, $64, $64, $32, SKILL_BLAZEMORE, SKILL_BEAT,      SKILL_NONE,      $FF
+    dinstance MONSTER_MIMIC,       1200, 4, 38,  165,  80, 100,  80,  80, 210, $C8, $64, $64, $32, SKILL_BLAZEMOST, SKILL_DEFEAT,    SKILL_NONE,      $FF
+    dinstance MONSTER_MIMIC,       3076, 4, 38,  295, 160, 120, 110,  90, 225, $C8, $64, $64, $32, SKILL_BLAZEMOST, SKILL_DEFEAT,    SKILL_NONE,      $FF
+    dinstance MONSTER_MIMIC,       6076, 4, 38,  330, 220, 200, 150, 110, 225, $C8, $64, $64, $32, SKILL_BLAZEMOST, SKILL_DEFEAT,    SKILL_NONE,      $FF
+    dinstance MONSTER_SLIME,          0, 0,  1,    4,   2,   3,   4,   8,   5, $00, $FA, $64, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_DRAGONKID,      0, 0,  1,    8,   4,  10,   7,   6,   8, $FA, $32, $00, $FA, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_ANTEATER,       0, 0,  1,    6,   3,   6,   4,   7,   5, $64, $96, $FA, $32, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_1EYECLOWN,      0, 0,  1,    7,   8,   5,   3,   6,  10, $32, $64, $FA, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_BLIZZARDY,      0, 0,  1,   15,  10,  12,   8,  18,  10, $96, $C8, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_PHOENIX,        0, 0,  1,   15,  10,  12,   8,  18,  10, $96, $C8, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_LAVAMAN,        0, 0,  1,   18,   8,  12,  18,   4,   6, $FA, $64, $32, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_ICEMAN,         0, 0,  1,   18,   8,  12,  18,   4,   6, $FA, $64, $32, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_NITEWHIP,       0, 0,  1,   20,  20,  20,  15,  25,  15, $C8, $64, $C8, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_ARMORPEDE,      0, 0,  1,   30,  20,  20,  30,  15,  15, $C8, $96, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_MANEATER,       0, 0,  1,   30,  30,  25,  20,  20,  20, $C8, $32, $96, $64, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_ZAPBIRD,        0, 0,  1,   30,  25,  30,  25,  30,  20, $96, $C8, $C8, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_TRUMPETER,      0, 0,  1,   35,  25,  35,  30,  25,  25, $FA, $96, $64, $64, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_CHOPCLOWN,      0, 0,  1,   35,  20,  35,  20,  35,  20, $C8, $64, $C8, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_SPIKEROUS,      0, 0,  1,   40,  30,  40,  60,  20,  30, $FA, $C8, $96, $96, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_METABBLE,       0, 0,  1,   10,  50,  20, 200, 200,  30, $00, $96, $64, $00, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_STUBSUCK,     300, 4, 20,   80, 120,  40,  30,  30, 100, $64, $32, $C8, $64, SKILL_SLEEPALL,  SKILL_ZOMBIECUT, SKILL_NONE,      $FF
+    dinstance MONSTER_SERVANT,        0, 6, 55,  300, 350, 380, 220, 306, 255, $FA, $32, $64, $FA, SKILL_BLAZEMOST, SKILL_BLIZZARD,  SKILL_NONE,      $FF
+    dinstance $D7,                    0, 7, 60, 2000, 200, 390, 220, 400, 255, $FA, $32, $64, $C8, SKILL_EVILSLASH, SKILL_BOLTSLASH, SKILL_RAINSLASH, $FF
+    dinstance $D8,                    0, 7, 30,  200, 100, 180, 150,  80, 150, $FA, $FA, $FA, $FA, SKILL_HEALMORE,  SKILL_LIGHTNING, SKILL_COVER,     $FF
+    dinstance $D9,                    0, 7, 40,  300, 200, 210, 160, 120, 100, $FA, $FA, $FA, $FA, SKILL_TWINHITS,  SKILL_SCORCHING, SKILL_SICKLICK,  $FF
+    dinstance $DA,                    0, 7, 50,  450, 200, 250, 190, 150, 200, $FA, $FA, $FA, $FA, SKILL_EVILSLASH, SKILL_SQUALLHIT, SKILL_RAINSLASH, $FF
+    dinstance $DB,                    0, 7, 60,  700, 400, 350, 300, 100, 250, $FA, $FA, $FA, $FA, SKILL_ICESTORM,  SKILL_HELLBLAST, SKILL_DEMAGIC,   $FF
+    dinstance $DC,                    0, 7, 50,  999, 300, 300, 200, 200, 200, $FA, $00, $00, $FA, SKILL_WHITEFIRE, SKILL_WHITEAIR,  SKILL_DEMAGIC,   $FF
+    dinstance MONSTER_DRAGONKID,   1000, 4, 23,   70,  60, 100,  60,  90,  90, $96, $32, $96, $FA, SKILL_BLAZEAIR,  SKILL_SLEEPAIR,  SKILL_DODGE,     $FF
+    dinstance MONSTER_SKYDRAGON,      0, 0,  1,   20,  27,  28,  20,  15,  16, $96, $32, $C8, $FA, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_SLIME,          0, 0,  1,   60,  50,  64,  54, 120,  65, $00, $00, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_HAMMERMAN,     70, 5,  5,   25,  12,  28,  14,  22,  45, $C8, $32, $64, $C8, SKILL_BOLTSLASH, SKILL_VACUSLASH, SKILL_ICESLASH,  $FF
+    dinstance MONSTER_GOATEGON,      80, 5,  6,   26,  10,  32,  22,  26,  25, $FA, $00, $96, $C8, SKILL_TWINSLASH, SKILL_RAMMING,   SKILL_BESERKER,  $FF
+    dinstance MONSTER_STAGBUG,       83, 5,  5,   27,  12,  26,  28,  15,  28, $FA, $64, $32, $96, SKILL_VACUSLASH, SKILL_ICESLASH,  SKILL_METALCUT,  $FF
+    dinstance MONSTER_SPOTKING,      86, 5,  6,   32,  20,  25,  20,  32,  43, $C8, $64, $64, $FA, SKILL_BIATTACK,  SKILL_CALLHELP,  SKILL_RAINSLASH, $FF
+    dinstance MONSTER_LIZARDFLY,     90, 5,  6,   36,  16,  28,  16,  10,  30, $C8, $00, $C8, $32, SKILL_FIREAIR,   SKILL_FRIGIDAIR, SKILL_NONE,      $FF
+    dinstance MONSTER_DUCKKITE,      88, 5,  5,   22,  24,  25,  21,  31,  34, $C8, $32, $00, $64, SKILL_BEASTCUT,  SKILL_BIRDBLOW,  SKILL_SMASHLIME, $FF
+    dinstance MONSTER_DARKEYE,       81, 5,  6,   22,  42,  21,  14,  36,  41, $64, $32, $96, $96, SKILL_TWINHITS,  SKILL_MAGICBACK, SKILL_SIDESTEP,  $FF
+    dinstance MONSTER_CACTIBALL,    100, 5,  6,   32,  37,  25,  24,  17,  38, $64, $64, $C8, $64, SKILL_LUREDANCE, SKILL_LUSHLICKS, SKILL_BLADED,    $FF
+    dinstance MONSTER_SNAPPER,       50, 5,  5,   30,  23,  20,  10,  12,  34, $96, $32, $FA, $C8, SKILL_BEAT,      SKILL_SLOW,      SKILL_SANDSTORM, $FF
+    dinstance MONSTER_REAPER,        76, 5,  6,   31,  17,  29,  13,  22,  39, $64, $00, $96, $64, SKILL_STOPSPELL, SKILL_DANCESHUT, SKILL_MOUTHSHUT, $FF
+    dinstance MONSTER_MISTYWING,     68, 5,  6,   35,  34,  16,  24,  32,  30, $32, $00, $FA, $96, SKILL_SLEEP,     SKILL_WARCRY,    SKILL_TAILWIND,  $FF
+    dinstance MONSTER_GASGON,        75, 5,  5,   26,   6,  34,  25,  14,  32, $96, $96, $96, $64, SKILL_HEAL,      SKILL_DODGE,     SKILL_NONE,      $FF
+    dinstance MONSTER_SLIMENITE,     63, 5,  5,   29,  24,  30,  18,  34,  33, $96, $64, $32, $FA, SKILL_UPPER,     SKILL_SPEED,     SKILL_HEAL,      $FF
+    dinstance MONSTER_TAILEATER,     76, 5,  6,   23,  20,  21,  20,  24,  28, $C8, $96, $96, $32, SKILL_MAGICBACK, SKILL_HEAL,      SKILL_NONE,      $FF
+    dinstance MONSTER_TREEBOY,       76, 5,  5,   37,  45,  16,  21,  19,  37, $64, $96, $C8, $C8, SKILL_ICEBOLT,   SKILL_HEAL,      SKILL_VIVIFY,    $FF
+    dinstance MONSTER_AGDEVIL,       86, 5,  5,   30,  36,  32,  23,  23,  45, $C8, $96, $C8, $C8, SKILL_BESERKER,  SKILL_COVER,     SKILL_STRONGD,   $FF
+    dinstance MONSTER_WYVERN,       183, 5, 12,   46,  32,  52,  28,  48,  84, $C8, $32, $64, $00, SKILL_BIATTACK,  SKILL_SQUALLHIT, SKILL_WINDBEAST, $FF
+    dinstance MONSTER_AMBERWEED,    186, 5, 13,   36,  64,  50,  36,  39,  42, $FA, $00, $00, $96, SKILL_FIREBAL,   SKILL_DEVILCUT,  SKILL_BLAZEAIR,  $FF
+    dinstance MONSTER_ARCDEMON,     200, 5, 12,   48,  46,  53,  42,  18,  88, $C8, $64, $C8, $96, SKILL_FIRESLASH, SKILL_VACUSLASH, SKILL_ICESLASH,  $FF
+    dinstance MONSTER_ICEMAN,       216, 3, 12,   38,  41,  47,  40,  21,  51, $C8, $00, $00, $C8, SKILL_MASSACRE,  SKILL_SQUALLHIT, SKILL_BRANCHING, $FF
+    dinstance MONSTER_SLIMEBORG,    203, 5, 12,   52,  24,  43,  31,  49,  61, $FA, $64, $64, $96, SKILL_CLEANCUT,  SKILL_PSYCHEUP,  SKILL_WARCRY,    $FF
+    dinstance MONSTER_ARMYCRAB,     190, 5, 12,   46,  31,  50,  36,  28,  50, $64, $00, $96, $32, SKILL_CURSE,     SKILL_ODDDANCE,  SKILL_DRAKSLASH, $FF
+    dinstance MONSTER_SHADOW,       166, 5, 13,   59,  40,  54,  50,  26,  46, $96, $32, $C8, $96, SKILL_SLEEP,     SKILL_ROBMAGIC,  SKILL_SPEEDUP,   $FF
+    dinstance MONSTER_LIZARDMAN,    176, 5, 13,   55,  34,  52,  34,  32,  48, $C8, $64, $C8, $00, SKILL_PANICALL,  SKILL_LUREDANCE, SKILL_LEGSWEEP,  $FF
+    dinstance MONSTER_MADHORNET,    210, 6, 13,   60,  37,  54,  31,  54,  55, $96, $32, $C8, $FA, SKILL_CURSE,     SKILL_SANDSTORM, SKILL_TAILWIND,  $FF
+    dinstance MONSTER_FIREWEED,     153, 5, 12,   49,  42,  40,  29,  30,  46, $64, $00, $FA, $96, SKILL_PANIDANCE, SKILL_LUSHLICKS, SKILL_WARCRY,    $FF
+    dinstance MONSTER_WINDMERGE,    196, 5, 12,   44,  45,  38,  40,  40,  51, $96, $64, $32, $C8, SKILL_HEAL,      SKILL_COVER,     SKILL_TAILWIND,  $FF
+    dinstance MONSTER_ORC,          180, 5, 13,   51,  29,  36,  25,  44,  57, $C8, $C8, $C8, $32, SKILL_HEAL,      SKILL_VIVIFY,    SKILL_LUREDANCE, $FF
+    dinstance MONSTER_DROLL,        150, 5, 12,   39,  50,  40,  28,  31,  55, $00, $C8, $C8, $FA, SKILL_HEAL,      SKILL_THICKFOG,  SKILL_COVER,     $FF
+    dinstance MONSTER_PHOENIX,      193, 5, 12,   50,  47,  53,  27,  41,  47, $C8, $C8, $C8, $FA, SKILL_HEAL,      SKILL_BLAZEAIR,  SKILL_TAILWIND,  $FF
+    dinstance MONSTER_GIANTMOTH,    170, 5, 12,   41,  46,  40,  36,  29,  57, $C8, $96, $C8, $64, SKILL_HEAL,      SKILL_POISONHIT, SKILL_ODDDANCE,  $FF
+    dinstance MONSTER_GRIZZLY,      183, 6, 13,   57,  43,  62,  23,  48,  24, $FA, $FA, $FA, $FA, SKILL_HEAL,      SKILL_MASSACRE,  SKILL_RADIANT,   $FF
+    dinstance MONSTER_WILDAPE,      500, 5, 20,   65,  46,  78,  38,  51,  47, $FA, $00, $00, $64, SKILL_CHARGEUP,  SKILL_METALCUT,  SKILL_CLEANCUT,  $FF
+    dinstance MONSTER_BLIZZARDY,    513, 5, 20,   72,  53,  71,  46,  46,  57, $C8, $64, $64, $96, SKILL_INFERMORE, SKILL_TWINSLASH, SKILL_HIGHJUMP,  $FF
+    dinstance MONSTER_EVILWAND,     526, 5, 21,   66,  55,  59,  45,  53,  45, $FA, $00, $C8, $64, SKILL_BLAZEMORE, SKILL_BOOM,      SKILL_CHARGEUP,  $FF
+    dinstance MONSTER_LAVAMAN,      546, 5, 21,   80,  43,  88,  49,  40,  51, $C8, $32, $32, $96, SKILL_BLAZEMORE, SKILL_FIRESLASH, SKILL_METALCUT,  $FF
+    dinstance MONSTER_CURSELAMP,    553, 5, 20,   60,  70,  62,  50,  42,  59, $FA, $64, $64, $00, SKILL_SNOWSTORM, SKILL_SACRIFICE, SKILL_DRAGONCUT, $FF
+    dinstance MONSTER_MADSPIRIT,    546, 5, 20,   63,  68,  85,  55,  64,  60, $96, $00, $C8, $64, SKILL_PANICALL,  SKILL_DEFENCE,   SKILL_BOUNCE,    $FF
+    dinstance MONSTER_GISMO,        563, 5, 21,   57,  47,  69,  52,  72,  46, $96, $32, $96, $64, SKILL_SLEEPALL,  SKILL_SLOWALL,   SKILL_POISONAIR, $FF
+    dinstance MONSTER_DEADNITE,     516, 5, 20,   80,  65,  72,  67,  52,  77, $64, $00, $64, $64, SKILL_SPEEDUP,   SKILL_WARCRY,    SKILL_DANCESHUT, $FF
+    dinstance MONSTER_ROGUENITE,    533, 5, 21,   75,  61, 103, 120,  40,  61, $C8, $64, $C8, $C8, SKILL_TAKEMAGIC, SKILL_CURSE,     SKILL_SICKLICK,  $FF
+    dinstance MONSTER_KINGCOBRA,    563, 5, 21,  100,  39,  80,  72, 110,  41, $96, $32, $96, $00, SKILL_BEAT,      SKILL_TWINHITS,  SKILL_EERIELITE, $FF
+    dinstance MONSTER_PHOENIX,      533, 5, 20,   81,  46,  77,  51,  66,  40, $C8, $96, $00, $96, SKILL_HEAL,      SKILL_MAGICWALL, SKILL_VACUSLASH, $FF
+    dinstance MONSTER_DRAGON,       563, 5, 21,  105,  36,  83,  63,  48,  64, $C8, $C8, $C8, $C8, SKILL_HEAL,      SKILL_CALLHELP,  SKILL_COVER,     $FF
+    dinstance MONSTER_METALY,      4000, 6, 20,   10, 200,  45, 300, 250,  66, $FA, $C8, $C8, $FA, SKILL_HEAL,      SKILL_MASSACRE,  SKILL_GUARDIAN,  $FF
+    dinstance MONSTER_LANDOWL,      516, 5, 21,   95,  57, 110,  57,  53,  48, $C8, $C8, $C8, $FA, SKILL_INFERMORE, SKILL_HEAL,      SKILL_SURGE,     $FF
+    dinstance MONSTER_EVILBEAST,    546, 5, 20,   84,  53, 110,  71,  64, 100, $FA, $FA, $FA, $00, SKILL_BOLT,      SKILL_HEAL,      SKILL_BIGTRIP,   $FF
+    dinstance MONSTER_LIPSY,        333, 5, 20,   52,  43,  46,  46,  36,  57, $FA, $FA, $FA, $FA, SKILL_HEALUS,    SKILL_FAREWELL,  SKILL_KAMIKAZE,  $FF
+    dinstance MONSTER_LIONEX,      1000, 5, 26,  110,  70, 100, 106, 122, 117, $FA, $96, $C8, $C8, SKILL_FIREBANE,  SKILL_SUCKAIR,   SKILL_SCORCHING, $FF
+    dinstance MONSTER_RAYBURN,     1006, 5, 26,   93,  55, 104,  62, 136,  65, $C8, $00, $00, $FA, SKILL_LIGHTNING, SKILL_ICESTORM,  SKILL_PARALYZE,  $FF
+    dinstance MONSTER_MANEATER,    1033, 5, 27,   88, 114,  93,  45,  42,  57, $C8, $64, $96, $C8, SKILL_ZAP,       SKILL_ROCKTHROW, SKILL_LUSHLICKS, $FF
+    dinstance MONSTER_ROTRAVEN,    1020, 5, 26,   67,  84, 114,  70, 120, 102, $96, $32, $64, $00, SKILL_BEAT,      SKILL_VACUSLASH, SKILL_BIATTACK,  $FF
+    dinstance MONSTER_OGRE,        1043, 5, 27,  134,  72, 120, 107,  52, 115, $32, $00, $00, $00, SKILL_TWINSLASH, SKILL_BEASTCUT,  SKILL_VACUUM,    $FF
+    dinstance MONSTER_IRONTURT,    1020, 5, 26,  140,  60, 130, 100,  61,  91, $64, $64, $64, $64, SKILL_SACRIFICE, SKILL_BARRIER,   SKILL_TATSUCALL, $FF
+    dinstance MONSTER_COPYCAT,     1066, 5, 26,   55,  45,  82,  61,  64,  57, $96, $96, $96, $32, SKILL_MAGICWALL, SKILL_IMITATE,   SKILL_THICKFOG,  $FF
+    dinstance MONSTER_DARKCRAB,    1006, 5, 25,  130,  64, 136, 111,  54,  70, $32, $00, $96, $FA, SKILL_STOPSPELL, SKILL_ROBDANCE,  SKILL_SICKLICK,  $FF
+    dinstance MONSTER_WINGSNAKE,   1060, 5, 26,  132,  77, 120,  89,  85,  78, $64, $32, $64, $64, SKILL_DEFENCE,   SKILL_PANIDANCE, SKILL_BRANCHING, $FF
+    dinstance MONSTER_DANCEVEGI,   1066, 5, 25,   83,  61,  59, 120, 156,  85, $FA, $FA, $FA, $FA, SKILL_TWINHITS,  SKILL_LUREDANCE, SKILL_MOUTHSHUT, $FF
+    dinstance MONSTER_GRENDAL,      996, 5, 26,   99,  41, 135, 155, 112, 113, $96, $96, $96, $64, SKILL_HEALMORE,  SKILL_PSYCHEUP,  SKILL_LIFESONG,  $FF
+    dinstance MONSTER_JEWELBAG,    1050, 5, 25,   68,  76, 123, 126,  40, 130, $C8, $C8, $C8, $32, SKILL_HEALUS,    SKILL_SIDESTEP,  SKILL_DIAGOCALL, $FF
+    dinstance MONSTER_PHOENIX,     1040, 5, 26,  110,  65, 125,  70, 100,  75, $64, $64, $64, $FA, SKILL_CALLHELP,  SKILL_POISONAIR, SKILL_HUSTLE,    $FF
+    dinstance MONSTER_GOATEGON,    1023, 5, 25,  133, 107, 155,  82,  98, 128, $C8, $96, $C8, $96, SKILL_HEALALL,   SKILL_VIVIFY,    SKILL_SQUALLHIT, $FF
+    dinstance MONSTER_FACETREE,    1040, 5, 26,  125, 119,  67,  74,  51,  86, $32, $00, $32, $00, SKILL_MAGICWALL, SKILL_GUARDIAN,  SKILL_DRAKSLASH, $FF
+    dinstance MONSTER_SWORDGON,    1093, 5, 25,  126,  95,  95, 128,  46,  67, $FA, $C8, $C8, $FA, SKILL_ZAP,       SKILL_INCREASE,  SKILL_HEALMORE,  $FF
+    dinstance MONSTER_SUPERTEN,    1666, 5, 33,  156,  60,  77,  60, 136,  78, $64, $00, $64, $C8, SKILL_FIREBOLT,  SKILL_FIRESLASH, SKILL_QUADHITS,  $FF
+    dinstance MONSTER_MADMIRROR,   1666, 5, 33,  164,  62,  71,  64, 170, 120, $96, $32, $32, $FA, SKILL_BOOM,      SKILL_BIRDBLOW,  SKILL_RAINSLASH, $FF
+    dinstance MONSTER_YETI,        1706, 5, 34,  198, 110, 170, 170,  80,  94, $FA, $96, $64, $64, SKILL_INFERMOST, SKILL_HIGHJUMP,  SKILL_VACUUM,    $FF
+    dinstance MONSTER_SKULLGON,    1720, 5, 33,  164,  63, 132, 174,  85, 169, $C8, $64, $32, $FA, SKILL_BLAZEMOST, SKILL_TWINSLASH, SKILL_SQUALLHIT, $FF
+    dinstance MONSTER_CENTASAUR,   1756, 5, 33,  200, 126, 225, 270, 320, 220, $FA, $32, $32, $96, SKILL_SACRIFICE, SKILL_VACUUM,    SKILL_POISONHIT, $FF
+    dinstance MONSTER_EVILARMOR,   1716, 5, 34,  185, 102, 229, 420, 135, 148, $C8, $32, $FA, $64, SKILL_SLEEPALL,  SKILL_BARRIER,   SKILL_RAINSLASH, $FF
+    dinstance MONSTER_VOODOLL,     1760, 5, 33,  154, 148, 168, 164, 120, 133, $64, $32, $96, $C8, SKILL_BOUNCE,    SKILL_POISONAIR, SKILL_WARCRY,    $FF
+    dinstance MONSTER_GOLEM,       1723, 5, 33,  210,  59, 108, 182,  52, 192, $64, $64, $64, $FA, SKILL_PANIDANCE, SKILL_ROBDANCE,  SKILL_HUSTLE,    $FF
+    dinstance MONSTER_LAVAMAN,     1713, 5, 33,  180,  63, 158, 179,  87, 101, $C8, $32, $C8, $96, SKILL_CURSE,     SKILL_EERIELITE, SKILL_SAMSICALL, $FF
+    dinstance MONSTER_BLIZZARDY,   1746, 5, 33,  182, 103, 121, 116, 152, 107, $C8, $64, $C8, $96, SKILL_SANDSTORM, SKILL_SICKLICK,  SKILL_STORMWIND, $FF
+    dinstance MONSTER_MADCAT,      1726, 5, 34,  166,  64, 159, 124, 163, 107, $96, $96, $96, $FA, SKILL_HEALMORE,  SKILL_ICESLASH,  SKILL_LUREDANCE, $FF
+    dinstance MONSTER_STONEMAN,    1740, 5, 34,  220,  96, 147, 220,  71, 125, $C8, $96, $C8, $C8, SKILL_FIREBOLT,  SKILL_HEALUS,    SKILL_SUCKALL,   $FF
+    dinstance MONSTER_BIGEYE,      1703, 5, 33,  155, 134, 162, 122, 137, 100, $FA, $FA, $FA, $FA, SKILL_HEALUS,    SKILL_FAREWELL,  SKILL_HIGHJUMP,  $FF
+    dinstance MONSTER_METALY,      6076, 6, 30,   15, 300,  65, 400, 350,  86, $FA, $C8, $FA, $64, SKILL_HEAL,      SKILL_KAMIKAZE,  SKILL_SUCKALL,   $FF
+    dinstance MONSTER_GASGON,      1746, 5, 34,  164,  58,  67, 117,  80,  97, $96, $32, $64, $00, SKILL_HEALMORE,  SKILL_YELLHELP,  SKILL_SUCKALL,   $FF
+    dinstance MONSTER_GIGANTES,    1730, 5, 33,  210,  20, 226,  84, 128,  18, $64, $64, $64, $64, SKILL_IMITATE,   SKILL_GUARDIAN,  SKILL_SMASHLIME, $FF
+    dinstance MONSTER_SKELETOR,    3433, 5, 39,  145, 160, 272, 224, 128, 166, $C8, $32, $32, $96, SKILL_BIRDBLOW,  SKILL_FOCUS,     SKILL_DRAKSLASH, $FF
+    dinstance MONSTER_SNAPPER,     3520, 5, 40,  186, 161, 234, 124, 127, 118, $FA, $00, $64, $C8, SKILL_SUCKAIR,   SKILL_WHITEFIRE, SKILL_BRANCHING, $FF
+    dinstance MONSTER_LAVAMAN,     3546, 5, 38,  190, 113, 198, 159, 140, 101, $C8, $32, $32, $96, SKILL_THORDAIN,  SKILL_TWINSLASH, SKILL_SQUALLHIT, $FF
+    dinstance MONSTER_PHOENIX,     3533, 5, 40,  181, 116, 177, 121, 155,  81, $C8, $32, $00, $96, SKILL_DEVILCUT,  SKILL_NAPATTACK, SKILL_BAZOOCALL, $FF
+    dinstance MONSTER_KINGSLIME,   3483, 5, 38,  250,  94, 218, 181, 206, 200, $FA, $96, $00, $C8, SKILL_BLIZZARD,  SKILL_EVILSLASH, SKILL_DRAGONCUT, $FF
+    dinstance MONSTER_MADPECKER,   3516, 5, 38,  139,  88, 197, 115, 186, 127, $C8, $00, $C8, $64, SKILL_SLEEPALL,  SKILL_TWINHITS,  SKILL_BEASTCUT,  $FF
+    dinstance MONSTER_BOMBCRAG,    3496, 5, 40,  260, 174, 156, 233,  20, 134, $96, $32, $96, $00, SKILL_TRANSFORM, SKILL_PALSYAIR,  SKILL_BIGTRIP,   $FF
+    dinstance MONSTER_FANGSLIME,   3553, 5, 33,  184,  78, 166, 151, 311, 141, $64, $00, $C8, $FA, SKILL_INCREASE,  SKILL_EERIELITE, SKILL_WARCRY,    $FF
+    dinstance MONSTER_ZAPBIRD,     3583, 5, 39,  224,  87, 187, 167, 210, 222, $64, $64, $64, $32, SKILL_ULTRADOWN, SKILL_DANCESHUT, SKILL_MOUTHSHUT, $FF
+    dinstance MONSTER_SPIKEROUS,   3466, 5, 28,  204,  18, 177, 300,  81, 104, $C8, $C8, $C8, $64, SKILL_BOUNCE,    SKILL_POISONHIT, SKILL_THICKFOG,  $FF
+    dinstance MONSTER_CENTASAUR,   3540, 5, 40,  251, 124, 290, 352, 338, 211, $C8, $C8, $C8, $C8, SKILL_VIVIFY,    SKILL_FIRESLASH, SKILL_AHHH,      $FF
+    dinstance MONSTER_BOMBCRAG,    3483, 5, 39,  210, 157, 138, 239,  18, 132, $64, $64, $64, $96, SKILL_VACUSLASH, SKILL_SURGE,     SKILL_MOUTHSHUT, $FF
+    dinstance MONSTER_SKYDRAGON,   3516, 5, 33,  165, 164, 198, 175, 123, 112, $FA, $FA, $FA, $FA, SKILL_SACRIFICE, SKILL_SPEEDUP,   SKILL_REVIVE,    $FF
+    dinstance MONSTER_BATTLEREX,   3473, 5, 39,  187, 122, 286, 187, 200, 141, $C8, $96, $96, $00, SKILL_WHITEAIR,  SKILL_CURSE,     SKILL_HUSTLE,    $FF
+    dinstance MONSTER_FUNKYBIRD,   3540, 5, 39,  178, 197, 151, 227, 143, 198, $32, $32, $32, $00, SKILL_INCREASE,  SKILL_HEALUS,    SKILL_LIGHTNING, $FF
+    dinstance MONSTER_STONEMAN,    3496, 5, 40,  222, 126, 199, 257, 107, 184, $64, $64, $64, $64, SKILL_STOPSPELL, SKILL_BAZOOCALL, SKILL_GUARDIAN,  $FF
+    dinstance MONSTER_GULPBEAST,   7140, 6, 38,  340,  90, 300, 185, 150,  90, $FA, $00, $64, $32, SKILL_BLIZZARD,  SKILL_HIGHJUMP,  SKILL_ZOMBIECUT, $FF
+    dinstance MONSTER_GREATDRAK,   7260, 6, 45,  350, 130, 240, 210, 170, 210, $FA, $00, $32, $C8, SKILL_INFERMOST, SKILL_CHARGEUP,  SKILL_SMASHLIME, $FF
+    dinstance MONSTER_TRUMPETER,   7480, 6, 45,  190, 150, 330, 210, 190, 130, $C8, $32, $64, $C8, SKILL_BLAZEMOST, SKILL_BOLTSLASH, SKILL_DEVILCUT,  $FF
+    dinstance MONSTER_METALDRAK,   7836, 6, 43,  310, 105, 240, 220, 250, 130, $96, $32, $32, $64, SKILL_EXPLODET,  SKILL_EVILSLASH, SKILL_ICESLASH,  $FF
+    dinstance MONSTER_ZAPBIRD,     7933, 6, 45,  260, 120, 210, 200, 240, 255, $FA, $32, $96, $64, SKILL_MASSACRE,  SKILL_VACUSLASH, SKILL_VACUUM,    $FF
+    dinstance MONSTER_WHIPBIRD,    7273, 6, 45,  480, 200, 150, 250, 240, 230, $C8, $C8, $96, $FA, SKILL_FAREWELL,  SKILL_QUADHITS,  SKILL_SANDSTORM, $FF
+    dinstance MONSTER_METABBLE,   30376, 6, 38,   23, 490, 190, 670, 511, 255, $64, $32, $96, $00, SKILL_BOUNCE,    SKILL_RAMMING,   SKILL_YELLHELP,  $FF
+    dinstance MONSTER_BALZAK,      7783, 6, 33,  330, 165, 210, 320, 280, 180, $FA, $64, $C8, $FA, SKILL_SLEEPALL,  SKILL_PARALYZE,  SKILL_LUREDANCE, $FF
+    dinstance MONSTER_MADDRAGON,   7176, 6, 33,  200,  24, 335, 130, 190,  30, $FA, $00, $C8, $96, SKILL_SUCKAIR,   SKILL_WHITEAIR,  SKILL_MOUTHSHUT, $FF
+    dinstance MONSTER_GOATHORN,    7200, 6, 33,  150, 190, 220, 150, 190, 240, $C8, $96, $FA, $00, SKILL_DEFENCE,   SKILL_CURSE,     SKILL_SICKLICK,  $FF
+    dinstance MONSTER_DEADNOBLE,   7540, 6, 46,  340, 240, 340, 280, 280, 215, $C8, $FA, $C8, $C8, SKILL_HEALALL,   SKILL_FIRESLASH, SKILL_DODGE,     $FF
+    dinstance MONSTER_ROBOSTER,    7033, 6, 38,  280, 245, 340, 230, 360, 210, $FA, $FA, $FA, $32, SKILL_HEALUS,    SKILL_MULTICUT,  SKILL_STORMWIND, $FF
+    dinstance MONSTER_ANDREAL,     7116, 6, 45,  340, 280, 200, 320, 200, 250, $FA, $FA, $C8, $C8, SKILL_REVIVE,    SKILL_SURGE,     SKILL_SUCKALL,   $FF
+    dinstance MONSTER_UNICORN,     9506, 6, 45,  200, 330, 200, 150, 290, 255, $C8, $FA, $FA, $FA, SKILL_SQUALLHIT, SKILL_LUREDANCE, SKILL_GUARDIAN,  $FF
+    dinstance MONSTER_DIGSTER,     7033, 6, 46,  267, 115, 197, 257, 110, 185, $96, $96, $96, $32, SKILL_HUSTLE,    SKILL_LIFEDANCE, SKILL_BRANCHING, $FF
+    dinstance MONSTER_COPYCAT,     7513, 6, 38,  210, 210, 120, 167, 138, 200, $FA, $FA, $FA, $FA, SKILL_TRANSFORM, SKILL_KAMIKAZE,  SKILL_WHITEAIR,  $FF
+    dinstance MONSTER_GREATDRAK,  13400, 6, 50,  370, 150, 250, 220, 190, 230, $FA, $FA, $FA, $FA, SKILL_TWINHITS,  SKILL_MULTICUT,  SKILL_SICKLICK,  $FF
+    dinstance MONSTER_ROBOSTER,   13500, 6, 38,  300, 260, 350, 240, 380, 250, $FA, $FA, $FA, $FA, SKILL_HEALMORE,  SKILL_FOCUS,     SKILL_SQUALLHIT, $FF
+    dinstance MONSTER_BALZAK,     13666, 6, 33,  380, 190, 240, 340, 300, 210, $FA, $FA, $FA, $FA, SKILL_THORDAIN,  SKILL_HEALUS,    SKILL_THICKFOG,  $FF
+    dinstance MONSTER_WHIPBIRD,   13616, 6, 50,  500, 200, 180, 260, 250, 255, $FA, $FA, $FA, $FA, SKILL_EVILSLASH, SKILL_BAZOOCALL, SKILL_HUSTLE,    $FF
+    dinstance MONSTER_METALDRAK,  13373, 6, 43,  330, 120, 260, 240, 250, 160, $FA, $FA, $FA, $FA, SKILL_CHANCE,    SKILL_PANIDANCE, SKILL_BIGTRIP,   $FF
+    dinstance MONSTER_GATEGUARD,  13516, 6, 48,  340, 300, 330, 210, 150, 210, $FA, $FA, $FA, $FA, SKILL_WHITEAIR,  SKILL_IMITATE,   SKILL_GUARDIAN,  $FF
+    dinstance MONSTER_CHOPCLOWN,  13600, 6, 48,  310, 300, 300, 200, 260, 255, $FA, $FA, $FA, $FA, SKILL_SACRIFICE, SKILL_FOCUS,     SKILL_MEDITATE,  $FF
+    dinstance MONSTER_METALKING,  30376, 6, 50,   25, 700, 290, 700, 511, 255, $FA, $FA, $FA, $FA, SKILL_NAPATTACK, SKILL_GUARDIAN,  SKILL_LIFEDANCE, $FF
+    dinstance MONSTER_OROCHI,     13440, 6, 50,  360, 150, 360, 350, 200, 180, $FA, $FA, $FA, $FA, SKILL_DEFEAT,    SKILL_LUREDANCE, SKILL_HUSTLE,    $FF
+    dinstance MONSTER_TRUMPETER,  13600, 6, 48,  220, 170, 250, 220, 210, 150, $FA, $FA, $FA, $FA, SKILL_EXPLODET,  SKILL_WARCRY,    SKILL_DANCESHUT, $FF
+    dinstance MONSTER_SNAPPER,    13650, 6, 50,  250, 210, 250, 160, 160, 200, $FA, $FA, $FA, $FA, SKILL_HIGHJUMP,  SKILL_MULTICUT,  SKILL_SICKLICK,  $FF
+    dinstance MONSTER_HORNBEET,   13556, 6, 48,  380, 190, 240, 250, 300, 200, $FA, $FA, $FA, $FA, SKILL_POISONHIT, SKILL_SANDSTORM, SKILL_MEDITATE,  $FF
+    dinstance MONSTER_DEADNOBLE,  13526, 6, 48,  340, 350, 350, 190, 290, 230, $FA, $FA, $FA, $FA, SKILL_MEGAMAGIC, SKILL_SIDESTEP,  SKILL_STRONGD,   $FF
+    dinstance MONSTER_SERVANT,    13573, 6, 50,  240, 340, 210, 320, 290, 250, $FA, $FA, $FA, $FA, SKILL_WHITEFIRE, SKILL_CURSE,     SKILL_STORMWIND, $FF
+    dinstance MONSTER_STONEMAN,   13416, 6, 48,  360, 160, 240, 360, 100, 200, $FA, $FA, $FA, $FA, SKILL_SUCKAIR,   SKILL_WHITEAIR,  SKILL_EERIELITE, $FF
+    dinstance MONSTER_BOMBCRAG,   13630, 6, 48,  290, 200, 180, 260,  20, 150, $FA, $FA, $FA, $FA, SKILL_RAINSLASH, SKILL_IMITATE,   SKILL_BEDRAGON,  $FF
+    dinstance MONSTER_SLIME,      65000, 1,  1,    2,   0,   2,   2,   2,   2, $64, $64, $64, $64, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
+    dinstance MONSTER_GOLDSLIME,      0, 7, 70,  900, 600, 400, 999, 411, 255, $00, $FA, $00, $FA, SKILL_HEALUS,    SKILL_REVIVE,    SKILL_SURGE,     $FF
+    dinstance MONSTER_DIVINEGON,      0, 7, 70, 6500, 999, 700, 400, 280, 255, $FA, $00, $FA, $FA, SKILL_EVILSLASH, SKILL_FOCUS,     SKILL_HELLBLAST, $FF
+    dinstance MONSTER_ROSEVINE,       0, 7, 70, 1800, 999, 600, 500, 400, 255, $00, $00, $FA, $FA, SKILL_IMITATE,   SKILL_DEMAGIC,   SKILL_STORMWIND, $FF
+    dinstance MONSTER_DRAGON,         0, 0,  6,   60,  20,  40,  25,  20,  30, $FA, $32, $00, $FA, SKILL_FIRESLASH, SKILL_FIREAIR,   SKILL_NONE,      $FF
+    dinstance MONSTER_GOLEM,          0, 0,  7,   80,  20,  45,  35,  15,  70, $96, $96, $96, $C8, SKILL_CHARGEUP,  SKILL_PSYCHEUP,  SKILL_STRONGD,   $FF
+    dinstance MONSTER_DRACKY,         4, 1,  1,   14,  20,  12,   4,  12,  14, $C8, $00, $00, $C8, SKILL_ANTIDOTE,  SKILL_NONE,      SKILL_NONE,      $FF
