@@ -1,9 +1,7 @@
 gText_YoPulioWasHappy::
     db $EA
-    db "*:Yo! Pulio was"
-    db $EF, $EE
-    db "happy!"
-    db $F7, "@"
+    db "*:Yo! Pulio was", $EF, $EE
+    db "happy!", $F7, "@"
 
 gText_PulioThankYouPlayer::
     db $EB
@@ -1031,7 +1029,7 @@ gText_IHeardThereIsAWeddingPlace::
     db "Monsters Tamer", $FA, $F7, $EF, $EE
     db "knows.", $EF, $EE, $F7, "@"
 
-gText_PlayerLookedAtTheBookshelf1::
+gText_MonstersAreCategorizedInto::
     db "<PLAYER> looked at", $EF, $EE
     db "the bookshelf.", $FA, $F7, $EF, $EE
     db ":Family...", $EF, $EE, $FA, $F7, $EF, $EE, $F3
@@ -1042,7 +1040,7 @@ gText_PlayerLookedAtTheBookshelf1::
     db "are called a", $FA, $F7, $EF, $EE
     db "family.", $EF, $EE, $F7, "@"
 
-gText_PlayerLookedAtTheBookshelf2::
+gText_TheNineFamiliesOfMonsters::
     db "<PLAYER> looked at", $EF, $EE
     db "the bookshelf.", $FA, $F7, $EF, $EE
     db "The 9 families", $EF, $EE
