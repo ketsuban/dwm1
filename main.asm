@@ -109,7 +109,9 @@ section "Bank 30", ROMX
 incbin "baserom.gbc", $78000, $4000
 
 section "Bank 31", ROMX
-incbin "baserom.gbc", $7C000, $4000
+incbin "baserom.gbc", $7C000, $106
+include "data/text3.asm"
+incbin "baserom.gbc", $7F9FD, $603
 
 section "Bank 32", ROMX
 incbin "baserom.gbc", $80000, $4000
