@@ -211,7 +211,9 @@ section "Bank 62", ROMX
 incbin "baserom.gbc", $F8000, $4000
 
 section "Bank 63", ROMX
-incbin "baserom.gbc", $FC000, $4000
+incbin "baserom.gbc", $FC000, $56C
+include "data/text6.asm"
+incbin "baserom.gbc", $FF3A8, $C58
 
 section "Bank 64", ROMX
 incbin "baserom.gbc", $100000, $4000
