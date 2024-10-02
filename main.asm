@@ -224,7 +224,9 @@ include "data/monster_name_table.asm"
 incbin "baserom.gbc", $10628E, $1D72
 
 section "Bank 66", ROMX
-incbin "baserom.gbc", $108000, $4000
+incbin "baserom.gbc", $108000, $142
+include "data/text7.asm"
+incbin "baserom.gbc", $10BDC4, $23C
 
 section "Bank 67", ROMX
 incbin "baserom.gbc", $10C000, $4000
