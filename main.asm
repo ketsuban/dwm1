@@ -244,7 +244,9 @@ include "data/text10.asm"
 incbin "baserom.gbc", $117A5A, $5A6
 
 section "Bank 70", ROMX
-incbin "baserom.gbc", $118000, $4000
+incbin "baserom.gbc", $118000, $180
+include "data/text11.asm"
+incbin "baserom.gbc", $11BDE0, $120
 
 section "Bank 71", ROMX
 incbin "baserom.gbc", $11C000, $4000
