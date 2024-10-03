@@ -1256,7 +1256,7 @@ gText_DownBelowBehindTheGtae::
     db "PalsyAir &", $FA, $F7, $EF, $EE
     db "MetalCut!", $EF, $EE, $F7, "@"
 
-gText_CopycopyIWannaCopycopyDeadNiteCopycopy::
+gText_IWannaCopyDeadNite::
     db $EB
     db "*:Copycopy. I", $EF, $EE
     db "wanna copycopy", $FA, $F7, $EF, $EE

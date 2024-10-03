@@ -433,7 +433,7 @@ gText_BigRoostIsRoastingBigTime::
     db "*:BigRoost is", $EF, $EE
     db "roasting big time!", $F7, "@"
 
-gText_HeeHeeDudeWannaKnowWho::
+gText_HeeHeeDudeWannaKnow_EClass::
     db $EA
     db "*:Hee hee! Dude!", $EF, $EE
     db "Wanna know who", $FA, $F7, $EF, $EE

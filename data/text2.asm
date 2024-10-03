@@ -853,7 +853,7 @@ gText_MyRivalIsWatchingMeFrom::
     db "his monster would", $FA, $F7, $EF, $EE
     db "be history!", $EF, $EE, $F7, "@"
 
-gText_HeeHeeYoDudeWannaKnowWho::
+gText_HeeHeeYoDudeWannaKnow_AClass::
     db $EA
     db "*:Hee hee. Yo", $EF, $EE
     db "dude! Wanna know", $FA, $F7, $EF, $EE

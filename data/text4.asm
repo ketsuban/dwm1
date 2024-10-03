@@ -773,7 +773,7 @@ gText_IHeardAMonsterCalledDurran::
     db "Durran uses", $EF, $EE
     db "BirdBlow!", $F7, "@"
 
-gText_CopyCopyIWannaCopyCopy::
+gText_IWannaCopyBalzak::
     db $EB
     db "*:Copycopy. I", $EF, $EE
     db "wanna copycopy", $FA, $F7, $EF, $EE
@@ -1004,7 +1004,7 @@ gText_OhItsAWildApe::
     db "I'll give you a", $EF, $EE
     db "reward.", $FA, $F7, "@"
 
-gText_IHeardARumorAboutAnAwful::
+    gText_IHeardARumor2::
     db $EA
     db "*:I heard a rumor", $EF, $EE
     db "about an awful", $FA, $F7, $EF, $EE
