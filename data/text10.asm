@@ -516,7 +516,7 @@ gText_TheRoomOfStrengthAndAnger::
     db "is in the middle.", $EF, $EE
     db "Hurry!", $F7, "@"
 
-gText_YoureAtTheChamberOfTraverlersGates::
+gText_YoureAtTheChamberOfTravelersGates2::
     db $EA
     db "*:You're at the", $EF, $EE
     db "Chamber of", $FA, $F7, $EF, $EE
