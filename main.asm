@@ -287,7 +287,9 @@ incbin "baserom.gbc", $13BA0C, $5F4
 section "Bank 79", ROMX
 incbin "baserom.gbc", $13C000, $10
 incbin "graphics/font.bin"
-incbin "baserom.gbc", $13D010, $2FF0
+incbin "baserom.gbc", $13D010, $24B
+include "data/text20.asm"
+incbin "baserom.gbc", $13EB5C, $14A4
 
 section "Bank 80", ROMX
 incbin "baserom.gbc", $140000, $4000
