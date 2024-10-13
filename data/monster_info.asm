@@ -14,7 +14,7 @@ macro dinstance
     db \<18>                        ; sex
 endm
 
-gMonsterInstanceInfo::
+gMonsterInfo::
     dinstance $00,                    0, 0,  0,    0,   0,   0,   0,   0,   0, $00, $00, $00, $00, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF
     ; Slib
     dinstance MONSTER_SLIME,          0, 0,  1,   30,   0,  10,   6,   5,   1, $64, $C8, $64, $C8, SKILL_NONE,      SKILL_NONE,      SKILL_NONE,      $FF

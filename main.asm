@@ -69,7 +69,7 @@ incbin "baserom.gbc", $4F366, $C9A
 
 section "Bank 20", ROMX
 incbin "baserom.gbc", $50000, $C1D
-include "data/monster_instance_info.asm"
+include "data/monster_info.asm"
 incbin "baserom.gbc", $53BAC, $454
 
 section "Bank 21", ROMX
