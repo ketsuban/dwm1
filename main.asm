@@ -73,7 +73,9 @@ include "data/monster_info.asm"
 incbin "baserom.gbc", $53BAC, $454
 
 section "Bank 21", ROMX
-incbin "baserom.gbc", $54000, $4000
+incbin "baserom.gbc", $54000, $217B
+include "data/personality_compatibility_table.asm"
+incbin "baserom.gbc", $56456, $1BAA
 
 section "Bank 22", ROMX
 incbin "baserom.gbc", $58000, $874
