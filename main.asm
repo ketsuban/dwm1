@@ -7,7 +7,7 @@ incbin "baserom.gbc", $0000, $4000
 
 section "Bank 1", ROMX
 incbin "baserom.gbc", $4000, $2A42
-include "data/gate_info.asm"
+include "data/floor_info.asm"
 incbin "baserom.gbc", $77AE, $852
 
 section "Bank 2", ROMX
@@ -83,7 +83,9 @@ section "Bank 22", ROMX
 incbin "baserom.gbc", $58000, $874
 include "data/unevolved_skill_map.asm"
 include "data/breeding_table.asm"
-incbin "baserom.gbc", $59B4E, $24B2
+incbin "baserom.gbc", $59B4E, $1558
+include "data/gate_info.asm"
+incbin "baserom.gbc", $5B1A6, $E5A
 
 section "Bank 23", ROMX
 incbin "baserom.gbc", $5C000, $4000
