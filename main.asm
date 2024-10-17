@@ -6,7 +6,9 @@ section "Bank 0", ROM0
 incbin "baserom.gbc", $0000, $4000
 
 section "Bank 1", ROMX
-incbin "baserom.gbc", $4000, $4000
+incbin "baserom.gbc", $4000, $2A42
+include "data/gate_info.asm"
+incbin "baserom.gbc", $77AE, $852
 
 section "Bank 2", ROMX
 incbin "baserom.gbc", $8000, $4000
